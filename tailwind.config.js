@@ -14,6 +14,9 @@ module.exports = {
       padding: {
         4.5: '18px',
       },
+      fontSize: {
+        '4.5xl': '40px',
+      },
       colors: {
         gray: {
           50: '#fafafa',

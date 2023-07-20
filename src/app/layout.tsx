@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html className="dark h-full" lang="en">
-      <body className="h-full dark:bg-black dark:text-white">
+      <body className="h-full dark:bg-gray-900 dark:text-white">
         <QueryClientProvider>
           <BaseLayout>{children}</BaseLayout>
         </QueryClientProvider>
