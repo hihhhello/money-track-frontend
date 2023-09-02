@@ -1,9 +1,17 @@
 import './globals.css';
 
 import type { Metadata } from 'next';
+import { Kanit } from 'next/font/google';
 
-import { QueryClientProvider } from '@/features/QueryClientProvider';
 import { BaseLayout } from '@/app/_ui/BaseLayout';
+import { QueryClientProvider } from '@/features/QueryClientProvider';
+import { classNames } from '@/shared/utils/helpers';
+
+const kanit = Kanit({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+});
 
 export const metadata: Metadata = {
   title: 'Money Track',
@@ -16,8 +24,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html className="dark h-full" lang="en">
-      <body className="h-full dark:bg-gray-900 dark:text-white">
+    <html className={classNames('h-full', kanit.className)} lang="en">
+      <body className="h-full bg-white text-main-dark">
         <QueryClientProvider>
           <BaseLayout>{children}</BaseLayout>
         </QueryClientProvider>

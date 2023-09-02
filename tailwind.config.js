@@ -8,9 +8,6 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
-      borderRadius: {
-        sidebar: '100px',
-      },
       padding: {
         4.5: '18px',
       },
@@ -30,6 +27,17 @@ module.exports = {
           800: '#424242',
           900: '#212121',
         },
+        'lime-green': '#D7FE63',
+        main: {
+          dark: '#2B2C3B',
+          white: '#F4F4F8',
+          blue: '#4160EA',
+          orange: '#CF623C',
+        },
+      },
+      borderRadius: {
+        '4xl': '20px',
+        '5xl': '24px',
       },
     },
   },

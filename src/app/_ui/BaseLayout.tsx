@@ -2,15 +2,15 @@
 
 import { ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
-import {
-  ChartBarIcon,
-  UserGroupIcon,
-  CurrencyDollarIcon,
-  Cog8ToothIcon,
-  BellIcon,
-} from '@heroicons/react/24/outline';
+import { BellIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { classNames } from '@/shared/utils';
+
+import { classNames } from '@/shared/utils/helpers';
+import { BarChartIcon } from '@/shared/ui/Icons/BarChartIcon';
+import { FileIcon } from '@/shared/ui/Icons/FileIcon';
+import { TargetIcon } from '@/shared/ui/Icons/TargetIcon';
+import { UsersIcon } from '@/shared/ui/Icons/UsersIcon';
+import { SettingsIcon } from '@/shared/ui/Icons/SettingsIcon';
 
 type BaseLayoutProps = {
   children: ReactNode;
@@ -19,55 +19,69 @@ type BaseLayoutProps = {
 const NAVIGATION_ITEMS = [
   {
     title: 'Dashboard',
-    Icon: ChartBarIcon,
+    Icon: BarChartIcon,
     href: '/',
   },
   {
-    title: 'Groups',
-    Icon: UserGroupIcon,
-    href: '/groups',
+    title: 'Spending Plan',
+    Icon: FileIcon,
+    href: '/spending-plan',
   },
   {
-    title: 'Savings',
-    Icon: CurrencyDollarIcon,
-    href: '/savings',
+    title: 'Saving Goals',
+    Icon: TargetIcon,
+    href: '/saving-goals',
+  },
+  {
+    title: 'Linked Accounts',
+    Icon: UsersIcon,
+    href: '/linked-accounts',
   },
   {
     title: 'Settings',
-    Icon: Cog8ToothIcon,
+    Icon: SettingsIcon,
     href: '/settings',
   },
 ];
 
 const Sidebar = ({ pathname }: { pathname: string }) => (
-  <div className="flex flex-col gap-16 rounded-br-sidebar rounded-tr-sidebar bg-gray-800 py-12 pl-24 pr-12">
+  <div className="flex flex-col gap-16 rounded-br-[56px] rounded-tr-[56px] bg-main-white px-10 py-20">
     {NAVIGATION_ITEMS.map(({ Icon, title, href }) => (
-      <Link key={title} href={href}>
-        <div className="flex flex-col items-center gap-2">
-          <div
-            className={classNames(
-              'rounded-full p-4.5',
-              href === pathname ? 'bg-white' : 'bg-gray-700',
-            )}
-          >
-            <Icon
-              className={classNames(
-                'h-14 w-14',
-                href === pathname ? 'text-black' : 'text-gray-400',
-              )}
-            />
-          </div>
+      <div key={title} className="relative">
+        <div
+          className={classNames(
+            href !== pathname && 'hidden',
+            'absolute -left-[20px] top-0 h-[104px] w-[5px] transform rounded bg-[#4160EA]',
+          )}
+        ></div>
 
-          <span
-            className={classNames(
-              'font-bold',
-              href === pathname ? 'text-white' : 'text-gray-400',
-            )}
-          >
-            {title}
-          </span>
-        </div>
-      </Link>
+        <Link href={href}>
+          <div className="flex flex-col items-center gap-2">
+            <div
+              className={classNames(
+                'rounded-full p-[22px]',
+                href === pathname ? 'bg-main-dark' : 'bg-[#EAEAF5]',
+              )}
+            >
+              <Icon
+                className={classNames(
+                  'h-14 w-14',
+                  href === pathname && 'stroke-white',
+                )}
+              />
+            </div>
+
+            <span
+              className={classNames(
+                'whitespace-nowrap text-main-dark',
+                href === pathname && 'font-bold',
+              )}
+            >
+              {title}
+            </span>
+          </div>
+        </Link>
+      </div>
     ))}
   </div>
 );
@@ -75,9 +89,9 @@ const Sidebar = ({ pathname }: { pathname: string }) => (
 const Header = () => {
   return (
     <div className="flex justify-between">
-      <h2 className="text-4.5xl">Hello, Jim!</h2>
+      <h2 className="text-4.5xl">Dashboard</h2>
 
-      <div className="flex items-center gap-8 rounded-sidebar bg-gray-700 py-2 pl-6 pr-2">
+      <div className="flex items-center gap-8 rounded-[100px] bg-main-white py-2 pl-6 pr-2">
         <BellIcon className="h-6 w-6" />
 
         <div className="h-12 w-12 rounded-full bg-white"></div>
