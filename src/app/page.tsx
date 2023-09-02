@@ -32,7 +32,7 @@ const CurrentBalanceCard = () => {
         </div>
       </div>
 
-      <span className="text-6xl text-black">
+      <span className="text-6xl leading-[96px] text-black">
         {formatToUSDCurrencyNoCents(3800)}
       </span>
     </div>

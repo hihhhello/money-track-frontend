@@ -45,7 +45,7 @@ const NAVIGATION_ITEMS = [
 ];
 
 const Sidebar = ({ pathname }: { pathname: string }) => (
-  <div className="flex flex-col gap-16 rounded-br-[56px] rounded-tr-[56px] bg-main-white px-10 py-20">
+  <div className="flex flex-col gap-10 rounded-br-[56px] rounded-tr-[56px] bg-main-white px-10 py-20">
     {NAVIGATION_ITEMS.map(({ Icon, title, href }) => (
       <div key={title} className="relative">
         <div
@@ -56,10 +56,10 @@ const Sidebar = ({ pathname }: { pathname: string }) => (
         ></div>
 
         <Link href={href}>
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex flex-col items-center">
             <div
               className={classNames(
-                'rounded-full p-[22px]',
+                'flex h-[84px] w-[84px] items-center justify-center rounded-full',
                 href === pathname ? 'bg-main-dark' : 'bg-[#EAEAF5]',
               )}
             >
@@ -73,7 +73,7 @@ const Sidebar = ({ pathname }: { pathname: string }) => (
 
             <span
               className={classNames(
-                'whitespace-nowrap text-main-dark',
+                'whitespace-nowrap leading-6 text-main-dark',
                 href === pathname && 'font-bold',
               )}
             >
@@ -109,7 +109,7 @@ export const BaseLayout = ({ children }: BaseLayoutProps) => {
         <Sidebar pathname={pathname} />
       </div>
 
-      <main className="container pl-20 pr-36">
+      <main className="container pl-11 pr-[120px]">
         <div className="pt-8">
           <Header />
         </div>
