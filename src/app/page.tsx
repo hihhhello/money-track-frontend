@@ -13,8 +13,8 @@ const CurrentBalanceCard = () => {
   return (
     <div className="card flex flex-col gap-4 pb-6">
       <div className="flex justify-between">
-        <div className="inline-block rounded-[40px] border border-main-dark px-6 py-1 text-center">
-          <span className="text-2xl leading-9">Balance</span>
+        <div className="inline-flex-center rounded-[40px] border border-main-dark px-6 py-1">
+          <span className="text-xl">Current balance</span>
         </div>
 
         <div className="flex gap-1">
@@ -32,7 +32,7 @@ const CurrentBalanceCard = () => {
         </div>
       </div>
 
-      <span className="text-6xl leading-[96px] text-black">
+      <span className="text-[64px] leading-[96px] text-black">
         {formatToUSDCurrencyNoCents(3800)}
       </span>
     </div>
@@ -42,8 +42,8 @@ const CurrentBalanceCard = () => {
 const IncomeCard = () => {
   return (
     <div className="card flex flex-1 flex-col items-center gap-4 pb-8">
-      <div className="rounded-[40px] border border-main-dark px-6 py-1 text-center ">
-        <span className="text-2xl leading-9">Income</span>
+      <div className="inline-flex-center rounded-[40px] border border-main-dark px-6 py-1">
+        <span className="text-xl">Income</span>
       </div>
 
       <span className="text-5xl leading-[72px]">
@@ -56,8 +56,8 @@ const IncomeCard = () => {
 const OutcomeCard = () => {
   return (
     <div className="card flex flex-1 flex-col items-center gap-4 pb-8">
-      <div className="rounded-[40px] border border-main-dark px-6 py-1 text-center ">
-        <span className="text-2xl leading-9">Expense</span>
+      <div className="inline-flex-center rounded-[40px] border border-main-dark px-6 py-1">
+        <span className="text-xl">Expense</span>
       </div>
 
       <span className="text-5xl leading-[72px]">
@@ -71,8 +71,8 @@ const UpcomingPaymentsCard = () => {
   return (
     <div className="card flex h-full flex-col">
       <div className="mb-6 flex justify-between">
-        <div className="inline-block rounded-[40px] border border-main-dark px-6 py-1 text-center ">
-          <span className="text-2xl leading-9">Upcoming payments</span>
+        <div className="inline-flex-center rounded-[40px] border border-main-dark px-6 py-1">
+          <span className="text-xl">Upcoming payments</span>
         </div>
 
         <button className="rounded-[100px] bg-main-blue px-4 py-3 text-sm leading-6 text-white">
@@ -118,8 +118,8 @@ const LastTransactionsCard = () => {
   return (
     <div className="card flex h-full flex-col">
       <div className="mb-6 flex justify-between">
-        <div className="inline-block rounded-[40px] border border-main-dark px-6 py-1 text-center ">
-          <span className="text-2xl leading-9">Last transactions</span>
+        <div className="inline-flex-center rounded-[40px] border border-main-dark px-6 py-1">
+          <span className="text-xl">Last transactions</span>
         </div>
 
         <button className="rounded-[100px] bg-main-blue px-4 py-3 text-sm leading-6 text-white">
@@ -210,8 +210,8 @@ const AnalyticsCard = () => {
   return (
     <div className="card flex flex-col gap-8 pb-14">
       <div className="flex justify-between">
-        <div className="inline-block rounded-[40px] border border-main-dark px-6 py-1 text-center">
-          <span className="text-2xl leading-9">Analytics</span>
+        <div className="inline-flex-center rounded-[40px] border border-main-dark px-6 py-1">
+          <span className="text-xl">Analytics</span>
         </div>
 
         <div className="flex gap-1">
