@@ -1,3 +1,5 @@
+'use client';
+
 import { range } from 'lodash';
 
 import { PlusIcon } from '@/shared/ui/Icons/PlusIcon';
@@ -8,6 +10,9 @@ import {
 import { ChevronDownIcon } from '@/shared/ui/Icons/ChevronDownIcon';
 import { ShoppingBagIcon } from '@/shared/ui/Icons/ShoppingBagIcon';
 import { SuitcaseIcon } from '@/shared/ui/Icons/SuitcaseIcon';
+import { FormEvent, useState } from 'react';
+import { formatISO } from 'date-fns';
+import { api } from '@/shared/api/api';
 
 const CurrentBalanceCard = () => {
   return (
@@ -323,39 +328,97 @@ const AnalyticsCard = () => {
 };
 
 const HomePage = () => {
+  const [newTransactionFormValues, setNewTransactionFormValues] = useState<{
+    amount: string;
+    category: string;
+    type: string;
+    date: string;
+  }>({
+    date: formatISO(new Date(), { representation: 'date' }),
+    amount: '',
+    category: '',
+    type: '',
+  });
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+
+    api.transactions
+      .createOne({
+        body: newTransactionFormValues,
+      })
+      .then((result) => {
+        console.log(result);
+      });
+  };
+
   return (
-    <div className="grid sm:grid-cols-2 sm:grid-rows-2 sm:gap-x-4 sm:gap-y-3">
-      <div className="sm:col-span-1 sm:row-start-1">
-        <div className="mb-4">
-          <CurrentBalanceCard />
+    <div>
+      <form onSubmit={handleSubmit}>
+        <div className="flex flex-col">
+          <label htmlFor="amount">Amount</label>
+          <input
+            className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
+            type="number"
+            name="amount"
+            value={String(newTransactionFormValues.amount)}
+            onChange={(e) => {
+              setNewTransactionFormValues((prevValues) => ({
+                ...prevValues,
+                amount: e.target.value,
+              }));
+            }}
+          />
         </div>
 
-        <div className="mb-4 flex gap-5">
-          <IncomeCard />
-
-          <OutcomeCard />
+        <div className="flex flex-col">
+          <label htmlFor="category">Category</label>
+          <input
+            className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
+            name="category"
+            value={newTransactionFormValues.category}
+            onChange={(e) => {
+              setNewTransactionFormValues((prevValues) => ({
+                ...prevValues,
+                category: e.target.value,
+              }));
+            }}
+          />
         </div>
 
-        <div>
-          <button className="flex w-full items-center justify-center gap-3 rounded-[100px] bg-main-blue py-4">
-            <span className="leading-6 text-white">Add new transactions</span>
-
-            <PlusIcon />
-          </button>
+        <div className="flex flex-col">
+          <label htmlFor="type">Type</label>
+          <input
+            className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
+            name="type"
+            value={newTransactionFormValues.type}
+            onChange={(e) => {
+              setNewTransactionFormValues((prevValues) => ({
+                ...prevValues,
+                type: e.target.value,
+              }));
+            }}
+          />
         </div>
-      </div>
 
-      <div className="sm:col-span-1 sm:row-start-2">
-        <AnalyticsCard />
-      </div>
+        <div className="flex flex-col">
+          <label htmlFor="date">Date</label>
+          <input
+            className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
+            name="date"
+            type="date"
+            value={newTransactionFormValues.date}
+            onChange={(e) => {
+              setNewTransactionFormValues((prevValues) => ({
+                ...prevValues,
+                date: e.target.value,
+              }));
+            }}
+          />
+        </div>
 
-      <div className="h-[453px] sm:col-span-1 sm:row-start-1">
-        <UpcomingPaymentsCard />
-      </div>
-
-      <div className="h-[453px] sm:col-span-1 sm:row-start-2">
-        <LastTransactionsCard />
-      </div>
+        <button type="submit">Add</button>
+      </form>
     </div>
   );
 };

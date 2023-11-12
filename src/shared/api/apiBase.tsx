@@ -17,8 +17,8 @@ axiosInstance.interceptors.request.use(async (config) => {
     return await getSession();
   })();
 
-  if (session?.user?.token) {
-    config.headers.Authorization = `Bearer ${session?.user?.token}`;
+  if (session?.user?.access_token) {
+    config.headers.Authorization = `Bearer ${session?.user?.access_token}`;
   }
 
   return config;
