@@ -16,28 +16,35 @@ export const NEXT_AUTH_OPTIONS: AuthOptions = {
         },
       },
       async authorize(credentials, req) {
-        const res = await fetch(`${process.env.SERVER_URL}/auth-token/`, {
+        console.log('credentials', credentials);
+
+        const res = await fetch(`${process.env.SERVER_URL}/signin`, {
           method: 'POST',
-          body: JSON.stringify(credentials),
+          body: JSON.stringify({
+            password: credentials?.password,
+            email: credentials?.username,
+          }),
           headers: {
             'Content-Type': 'application/json',
           },
         });
+
         const user = await res.json();
 
+        console.log('user', user);
+
         if (res.ok && user) {
-          const userInfoResponse = await fetch(
-            `${process.env.SERVER_URL}/users/api/get_user_info`,
-            {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${user.token}`,
-              },
+          const userInfoResponse = await fetch(`${process.env.SERVER_URL}/me`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${user.access_token}`,
             },
-          );
+          });
 
           const userInfo = await userInfoResponse.json();
+
+          console.log('userInfo', userInfo);
 
           return { ...user, ...userInfo };
         } else {
@@ -55,8 +62,5 @@ export const NEXT_AUTH_OPTIONS: AuthOptions = {
       session.user = token;
       return session;
     },
-  },
-  pages: {
-    signIn: '/auth/sign-in',
   },
 };
