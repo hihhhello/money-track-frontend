@@ -6,6 +6,7 @@ import { Kanit } from 'next/font/google';
 import { BaseLayout } from '@/app/_ui/BaseLayout';
 import { QueryClientProvider } from '@/features/QueryClientProvider';
 import { classNames } from '@/shared/utils/helpers';
+import { NextAuthProvider } from '@/features/NextAuthProvider';
 
 const kanit = Kanit({
   subsets: ['latin'],
@@ -26,9 +27,11 @@ export default function RootLayout({
   return (
     <html className={classNames('h-full', kanit.className)} lang="en">
       <body className="h-full bg-white text-main-dark">
-        <QueryClientProvider>
-          <BaseLayout>{children}</BaseLayout>
-        </QueryClientProvider>
+        <NextAuthProvider>
+          <QueryClientProvider>
+            <BaseLayout>{children}</BaseLayout>
+          </QueryClientProvider>
+        </NextAuthProvider>
       </body>
     </html>
   );

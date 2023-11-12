@@ -16,8 +16,6 @@ export const NEXT_AUTH_OPTIONS: AuthOptions = {
         },
       },
       async authorize(credentials, req) {
-        console.log('credentials', credentials);
-
         const res = await fetch(`${process.env.SERVER_URL}/signin`, {
           method: 'POST',
           body: JSON.stringify({
@@ -29,9 +27,7 @@ export const NEXT_AUTH_OPTIONS: AuthOptions = {
           },
         });
 
-        const user = await res.json();
-
-        console.log('user', user);
+        const user: { access_token: string } = await res.json();
 
         if (res.ok && user) {
           const userInfoResponse = await fetch(`${process.env.SERVER_URL}/me`, {
@@ -42,9 +38,8 @@ export const NEXT_AUTH_OPTIONS: AuthOptions = {
             },
           });
 
-          const userInfo = await userInfoResponse.json();
-
-          console.log('userInfo', userInfo);
+          const userInfo: { email: string; id: string } =
+            await userInfoResponse.json();
 
           return { ...user, ...userInfo };
         } else {
@@ -60,6 +55,7 @@ export const NEXT_AUTH_OPTIONS: AuthOptions = {
     async session({ session, token }) {
       // @ts-ignore
       session.user = token;
+
       return session;
     },
   },
