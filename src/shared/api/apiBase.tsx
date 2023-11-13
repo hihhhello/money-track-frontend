@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { getServerSession } from 'next-auth';
-import { getSession } from 'next-auth/react';
+import { getSession, signOut } from 'next-auth/react';
 import { toast } from 'react-toastify';
 
 import { NEXT_AUTH_OPTIONS } from '../utils/nextAuth';
@@ -9,6 +9,9 @@ export const axiosInstance = axios.create({
   baseURL: process.env.SERVER_URL,
 });
 
+/**
+ * Token  middleware
+ */
 axiosInstance.interceptors.request.use(async (config) => {
   const session = await (async () => {
     if (typeof window === 'undefined') {
@@ -24,12 +27,26 @@ axiosInstance.interceptors.request.use(async (config) => {
   return config;
 });
 
+/**
+ * Error handler middleware
+ */
 axiosInstance.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (typeof window !== 'undefined') {
+  (error: AxiosError) => {
+    if (typeof window !== 'undefined' && error.response?.status === 401) {
+      /**
+       * TODO: add refresh token logic
+       */
+      signOut();
+
+      toast('Unauthorized', {
+        type: 'error',
+        toastId: '404-error-toast',
+      });
+    } else {
       toast('Something went wrong. Try again.', {
         type: 'error',
+        toastId: 'other-error-toast',
       });
     }
 

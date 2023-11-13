@@ -14,7 +14,8 @@ import { SuitcaseIcon } from '@/shared/ui/Icons/SuitcaseIcon';
 import { FormEvent, useState } from 'react';
 import { formatISO } from 'date-fns';
 import { api } from '@/shared/api/api';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useLoadingToast } from '@/shared/utils/hooks';
 
 const CurrentBalanceCard = () => {
   return (
@@ -168,6 +169,10 @@ const LastTransactionsCard = () => {
 };
 
 const HomePage = () => {
+  const queryClient = useQueryClient();
+
+  const loadingToast = useLoadingToast();
+
   const [newTransactionFormValues, setNewTransactionFormValues] = useState<{
     amount: string;
     category: string;
@@ -183,12 +188,21 @@ const HomePage = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
+    const toastId = loadingToast.showLoading('Adding new transaction...');
+
     api.transactions
       .createOne({
         body: newTransactionFormValues,
       })
-      .then((result) => {
-        console.log(result);
+      .then(() => {
+        queryClient.refetchQueries({
+          queryKey: ['api.transactions.getAll'],
+        });
+
+        loadingToast.handleSuccess({
+          message: 'New transaction has been added.',
+          toastId,
+        });
       });
   };
 

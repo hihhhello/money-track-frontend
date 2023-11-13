@@ -1,4 +1,5 @@
 import './globals.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import type { Metadata } from 'next';
 import { Kanit } from 'next/font/google';
@@ -7,6 +8,7 @@ import { BaseLayout } from '@/app/_ui/BaseLayout';
 import { QueryClientProvider } from '@/features/QueryClientProvider';
 import { classNames } from '@/shared/utils/helpers';
 import { NextAuthProvider } from '@/features/NextAuthProvider';
+import { ToastContainer } from 'react-toastify';
 
 const kanit = Kanit({
   subsets: ['latin'],
@@ -27,11 +29,13 @@ export default function RootLayout({
   return (
     <html className={classNames('h-full', kanit.className)} lang="en">
       <body className="h-full bg-white text-main-dark">
-        <NextAuthProvider>
-          <QueryClientProvider>
+        <QueryClientProvider>
+          <NextAuthProvider>
+            <ToastContainer />
+
             <BaseLayout>{children}</BaseLayout>
-          </QueryClientProvider>
-        </NextAuthProvider>
+          </NextAuthProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );
