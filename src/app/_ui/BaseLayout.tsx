@@ -81,9 +81,9 @@ export const BaseLayout = ({ children }: BaseLayoutProps) => {
 
   return (
     <main className="container mx-auto px-[120px]">
-      <div className="pt-8">
+      {/* <div className="pt-8">
         <Header pathname={pathname} />
-      </div>
+      </div> */}
 
       <div className="mt-10">{children}</div>
     </main>
