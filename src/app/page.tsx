@@ -76,7 +76,6 @@ const OutcomeCard = () => {
 };
 
 const LastTransactionsCard = () => {
-  const queryClient = useQueryClient();
   const loadingToast = useLoadingToast();
 
   const { data: transactions, refetch: refetchTransactions } = useQuery({
