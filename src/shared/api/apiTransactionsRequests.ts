@@ -28,7 +28,11 @@ const getAll = () =>
     >('/transactions')
     .then(({ data }) => data);
 
+const deleteOne = (params: { transactionId: number }) =>
+  axiosInstance.delete(`/transactions/${params.transactionId}`);
+
 export const apiTransactionsRequests = {
   createOne,
   getAll,
+  deleteOne,
 };

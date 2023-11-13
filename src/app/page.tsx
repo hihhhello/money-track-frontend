@@ -14,7 +14,7 @@ import { SuitcaseIcon } from '@/shared/ui/Icons/SuitcaseIcon';
 import { FormEvent, useState } from 'react';
 import { formatISO } from 'date-fns';
 import { api } from '@/shared/api/api';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useLoadingToast } from '@/shared/utils/hooks';
 
 const CurrentBalanceCard = () => {
@@ -76,10 +76,37 @@ const OutcomeCard = () => {
 };
 
 const LastTransactionsCard = () => {
-  const { data: transactions } = useQuery({
+  const queryClient = useQueryClient();
+  const loadingToast = useLoadingToast();
+
+  const { data: transactions, refetch: refetchTransactions } = useQuery({
     queryFn: api.transactions.getAll,
     queryKey: ['api.transactions.getAll'],
   });
+
+  const { mutate: apiTransactionsDeleteOne } = useMutation({
+    mutationKey: ['api.transactions.deleteOne'],
+    mutationFn: api.transactions.deleteOne,
+  });
+
+  const handleDeleteTransaction = (transactionId: number) => {
+    const toastId = loadingToast.showLoading('Deleting transaction...');
+
+    apiTransactionsDeleteOne(
+      {
+        transactionId,
+      },
+      {
+        onSuccess: () => {
+          loadingToast.handleSuccess({
+            toastId,
+            message: 'Transaction has been removed.',
+          });
+          refetchTransactions();
+        },
+      },
+    );
+  };
 
   return (
     <div className="card flex h-full flex-col">
@@ -90,79 +117,71 @@ const LastTransactionsCard = () => {
       </div>
 
       <div className="overflow-y-auto pr-2">
-        {transactions?.map((transaction) =>
-          transaction.type === 'deposit' ? (
-            <div
-              className="mb-2 flex items-center justify-between rounded-2xl bg-white px-5 py-2"
-              key={transaction.id}
-            >
-              <div className="flex gap-4">
-                <div className="flex flex-col gap-1">
-                  <div className="flex items-center justify-center rounded-[4px] bg-main-blue px-2">
-                    <span className="text-[10px] text-white">Deposit</span>
-                  </div>
-
-                  <div className="flex h-[44px] w-[57px] items-center justify-center rounded-md ring-1 ring-main-blue">
-                    <ShoppingBagIcon className="stroke-main-blue" />
-                  </div>
+        {transactions?.map((transaction) => (
+          <div
+            className="mb-2 flex items-center justify-between rounded-2xl bg-white px-5 py-2"
+            key={transaction.id}
+          >
+            <div className="flex gap-4">
+              <div className="flex flex-col gap-1">
+                <div
+                  className={classNames(
+                    'flex items-center justify-center rounded-[4px]  px-2',
+                    transaction.type === 'deposit'
+                      ? 'bg-main-blue'
+                      : 'bg-main-orange',
+                  )}
+                >
+                  <span className="text-[10px] text-white">
+                    {transaction.type === 'deposit' ? 'Deposit' : 'Expense'}
+                  </span>
                 </div>
 
-                {/* <div>
-                  <span className="text-xl font-medium leading-7">Jeans</span>
-
-                  <div className="flex flex-col">
-                    <span className="text-sm font-light leading-5">
-                      BOA Debit Card
-                    </span>
-
-                    <span className="text-sm font-light leading-5">13:48</span>
-                  </div>
-                </div> */}
-              </div>
-
-              <div className="flex flex-col justify-between">
-                <span className="text-xl font-medium leading-7">
-                  {formatToUSDCurrency(parseFloat(transaction.amount))}
-                </span>
-              </div>
-            </div>
-          ) : (
-            <div
-              className="mb-2 flex items-center justify-between rounded-2xl bg-white px-5 py-2"
-              key={transaction.id}
-            >
-              <div className="flex gap-4">
-                <div className="flex flex-col gap-1">
-                  <div className="flex items-center justify-center rounded-[4px] bg-main-orange px-2">
-                    <span className="text-[10px] text-white">Expense</span>
-                  </div>
-
-                  <div className="flex h-[44px] w-[57px] items-center justify-center rounded-md ring-1 ring-main-orange">
-                    <SuitcaseIcon className="fill-main-orange" />
-                  </div>
+                <div
+                  className={classNames(
+                    'flex h-[44px] w-[57px] items-center justify-center rounded-md ring-1',
+                    transaction.type === 'deposit'
+                      ? 'ring-main-blue'
+                      : 'ring-main-orange',
+                  )}
+                >
+                  <ShoppingBagIcon
+                    className={classNames(
+                      transaction.type === 'deposit'
+                        ? 'stroke-main-blue'
+                        : 'stroke-main-orange',
+                    )}
+                  />
                 </div>
-
-                {/* <div>
-                  <span className="text-xl font-medium leading-7">Salary</span>
-
-                  <div className="flex flex-col">
-                    <span className="text-sm font-light leading-5">
-                      BOA Debit Card
-                    </span>
-
-                    <span className="text-sm font-light leading-5">13:48</span>
-                  </div>
-                </div> */}
               </div>
 
-              <div className="flex flex-col justify-between">
-                <span className="text-xl font-medium leading-7">
-                  +{formatToUSDCurrency(parseFloat(transaction.amount))}
+              {/* <div>
+              <span className="text-xl font-medium leading-7">Jeans</span>
+
+              <div className="flex flex-col">
+                <span className="text-sm font-light leading-5">
+                  BOA Debit Card
                 </span>
+
+                <span className="text-sm font-light leading-5">13:48</span>
               </div>
+            </div> */}
             </div>
-          ),
-        )}
+
+            <div className="flex justify-between gap-4">
+              <span className="text-xl font-medium leading-7">
+                {formatToUSDCurrency(parseFloat(transaction.amount))}
+              </span>
+
+              <button
+                onClick={() => handleDeleteTransaction(transaction.id)}
+                className="rounded-sm bg-red-600 px-2 text-sm leading-tight text-white hover:bg-red-700"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
