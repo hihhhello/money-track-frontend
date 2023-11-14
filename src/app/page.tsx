@@ -11,11 +11,12 @@ import {
 import { ChevronDownIcon } from '@/shared/ui/Icons/ChevronDownIcon';
 import { ShoppingBagIcon } from '@/shared/ui/Icons/ShoppingBagIcon';
 import { SuitcaseIcon } from '@/shared/ui/Icons/SuitcaseIcon';
-import { FormEvent, useState } from 'react';
+import { FormEvent, use, useState } from 'react';
 import { formatISO } from 'date-fns';
 import { api } from '@/shared/api/api';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useLoadingToast } from '@/shared/utils/hooks';
+import { toast } from 'react-toastify';
 
 const CurrentBalanceCard = () => {
   return (
@@ -83,28 +84,25 @@ const LastTransactionsCard = () => {
     queryKey: ['api.transactions.getAll'],
   });
 
-  const { mutate: apiTransactionsDeleteOne } = useMutation({
-    mutationKey: ['api.transactions.deleteOne'],
-    mutationFn: api.transactions.deleteOne,
-  });
-
   const handleDeleteTransaction = (transactionId: number) => {
     const toastId = loadingToast.showLoading('Deleting transaction...');
 
-    apiTransactionsDeleteOne(
-      {
-        transactionId,
-      },
-      {
-        onSuccess: () => {
-          loadingToast.handleSuccess({
-            toastId,
-            message: 'Transaction has been removed.',
-          });
-          refetchTransactions();
+    api.transactions
+      .deleteOne({
+        params: {
+          transactionId,
         },
-      },
-    );
+      })
+      .then(() => {
+        loadingToast.handleSuccess({
+          toastId,
+          message: 'Transaction has been removed.',
+        });
+        refetchTransactions();
+      })
+      .catch(() => {
+        loadingToast.handleError({ toastId, message: 'Error' });
+      });
   };
 
   return (
@@ -191,26 +189,39 @@ const HomePage = () => {
 
   const loadingToast = useLoadingToast();
 
+  const { data: categories, refetch: refetchCategories } = useQuery({
+    queryFn: api.categories.getAll,
+    queryKey: ['api.categories.getAll'],
+  });
+
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+    null,
+  );
+
   const [newTransactionFormValues, setNewTransactionFormValues] = useState<{
     amount: string;
-    category: string;
     type: 'expense' | 'deposit';
     date: string;
   }>({
     date: formatISO(new Date(), { representation: 'date' }),
     amount: '',
-    category: '',
     type: 'expense',
   });
 
+  const [newCategoryName, setNewCategoryName] = useState('');
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+
+    if (!selectedCategoryId) {
+      return toast.warn('Select category.');
+    }
 
     const toastId = loadingToast.showLoading('Adding new transaction...');
 
     api.transactions
       .createOne({
-        body: newTransactionFormValues,
+        body: { ...newTransactionFormValues, category: selectedCategoryId },
       })
       .then(() => {
         queryClient.refetchQueries({
@@ -221,6 +232,38 @@ const HomePage = () => {
           message: 'New transaction has been added.',
           toastId,
         });
+      })
+      .catch(() => {
+        loadingToast.handleError({ toastId, message: 'Error' });
+      });
+  };
+
+  const handleAddNewCategory = () => {
+    if (!newCategoryName) {
+      return toast.warn('Category name is required.');
+    }
+
+    const toastId = loadingToast.showLoading('Adding new category...');
+
+    api.categories
+      .createOne({
+        body: {
+          name: newCategoryName,
+        },
+      })
+      .then((newCategory) => {
+        refetchCategories();
+
+        loadingToast.handleSuccess({
+          message: 'New category has been added.',
+          toastId,
+        });
+
+        setSelectedCategoryId(newCategory.id);
+        setNewCategoryName('');
+      })
+      .catch(() => {
+        loadingToast.handleError({ toastId, message: 'Error' });
       });
   };
 
@@ -263,7 +306,7 @@ const HomePage = () => {
           </div>
         </div>
 
-        <div className="flex flex-col">
+        <div className="mb-4 flex flex-col">
           <label htmlFor="amount">Amount</label>
           <input
             className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
@@ -279,19 +322,41 @@ const HomePage = () => {
           />
         </div>
 
-        <div className="flex flex-col">
-          <label htmlFor="category">Category</label>
-          <input
-            className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
-            name="category"
-            value={newTransactionFormValues.category}
-            onChange={(e) => {
-              setNewTransactionFormValues((prevValues) => ({
-                ...prevValues,
-                category: e.target.value,
-              }));
-            }}
-          />
+        <div className="mb-4">
+          <div className="mb-2 flex flex-wrap gap-4">
+            {categories?.map((category) => (
+              <button
+                key={category.id}
+                type="button"
+                onClick={() => setSelectedCategoryId(category.id)}
+                className={classNames(
+                  'h-full border border-gray-200 px-4 py-2 font-semibold shadow-sm',
+                  selectedCategoryId === category.id && 'bg-gray-100',
+                )}
+              >
+                {category.name}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-2">
+            <input
+              value={newCategoryName}
+              onChange={(e) => setNewCategoryName(e.target.value)}
+              name="newCategoryName"
+              id="newCategoryName"
+              placeholder="New Category"
+              className="focus:ring-primary-green rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
+            />
+
+            <button
+              onClick={handleAddNewCategory}
+              type="button"
+              className="rounded-md bg-indigo-600"
+            >
+              <PlusIcon className="text-white" />
+            </button>
+          </div>
         </div>
 
         <div className="flex flex-col">

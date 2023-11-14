@@ -6,7 +6,7 @@ const createOne = ({
   body: {
     type: string;
     amount: string;
-    category: string;
+    category: number;
     date: string;
   };
 }) => {
@@ -23,12 +23,12 @@ const getAll = () =>
         id: number;
         timestamp: string;
         type: 'expense' | 'deposit';
-        user_id: 1;
+        user_id: number;
       }>
     >('/transactions')
     .then(({ data }) => data);
 
-const deleteOne = (params: { transactionId: number }) =>
+const deleteOne = ({ params }: { params: { transactionId: number } }) =>
   axiosInstance.delete(`/transactions/${params.transactionId}`);
 
 export const apiTransactionsRequests = {

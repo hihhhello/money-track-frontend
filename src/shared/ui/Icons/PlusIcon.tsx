@@ -1,15 +1,14 @@
-import { twMerge } from 'tailwind-merge';
-
 type PlusIconProps = JSX.IntrinsicElements['svg'];
 
-export const PlusIcon = ({ className, ...iconProps }: PlusIconProps) => {
+export const PlusIcon = ({ ...iconProps }: PlusIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
       viewBox="0 0 24 24"
-      className={twMerge('fill-none stroke-white', className)}
+      stroke="currentColor"
+      fill="none"
       {...iconProps}
     >
       <path
