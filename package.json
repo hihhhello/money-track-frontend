@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "export NODE_TLS_REJECT_UNAUTHORIZED=0 && next dev --port 8787",
     "build": "next build",
-    "start": "next start",
+    "start": "export NODE_TLS_REJECT_UNAUTHORIZED=0 && next start",
     "lint": "next lint",
     "prettier:fix": "prettier --write ."
   },
