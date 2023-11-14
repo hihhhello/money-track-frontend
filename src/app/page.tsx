@@ -142,13 +142,7 @@ const LastTransactionsCard = () => {
                       : 'ring-main-orange',
                   )}
                 >
-                  <ShoppingBagIcon
-                    className={classNames(
-                      transaction.type === 'deposit'
-                        ? 'stroke-main-blue'
-                        : 'stroke-main-orange',
-                    )}
-                  />
+                  {transaction.category}
                 </div>
               </div>
 
