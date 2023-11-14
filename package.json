@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "export NODE_TLS_REJECT_UNAUTHORIZED=0 && next dev --port 8787",
+    "dev": "next dev --port 8787",
     "build": "next build",
-    "start": "export NODE_TLS_REJECT_UNAUTHORIZED=0 && next start",
+    "start": "next start",
     "lint": "next lint",
     "prettier:fix": "prettier --write ."
   },
