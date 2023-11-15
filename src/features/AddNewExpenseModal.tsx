@@ -126,7 +126,7 @@ export const AddNewExpenseModal = ({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black/30" />
+          <div className="fixed inset-0 hidden bg-black/30 sm:block" />
         </Transition.Child>
 
         <div className="fixed inset-0 flex w-screen items-center justify-center sm:p-4">
