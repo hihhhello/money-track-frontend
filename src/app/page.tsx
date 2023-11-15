@@ -224,13 +224,15 @@ const AddNewExpenseModal = ({
 };
 
 const HomePage = () => {
+  const loadingToast = useLoadingToast();
+
   const {
     value: isAddNewExpenseModalOpen,
     setTrue: handleOpenAddNewExpenseModal,
     setFalse: handleCloseAddNewExpenseModal,
   } = useBoolean(false);
 
-  const { data: transactions } = useQuery({
+  const { data: transactions, refetch: refetchTransactions } = useQuery({
     queryFn: api.transactions.getAll,
     queryKey: ['api.transactions.getAll'],
   });
@@ -240,6 +242,27 @@ const HomePage = () => {
       totalExpensesAccumulator + parseFloat(transaction.amount),
     0,
   );
+
+  const handleDeleteTransaction = (transactionId: number) => {
+    const toastId = loadingToast.showLoading('Deleting transaction...');
+
+    api.transactions
+      .deleteOne({
+        params: {
+          transactionId,
+        },
+      })
+      .then(() => {
+        loadingToast.handleSuccess({
+          toastId,
+          message: 'Transaction has been removed.',
+        });
+        refetchTransactions();
+      })
+      .catch(() => {
+        loadingToast.handleError({ toastId, message: 'Error' });
+      });
+  };
 
   return (
     <div>
@@ -341,7 +364,9 @@ const HomePage = () => {
 
                   <td className="text-text-regular whitespace-nowrap rounded-r-md px-3 py-2 pr-4 text-sm">
                     <div className="flex justify-center gap-2">
-                      <button>
+                      <button
+                        onClick={() => handleDeleteTransaction(transaction.id)}
+                      >
                         <TrashIcon className="h-5 w-5 cursor-pointer text-red-600 hover:text-red-700" />
                       </button>
                     </div>
