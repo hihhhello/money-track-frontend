@@ -34,11 +34,13 @@ export const AddNewExpenseModal = ({
     null,
   );
 
+  const today = formatISO(new Date(), { representation: 'date' });
+
   const [newTransactionFormValues, setNewTransactionFormValues] = useState<{
     amount: string;
     date: string;
   }>({
-    date: formatISO(new Date(), { representation: 'date' }),
+    date: today,
     amount: '',
   });
 
@@ -67,10 +69,14 @@ export const AddNewExpenseModal = ({
         });
 
         loadingToast.handleSuccess({
-          message: 'New transaction has been added.',
+          message: 'New expense has been added.',
           toastId,
         });
 
+        setNewTransactionFormValues({
+          amount: '',
+          date: today,
+        });
         handleClose();
       })
       .catch(() => {
