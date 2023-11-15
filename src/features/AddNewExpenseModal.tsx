@@ -139,7 +139,7 @@ export const AddNewExpenseModal = ({
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <Dialog.Panel className="relative h-full w-full bg-white p-4 sm:max-w-sm sm:rounded">
+            <Dialog.Panel className="relative h-full w-full bg-white p-4 pb-20 sm:h-auto sm:max-w-sm sm:rounded">
               <div className="flex justify-end">
                 <button onClick={handleClose}>
                   <XMarkIcon />
@@ -226,7 +226,7 @@ export const AddNewExpenseModal = ({
                 <div className="absolute bottom-0 left-0 w-full p-4">
                   <button
                     type="submit"
-                    className="mt-4 block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
                     Add
                   </button>
