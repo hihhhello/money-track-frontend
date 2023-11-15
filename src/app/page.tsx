@@ -287,95 +287,99 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="relative">
-        <table className="relative min-w-full border-separate border-spacing-y-2 divide-y divide-gray-300">
-          <thead className="bg-primary-background sticky top-0 z-10">
-            <tr>
-              <th
-                scope="col"
-                className="text-text-dark px-3 py-3.5 text-left text-sm font-semibold"
-              >
-                ID
-              </th>
+      <div className="relative max-h-[calc(70vh)] overflow-y-auto">
+        <div className="relative">
+          <table className="relative min-w-full border-separate border-spacing-y-2 divide-y divide-gray-300">
+            <thead className="bg-primary-background sticky top-0 z-10">
+              <tr>
+                <th
+                  scope="col"
+                  className="text-text-dark px-3 py-3.5 text-left text-sm font-semibold"
+                >
+                  ID
+                </th>
 
-              <th
-                scope="col"
-                className="text-text-dark focus-primary cursor-pointer px-3 py-3.5 text-left text-sm font-semibold"
-                tabIndex={0}
-              >
-                <div className="flex items-center">Date</div>
-              </th>
+                <th
+                  scope="col"
+                  className="text-text-dark focus-primary cursor-pointer px-3 py-3.5 text-left text-sm font-semibold"
+                  tabIndex={0}
+                >
+                  <div className="flex items-center">Date</div>
+                </th>
 
-              <th
-                scope="col"
-                className="text-text-dark focus-primary cursor-pointer px-3 py-3.5 text-left text-sm font-semibold"
-              >
-                <div className="flex items-center">Amount</div>
-              </th>
+                <th
+                  scope="col"
+                  className="text-text-dark focus-primary cursor-pointer px-3 py-3.5 text-left text-sm font-semibold"
+                >
+                  <div className="flex items-center">Amount</div>
+                </th>
 
-              <th
-                scope="col"
-                className="text-text-dark px-3 py-3.5 text-left text-sm font-semibold"
-              >
-                Type
-              </th>
+                <th
+                  scope="col"
+                  className="text-text-dark px-3 py-3.5 text-left text-sm font-semibold"
+                >
+                  Type
+                </th>
 
-              <th
-                scope="col"
-                className="text-text-dark px-3 py-3.5 text-left text-sm font-semibold"
-              >
-                Category
-              </th>
+                <th
+                  scope="col"
+                  className="text-text-dark px-3 py-3.5 text-left text-sm font-semibold"
+                >
+                  Category
+                </th>
 
-              <th
-                scope="col"
-                className="py-3.5 pl-3 pr-4 text-sm font-semibold"
-              >
-                Action
-              </th>
-            </tr>
-          </thead>
+                <th
+                  scope="col"
+                  className="py-3.5 pl-3 pr-4 text-sm font-semibold"
+                >
+                  Action
+                </th>
+              </tr>
+            </thead>
 
-          <tbody>
-            {transactions?.map((transaction) => {
-              return (
-                <tr key={transaction.id} className="bg-white">
-                  <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
-                    {transaction.id}
-                  </td>
+            <tbody>
+              {transactions?.map((transaction) => {
+                return (
+                  <tr key={transaction.id} className="bg-white">
+                    <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
+                      {transaction.id}
+                    </td>
 
-                  <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
-                    {transaction.date
-                      ? format(parseISO(transaction.date), 'MM-dd-yyyy')
-                      : '--'}
-                  </td>
+                    <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
+                      {transaction.date
+                        ? format(parseISO(transaction.date), 'MM-dd-yyyy')
+                        : '--'}
+                    </td>
 
-                  <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
-                    {formatToUSDCurrency(parseFloat(transaction.amount))}
-                  </td>
+                    <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
+                      {formatToUSDCurrency(parseFloat(transaction.amount))}
+                    </td>
 
-                  <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
-                    {transaction.type}
-                  </td>
+                    <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
+                      {transaction.type}
+                    </td>
 
-                  <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
-                    {transaction.category}
-                  </td>
+                    <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
+                      {transaction.category}
+                    </td>
 
-                  <td className="text-text-regular whitespace-nowrap rounded-r-md px-3 py-2 pr-4 text-sm">
-                    <div className="flex justify-center gap-2">
-                      <button
-                        onClick={() => handleDeleteTransaction(transaction.id)}
-                      >
-                        <TrashIcon className="h-5 w-5 cursor-pointer text-red-600 hover:text-red-700" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                    <td className="text-text-regular whitespace-nowrap rounded-r-md px-3 py-2 pr-4 text-sm">
+                      <div className="flex justify-center gap-2">
+                        <button
+                          onClick={() =>
+                            handleDeleteTransaction(transaction.id)
+                          }
+                        >
+                          <TrashIcon className="h-5 w-5 cursor-pointer text-red-600 hover:text-red-700" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <AddNewExpenseModal
