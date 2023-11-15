@@ -37,3 +37,22 @@ export const formatToUSDCurrencyNoCents = (value: number | undefined) => {
 
   return formatterUSDCurrencyNoCents.format(value);
 };
+
+export function createUrlWithSearchParams(params: {
+  url: string;
+  searchParams?: Record<string, string | number>;
+}): string {
+  const { url, searchParams } = params;
+  if (!searchParams || Object.keys(searchParams).length === 0) {
+    return url;
+  }
+
+  const searchParamsString = Object.entries(searchParams)
+    .map(
+      ([key, value]) =>
+        `${encodeURIComponent(key)}=${encodeURIComponent(value)}`,
+    )
+    .join('&');
+
+  return `${url}?${searchParamsString}`;
+}

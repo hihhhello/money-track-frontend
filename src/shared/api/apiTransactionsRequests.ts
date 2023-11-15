@@ -1,4 +1,6 @@
+import { QueryFunctionContext } from '@tanstack/react-query';
 import { axiosInstance } from './apiBase';
+import { createUrlWithSearchParams } from '../utils/helpers';
 
 const createOne = ({
   body,
@@ -13,7 +15,14 @@ const createOne = ({
   return axiosInstance.post('/transactions', body);
 };
 
-const getAll = () =>
+const getAll = (
+  input?: {
+    searchParams?: {
+      startDate: string;
+      endDate: string;
+    };
+  } & Partial<QueryFunctionContext>,
+) =>
   axiosInstance
     .get<
       Array<{
@@ -25,7 +34,12 @@ const getAll = () =>
         type: 'expense' | 'deposit';
         user_id: number;
       }>
-    >('/transactions')
+    >(
+      createUrlWithSearchParams({
+        url: '/transactions',
+        searchParams: input?.searchParams,
+      }),
+    )
     .then(({ data }) => data);
 
 const deleteOne = ({ params }: { params: { transactionId: number } }) =>
