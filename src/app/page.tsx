@@ -1,184 +1,26 @@
 'use client';
 
-import { range } from 'lodash';
-
 import { PlusIcon } from '@/shared/ui/Icons/PlusIcon';
-import {
-  classNames,
-  formatToUSDCurrency,
-  formatToUSDCurrencyNoCents,
-} from '@/shared/utils/helpers';
-import { ChevronDownIcon } from '@/shared/ui/Icons/ChevronDownIcon';
-import { ShoppingBagIcon } from '@/shared/ui/Icons/ShoppingBagIcon';
-import { SuitcaseIcon } from '@/shared/ui/Icons/SuitcaseIcon';
-import { FormEvent, use, useState } from 'react';
-import { formatISO } from 'date-fns';
+import { classNames, formatToUSDCurrency } from '@/shared/utils/helpers';
+import { FormEvent, Fragment, useState } from 'react';
+import { format, formatISO, parseISO } from 'date-fns';
 import { api } from '@/shared/api/api';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useLoadingToast } from '@/shared/utils/hooks';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
 import { toast } from 'react-toastify';
+import { MinusIcon } from '@/shared/ui/Icons/MinusIcon';
+import { TrashIcon } from '@/shared/ui/Icons/TrashIcon';
+import { Dialog, Transition } from '@headlessui/react';
 
-const CurrentBalanceCard = () => {
-  return (
-    <div className="card flex flex-col gap-4 pb-6">
-      <div className="flex justify-between">
-        <div className="inline-flex-center rounded-[40px] border border-main-dark px-6 py-1">
-          <span className="text-xl">Current balance</span>
-        </div>
-
-        <div className="flex gap-1">
-          <button className="flex w-[142px] justify-between rounded-[100px] bg-main-blue px-4 py-3 text-sm leading-6 text-white">
-            <span>Together</span>
-
-            <ChevronDownIcon className="stroke-white" />
-          </button>
-
-          <button className="flex w-[142px] justify-between rounded-[100px] bg-main-blue px-4 py-3 text-sm leading-6 text-white">
-            <span>All sources</span>
-
-            <ChevronDownIcon className="stroke-white" />
-          </button>
-        </div>
-      </div>
-
-      <span className="text-[64px] leading-[96px] text-black">
-        {formatToUSDCurrencyNoCents(3800)}
-      </span>
-    </div>
-  );
+type AddNewExpenseModalProps = {
+  isModalOpen: boolean;
+  handleClose: () => void;
 };
 
-const IncomeCard = () => {
-  return (
-    <div className="card flex flex-1 flex-col items-center gap-4 pb-8">
-      <div className="inline-flex-center rounded-[40px] border border-main-dark px-6 py-1">
-        <span className="text-xl">Income</span>
-      </div>
-
-      <span className="text-5xl leading-[72px]">
-        +{formatToUSDCurrencyNoCents(4563)}
-      </span>
-    </div>
-  );
-};
-
-const OutcomeCard = () => {
-  return (
-    <div className="card flex flex-1 flex-col items-center gap-4 pb-8">
-      <div className="inline-flex-center rounded-[40px] border border-main-dark px-6 py-1">
-        <span className="text-xl">Expense</span>
-      </div>
-
-      <span className="text-5xl leading-[72px]">
-        {formatToUSDCurrencyNoCents(-1246)}
-      </span>
-    </div>
-  );
-};
-
-const LastTransactionsCard = () => {
-  const loadingToast = useLoadingToast();
-
-  const { data: transactions, refetch: refetchTransactions } = useQuery({
-    queryFn: api.transactions.getAll,
-    queryKey: ['api.transactions.getAll'],
-  });
-
-  const handleDeleteTransaction = (transactionId: number) => {
-    const toastId = loadingToast.showLoading('Deleting transaction...');
-
-    api.transactions
-      .deleteOne({
-        params: {
-          transactionId,
-        },
-      })
-      .then(() => {
-        loadingToast.handleSuccess({
-          toastId,
-          message: 'Transaction has been removed.',
-        });
-        refetchTransactions();
-      })
-      .catch(() => {
-        loadingToast.handleError({ toastId, message: 'Error' });
-      });
-  };
-
-  return (
-    <div className="card flex h-full flex-col">
-      <div className="mb-6 flex justify-between">
-        <div className="inline-flex-center rounded-[40px] border border-main-dark px-6 py-1">
-          <span className="text-xl">Last transactions</span>
-        </div>
-      </div>
-
-      <div className="overflow-y-auto pr-2">
-        {transactions?.map((transaction) => (
-          <div
-            className="mb-2 flex items-center justify-between rounded-2xl bg-white px-5 py-2"
-            key={transaction.id}
-          >
-            <div className="flex gap-4">
-              <div className="flex flex-col gap-1">
-                <div
-                  className={classNames(
-                    'flex items-center justify-center rounded-[4px]  px-2',
-                    transaction.type === 'deposit'
-                      ? 'bg-main-blue'
-                      : 'bg-main-orange',
-                  )}
-                >
-                  <span className="text-[10px] text-white">
-                    {transaction.type === 'deposit' ? 'Deposit' : 'Expense'}
-                  </span>
-                </div>
-
-                <div
-                  className={classNames(
-                    'flex h-[44px] w-[57px] items-center justify-center rounded-md ring-1',
-                    transaction.type === 'deposit'
-                      ? 'ring-main-blue'
-                      : 'ring-main-orange',
-                  )}
-                >
-                  {transaction.category}
-                </div>
-              </div>
-
-              {/* <div>
-              <span className="text-xl font-medium leading-7">Jeans</span>
-
-              <div className="flex flex-col">
-                <span className="text-sm font-light leading-5">
-                  BOA Debit Card
-                </span>
-
-                <span className="text-sm font-light leading-5">13:48</span>
-              </div>
-            </div> */}
-            </div>
-
-            <div className="flex justify-between gap-4">
-              <span className="text-xl font-medium leading-7">
-                {formatToUSDCurrency(parseFloat(transaction.amount))}
-              </span>
-
-              <button
-                onClick={() => handleDeleteTransaction(transaction.id)}
-                className="rounded-sm bg-red-600 px-2 text-sm leading-tight text-white hover:bg-red-700"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const HomePage = () => {
+const AddNewExpenseModal = ({
+  handleClose,
+  isModalOpen,
+}: AddNewExpenseModalProps) => {
   const queryClient = useQueryClient();
 
   const loadingToast = useLoadingToast();
@@ -194,12 +36,10 @@ const HomePage = () => {
 
   const [newTransactionFormValues, setNewTransactionFormValues] = useState<{
     amount: string;
-    type: 'expense' | 'deposit';
     date: string;
   }>({
     date: formatISO(new Date(), { representation: 'date' }),
     amount: '',
-    type: 'expense',
   });
 
   const [newCategoryName, setNewCategoryName] = useState('');
@@ -215,7 +55,11 @@ const HomePage = () => {
 
     api.transactions
       .createOne({
-        body: { ...newTransactionFormValues, category: selectedCategoryId },
+        body: {
+          ...newTransactionFormValues,
+          category: selectedCategoryId,
+          type: 'expense',
+        },
       })
       .then(() => {
         queryClient.refetchQueries({
@@ -262,122 +106,257 @@ const HomePage = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div className="flex">
-          <div className="mb-4 h-[44px] divide-x-[1px] divide-gray-200 rounded-lg border border-gray-200 shadow-sm">
-            <button
-              type="button"
-              onClick={() =>
-                setNewTransactionFormValues((prevValues) => ({
-                  ...prevValues,
-                  type: 'expense',
-                }))
-              }
-              className={classNames(
-                'h-full px-4 text-sm font-semibold',
-                newTransactionFormValues.type === 'expense' && 'bg-gray-100',
-              )}
-            >
-              Expense
-            </button>
-
-            <button
-              onClick={() =>
-                setNewTransactionFormValues((prevValues) => ({
-                  ...prevValues,
-                  type: 'deposit',
-                }))
-              }
-              type="button"
-              className={classNames(
-                'h-full px-4 text-sm font-semibold',
-                newTransactionFormValues.type === 'deposit' && 'bg-gray-100',
-              )}
-            >
-              Deposit
-            </button>
-          </div>
-        </div>
-
-        <div className="mb-4 flex flex-col">
-          <label htmlFor="amount">Amount</label>
-          <input
-            className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
-            type="number"
-            name="amount"
-            value={String(newTransactionFormValues.amount)}
-            onChange={(e) => {
-              setNewTransactionFormValues((prevValues) => ({
-                ...prevValues,
-                amount: e.target.value,
-              }));
-            }}
-          />
-        </div>
-
-        <div className="mb-4">
-          <div className="mb-2 flex flex-wrap gap-4">
-            {categories?.map((category) => (
-              <button
-                key={category.id}
-                type="button"
-                onClick={() => setSelectedCategoryId(category.id)}
-                className={classNames(
-                  'h-full border border-gray-200 px-4 py-2 font-semibold shadow-sm',
-                  selectedCategoryId === category.id && 'bg-gray-100',
-                )}
-              >
-                {category.name}
-              </button>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-2">
-            <input
-              value={newCategoryName}
-              onChange={(e) => setNewCategoryName(e.target.value)}
-              name="newCategoryName"
-              id="newCategoryName"
-              placeholder="New Category"
-              className="focus:ring-primary-green rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
-            />
-
-            <button
-              onClick={handleAddNewCategory}
-              type="button"
-              className="rounded-md bg-indigo-600"
-            >
-              <PlusIcon className="text-white" />
-            </button>
-          </div>
-        </div>
-
-        <div className="flex flex-col">
-          <label htmlFor="date">Date</label>
-          <input
-            className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
-            name="date"
-            type="date"
-            value={newTransactionFormValues.date}
-            onChange={(e) => {
-              setNewTransactionFormValues((prevValues) => ({
-                ...prevValues,
-                date: e.target.value,
-              }));
-            }}
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="mt-4 block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+    <Transition show={isModalOpen} as={Fragment}>
+      <Dialog onClose={handleClose} as="div" className="relative z-50">
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
         >
-          Add
-        </button>
-      </form>
+          <div className="fixed inset-0 bg-black/30" />
+        </Transition.Child>
 
-      <LastTransactionsCard />
+        <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0 scale-95"
+            enterTo="opacity-100 scale-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100 scale-100"
+            leaveTo="opacity-0 scale-95"
+          >
+            <Dialog.Panel className="w-full max-w-sm rounded bg-white p-4">
+              <Dialog.Title
+                as="h3"
+                className="text-base font-semibold leading-6 text-gray-900"
+              >
+                Add new expense
+              </Dialog.Title>
+
+              <form onSubmit={handleSubmit}>
+                <div className="mb-4 flex flex-col">
+                  <label htmlFor="amount">Amount</label>
+                  <input
+                    className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
+                    type="number"
+                    name="amount"
+                    value={String(newTransactionFormValues.amount)}
+                    onChange={(e) => {
+                      setNewTransactionFormValues((prevValues) => ({
+                        ...prevValues,
+                        amount: e.target.value,
+                      }));
+                    }}
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <div className="mb-2 flex flex-wrap gap-4">
+                    {categories?.map((category) => (
+                      <button
+                        key={category.id}
+                        type="button"
+                        onClick={() => setSelectedCategoryId(category.id)}
+                        className={classNames(
+                          'h-full border border-gray-200 px-4 py-2 font-semibold shadow-sm',
+                          selectedCategoryId === category.id && 'bg-gray-100',
+                        )}
+                      >
+                        {category.name}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <input
+                      value={newCategoryName}
+                      onChange={(e) => setNewCategoryName(e.target.value)}
+                      name="newCategoryName"
+                      id="newCategoryName"
+                      placeholder="New Category"
+                      className="focus:ring-primary-green rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
+                    />
+
+                    <button
+                      onClick={handleAddNewCategory}
+                      type="button"
+                      className="rounded-md bg-indigo-600"
+                    >
+                      <PlusIcon className="text-white" />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex flex-col">
+                  <label htmlFor="date">Date</label>
+                  <input
+                    className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
+                    name="date"
+                    type="date"
+                    value={newTransactionFormValues.date}
+                    onChange={(e) => {
+                      setNewTransactionFormValues((prevValues) => ({
+                        ...prevValues,
+                        date: e.target.value,
+                      }));
+                    }}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="mt-4 block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Add
+                </button>
+              </form>
+            </Dialog.Panel>
+          </Transition.Child>
+        </div>
+      </Dialog>
+    </Transition>
+  );
+};
+
+const HomePage = () => {
+  const {
+    value: isAddNewExpenseModalOpen,
+    setTrue: handleOpenAddNewExpenseModal,
+    setFalse: handleCloseAddNewExpenseModal,
+  } = useBoolean(false);
+
+  const { data: transactions } = useQuery({
+    queryFn: api.transactions.getAll,
+    queryKey: ['api.transactions.getAll'],
+  });
+
+  const totalExpensesAmount = transactions?.reduce(
+    (totalExpensesAccumulator, transaction) =>
+      totalExpensesAccumulator + parseFloat(transaction.amount),
+    0,
+  );
+
+  return (
+    <div>
+      <div>
+        <div className="mb-4 flex items-center justify-center rounded-md bg-gray-200 py-8">
+          <span className="text-4xl">
+            {formatToUSDCurrency(totalExpensesAmount)}
+          </span>
+        </div>
+
+        <div className="flex w-full gap-4">
+          <button className="flex flex-1 items-center justify-center rounded-md bg-sky-600 py-4 hover:bg-sky-700">
+            <PlusIcon className="h-10 w-10 text-white" />
+          </button>
+
+          <button
+            onClick={handleOpenAddNewExpenseModal}
+            className="flex flex-1 items-center justify-center rounded-md bg-red-600 py-4 hover:bg-red-700"
+          >
+            <MinusIcon className="h-10 w-10 text-white" />
+          </button>
+        </div>
+      </div>
+
+      <div className="relative">
+        <table className="relative min-w-full border-separate border-spacing-y-2 divide-y divide-gray-300">
+          <thead className="bg-primary-background sticky top-0 z-10">
+            <tr>
+              <th
+                scope="col"
+                className="text-text-dark px-3 py-3.5 text-left text-sm font-semibold"
+              >
+                ID
+              </th>
+
+              <th
+                scope="col"
+                className="text-text-dark focus-primary cursor-pointer px-3 py-3.5 text-left text-sm font-semibold"
+                tabIndex={0}
+              >
+                <div className="flex items-center">Date</div>
+              </th>
+
+              <th
+                scope="col"
+                className="text-text-dark focus-primary cursor-pointer px-3 py-3.5 text-left text-sm font-semibold"
+              >
+                <div className="flex items-center">Amount</div>
+              </th>
+
+              <th
+                scope="col"
+                className="text-text-dark px-3 py-3.5 text-left text-sm font-semibold"
+              >
+                Type
+              </th>
+
+              <th
+                scope="col"
+                className="text-text-dark px-3 py-3.5 text-left text-sm font-semibold"
+              >
+                Category
+              </th>
+
+              <th
+                scope="col"
+                className="py-3.5 pl-3 pr-4 text-sm font-semibold"
+              >
+                Action
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {transactions?.map((transaction) => {
+              return (
+                <tr key={transaction.id} className="bg-white">
+                  <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
+                    {transaction.id}
+                  </td>
+
+                  <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
+                    {transaction.date
+                      ? format(parseISO(transaction.date), 'MM-dd-yyyy')
+                      : '--'}
+                  </td>
+
+                  <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
+                    {formatToUSDCurrency(parseFloat(transaction.amount))}
+                  </td>
+
+                  <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
+                    {transaction.type}
+                  </td>
+
+                  <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
+                    {transaction.category}
+                  </td>
+
+                  <td className="text-text-regular whitespace-nowrap rounded-r-md px-3 py-2 pr-4 text-sm">
+                    <div className="flex justify-center gap-2">
+                      <button>
+                        <TrashIcon className="h-5 w-5 cursor-pointer text-red-600 hover:text-red-700" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      <AddNewExpenseModal
+        handleClose={handleCloseAddNewExpenseModal}
+        isModalOpen={isAddNewExpenseModalOpen}
+      />
     </div>
   );
 };

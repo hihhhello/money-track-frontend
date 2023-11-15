@@ -77,15 +77,11 @@ const Header = ({ pathname }: { pathname: string }) => {
 };
 
 export const BaseLayout = ({ children }: BaseLayoutProps) => {
-  const pathname = usePathname();
-
   return (
-    <main className="container mx-auto px-[120px]">
-      {/* <div className="pt-8">
-        <Header pathname={pathname} />
-      </div> */}
-
-      <div className="mt-10">{children}</div>
-    </main>
+    <div className="px-4 sm:px-[120px]">
+      <main className="container mx-auto">
+        <div className="pt-2 sm:pt-10">{children}</div>
+      </main>
+    </div>
   );
 };
