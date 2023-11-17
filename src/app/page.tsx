@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
 
 import { PlusIcon } from '@/shared/ui/Icons/PlusIcon';
-import { formatToUSDCurrency } from '@/shared/utils/helpers';
+import { classNames, formatToUSDCurrency } from '@/shared/utils/helpers';
 import { api } from '@/shared/api/api';
 import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
 import { MinusIcon } from '@/shared/ui/Icons/MinusIcon';
@@ -84,7 +84,7 @@ const HomePage = () => {
                   scope="col"
                   className="text-text-dark px-3 py-3.5 text-left text-sm font-semibold"
                 >
-                  ID
+                  <span className="sr-only">Transaction type indicator</span>
                 </th>
 
                 <th
@@ -100,13 +100,6 @@ const HomePage = () => {
                   className="text-text-dark focus-primary cursor-pointer px-3 py-3.5 text-left text-sm font-semibold"
                 >
                   <div className="flex items-center">Amount</div>
-                </th>
-
-                <th
-                  scope="col"
-                  className="text-text-dark px-3 py-3.5 text-left text-sm font-semibold"
-                >
-                  Type
                 </th>
 
                 <th
@@ -130,21 +123,28 @@ const HomePage = () => {
                 return (
                   <tr key={transaction.id} className="bg-white">
                     <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
-                      {transaction.id}
+                      <div
+                        className={classNames(
+                          'h-2 w-2 rounded-full ring',
+                          transaction.type
+                            ? 'bg-red-600 ring-red-200'
+                            : 'bg-green-600 ring-green-200',
+                        )}
+                      ></div>
+
+                      <span className="sr-only">
+                        Transaction type: {transaction.type}
+                      </span>
                     </td>
 
                     <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
                       {transaction.date
-                        ? format(parseISO(transaction.date), 'MM-dd-yyyy')
+                        ? format(parseISO(transaction.date), 'dd MMMM yyyy')
                         : '--'}
                     </td>
 
                     <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
                       {formatToUSDCurrency(parseFloat(transaction.amount))}
-                    </td>
-
-                    <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
-                      {transaction.type}
                     </td>
 
                     <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
