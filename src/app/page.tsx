@@ -126,7 +126,7 @@ const HomePage = () => {
                       <div
                         className={classNames(
                           'h-2 w-2 rounded-full ring',
-                          transaction.type
+                          transaction.type === 'expense'
                             ? 'bg-red-600 ring-red-200'
                             : 'bg-green-600 ring-green-200',
                         )}
