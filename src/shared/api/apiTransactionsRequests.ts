@@ -8,7 +8,7 @@ const createOne = ({
   body: {
     type: 'expense' | 'deposit';
     amount: string;
-    category: number;
+    category_id: number;
     date: string;
   };
 }) => {
@@ -27,7 +27,7 @@ const getAll = (
     .get<
       Array<{
         amount: string;
-        category: string;
+        category_name: number;
         date: string | null;
         id: number;
         timestamp: string;

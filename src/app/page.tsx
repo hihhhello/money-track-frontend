@@ -148,7 +148,7 @@ const HomePage = () => {
                     </td>
 
                     <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
-                      {transaction.category}
+                      {transaction.category_name}
                     </td>
 
                     <td className="text-text-regular whitespace-nowrap rounded-r-md px-3 py-2 pr-4 text-sm">

@@ -27,7 +27,12 @@ export const AddNewExpenseModal = ({
   const loadingToast = useLoadingToast();
 
   const { data: categories, refetch: refetchCategories } = useQuery({
-    queryFn: api.categories.getAll,
+    queryFn: () =>
+      api.categories.getAll({
+        searchParams: {
+          type: 'expense',
+        },
+      }),
     queryKey: ['api.categories.getAll'],
   });
 
@@ -60,7 +65,7 @@ export const AddNewExpenseModal = ({
       .createOne({
         body: {
           ...newTransactionFormValues,
-          category: selectedCategoryId,
+          category_id: selectedCategoryId,
           type: 'expense',
         },
       })
