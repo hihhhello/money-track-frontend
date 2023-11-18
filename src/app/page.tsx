@@ -32,11 +32,15 @@ const HomePage = () => {
     queryKey: ['api.transactions.getAll'],
   });
 
-  const totalExpensesAmount = transactions?.reduce(
-    (totalExpensesAccumulator, transaction) =>
-      totalExpensesAccumulator + parseFloat(transaction.amount),
-    0,
-  );
+  const totalTransactionsAmount = transactions
+    ? transactions.reduce((totalExpensesAccumulator, transaction) => {
+        if (transaction.type === 'deposit') {
+          return totalExpensesAccumulator + parseFloat(transaction.amount);
+        }
+
+        return totalExpensesAccumulator - parseFloat(transaction.amount);
+      }, 0)
+    : 0;
 
   const handleDeleteTransaction = (transactionId: number) => {
     const toastId = loadingToast.showLoading('Deleting transaction...');
@@ -62,25 +66,34 @@ const HomePage = () => {
   return (
     <div>
       <div>
-        <div className="mb-4 flex items-center justify-center rounded-md bg-gray-200 py-8">
-          <span className="text-4xl">
-            {formatToUSDCurrency(totalExpensesAmount)}
+        <div
+          className={classNames(
+            'mb-4 flex items-center justify-center rounded-md py-8 shadow',
+            totalTransactionsAmount === 0
+              ? 'bg-gray-200'
+              : totalTransactionsAmount > 0
+              ? 'bg-green-600'
+              : 'bg-red-600',
+          )}
+        >
+          <span className="text-4xl text-white">
+            {formatToUSDCurrency(totalTransactionsAmount)}
           </span>
         </div>
 
         <div className="flex w-full gap-4">
           <button
             onClick={handleOpenAddNewDepositModal}
-            className="flex flex-1 items-center justify-center rounded-md bg-sky-600 py-4 hover:bg-sky-700"
+            className="flex flex-1 items-center justify-center rounded-md border-[6px] border-sky-600 py-4 hover:border-sky-700"
           >
-            <PlusIcon className="h-10 w-10 text-white" />
+            <PlusIcon className="h-16 w-16 text-sky-600" />
           </button>
 
           <button
             onClick={handleOpenAddNewExpenseModal}
-            className="flex flex-1 items-center justify-center rounded-md bg-red-600 py-4 hover:bg-red-700"
+            className="flex flex-1 items-center justify-center rounded-md border-[6px] border-red-600 py-4 hover:border-red-700"
           >
-            <MinusIcon className="h-10 w-10 text-white" />
+            <MinusIcon className="h-16 w-16 text-red-600" />
           </button>
         </div>
       </div>

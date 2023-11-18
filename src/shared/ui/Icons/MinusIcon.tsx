@@ -6,7 +6,7 @@ export const MinusIcon = ({ ...iconProps }: JSX.IntrinsicElements['svg']) => {
       height="24"
       fill="none"
       viewBox="0 0 24 24"
-      strokeWidth={1.5}
+      strokeWidth={2.5}
       stroke="currentColor"
       {...iconProps}
     >

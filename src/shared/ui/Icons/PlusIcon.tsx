@@ -13,13 +13,13 @@ export const PlusIcon = ({ ...iconProps }: PlusIconProps) => {
     >
       <path
         d="M12 5V19"
-        strokeWidth="2"
+        strokeWidth="2.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M5 12H19"
-        strokeWidth="2"
+        strokeWidth="2.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
