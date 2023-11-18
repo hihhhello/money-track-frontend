@@ -20,8 +20,8 @@ axiosInstance.interceptors.request.use(async (config) => {
     return await getSession();
   })();
 
-  if (session?.user?.access_token) {
-    config.headers.Authorization = `Bearer ${session?.user?.access_token}`;
+  if (session?.user?.accessToken) {
+    config.headers.Authorization = `Bearer ${session?.user?.accessToken}`;
   }
 
   return config;
@@ -37,11 +37,11 @@ axiosInstance.interceptors.response.use(
       /**
        * TODO: add refresh token logic
        */
-      signOut();
+      // signOut();
 
       toast('Unauthorized', {
         type: 'error',
-        toastId: '404-error-toast',
+        toastId: '401-error-toast',
       });
     } else {
       toast('Something went wrong. Try again.', {

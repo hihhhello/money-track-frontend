@@ -16,7 +16,7 @@ export const NEXT_AUTH_OPTIONS: AuthOptions = {
           type: 'password',
         },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         try {
           const res = await fetch(`${process.env.SERVER_URL}/signin`, {
             method: 'POST',
@@ -46,7 +46,11 @@ export const NEXT_AUTH_OPTIONS: AuthOptions = {
             const userInfo: { email: string; id: string } =
               await userInfoResponse.json();
 
-            return { ...user, ...userInfo };
+            return {
+              accessToken: user.access_token,
+              ...userInfo,
+              id: Number(userInfo.id),
+            };
           } else {
             return null;
           }
@@ -60,10 +64,14 @@ export const NEXT_AUTH_OPTIONS: AuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user }) {
-      return { ...token, ...user };
+      if (user) {
+        token.accessToken = user.accessToken;
+        token.id = Number(user.id);
+      }
+
+      return token;
     },
-    async session({ session, token }) {
-      // @ts-ignore
+    async session({ session, token, user }) {
       session.user = token;
 
       return session;
