@@ -37,7 +37,7 @@ const AuthSignUpPage = () => {
         });
         toast.info('Please, sign in to use the app.');
 
-        router.push('/api/auth/sign-in');
+        router.push('/api/auth/signin');
       })
       .catch(() => {
         loadingToast.handleError({
