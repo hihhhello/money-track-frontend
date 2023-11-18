@@ -1,15 +1,13 @@
 'use client';
 
 import { PlusIcon } from '@/shared/ui/Icons/PlusIcon';
-import { classNames, formatToUSDCurrency } from '@/shared/utils/helpers';
+import { classNames } from '@/shared/utils/helpers';
 import { FormEvent, Fragment, useState } from 'react';
-import { format, formatISO, parseISO } from 'date-fns';
+import { formatISO } from 'date-fns';
 import { api } from '@/shared/api/api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
 import { toast } from 'react-toastify';
-import { MinusIcon } from '@/shared/ui/Icons/MinusIcon';
-import { TrashIcon } from '@/shared/ui/Icons/TrashIcon';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@/shared/ui/Icons/XMarkIcon';
 
