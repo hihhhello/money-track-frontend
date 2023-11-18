@@ -16,7 +16,7 @@ type AddNewExpenseModalProps = {
   handleClose: () => void;
 };
 
-export const AddNewExpenseModal = ({
+export const AddNewDepositModal = ({
   handleClose,
   isModalOpen,
 }: AddNewExpenseModalProps) => {
@@ -28,7 +28,7 @@ export const AddNewExpenseModal = ({
     queryFn: () =>
       api.categories.getAll({
         searchParams: {
-          type: 'expense',
+          type: 'deposit',
         },
       }),
     queryKey: ['api.categories.getAll'],
@@ -57,14 +57,14 @@ export const AddNewExpenseModal = ({
       return toast.warn('Select category.');
     }
 
-    const toastId = loadingToast.showLoading('Adding new expense...');
+    const toastId = loadingToast.showLoading('Adding new deposit...');
 
     api.transactions
       .createOne({
         body: {
           ...newTransactionFormValues,
           category_id: selectedCategoryId,
-          type: 'expense',
+          type: 'deposit',
         },
       })
       .then(() => {
@@ -73,7 +73,7 @@ export const AddNewExpenseModal = ({
         });
 
         loadingToast.handleSuccess({
-          message: 'New expense has been added.',
+          message: 'New deposit has been added.',
           toastId,
         });
 
@@ -153,7 +153,7 @@ export const AddNewExpenseModal = ({
                 as="h3"
                 className="text-base font-semibold leading-6 text-gray-900"
               >
-                Add new expense
+                Add new deposit
               </Dialog.Title>
 
               <form onSubmit={handleSubmit}>

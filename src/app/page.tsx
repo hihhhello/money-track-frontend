@@ -10,6 +10,7 @@ import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
 import { MinusIcon } from '@/shared/ui/Icons/MinusIcon';
 import { TrashIcon } from '@/shared/ui/Icons/TrashIcon';
 import { AddNewExpenseModal } from '@/features/AddNewExpenseModal';
+import { AddNewDepositModal } from '@/features/AddNewDepositModal';
 
 const HomePage = () => {
   const loadingToast = useLoadingToast();
@@ -18,6 +19,12 @@ const HomePage = () => {
     value: isAddNewExpenseModalOpen,
     setTrue: handleOpenAddNewExpenseModal,
     setFalse: handleCloseAddNewExpenseModal,
+  } = useBoolean(false);
+
+  const {
+    value: isAddNewDepositModalOpen,
+    setTrue: handleOpenAddNewDepositModal,
+    setFalse: handleCloseAddNewDepositModal,
   } = useBoolean(false);
 
   const { data: transactions, refetch: refetchTransactions } = useQuery({
@@ -62,7 +69,10 @@ const HomePage = () => {
         </div>
 
         <div className="flex w-full gap-4">
-          <button className="flex flex-1 items-center justify-center rounded-md bg-sky-600 py-4 hover:bg-sky-700">
+          <button
+            onClick={handleOpenAddNewDepositModal}
+            className="flex flex-1 items-center justify-center rounded-md bg-sky-600 py-4 hover:bg-sky-700"
+          >
             <PlusIcon className="h-10 w-10 text-white" />
           </button>
 
@@ -169,6 +179,11 @@ const HomePage = () => {
           </table>
         </div>
       </div>
+
+      <AddNewDepositModal
+        handleClose={handleCloseAddNewDepositModal}
+        isModalOpen={isAddNewDepositModalOpen}
+      />
 
       <AddNewExpenseModal
         handleClose={handleCloseAddNewExpenseModal}
