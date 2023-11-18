@@ -1,6 +1,5 @@
 import { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { toast } from 'react-toastify';
 
 export const NEXT_AUTH_OPTIONS: AuthOptions = {
   providers: [

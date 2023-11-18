@@ -37,7 +37,7 @@ axiosInstance.interceptors.response.use(
       /**
        * TODO: add refresh token logic
        */
-      // signOut();
+      signOut();
 
       toast('Unauthorized', {
         type: 'error',
