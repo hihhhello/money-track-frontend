@@ -4,10 +4,14 @@ import { FormEvent, useState } from 'react';
 
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
+import { useBoolean } from '@/shared/utils/hooks';
+import { toast } from 'react-toastify';
 
 export const SignInPageContent = () => {
   const [email, setEmail] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
+
+  const { value: isLoading, setValue: setIsLoading } = useBoolean(false);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -16,10 +20,18 @@ export const SignInPageContent = () => {
       return;
     }
 
+    setIsLoading(true);
+
     signIn('credentials', {
       username: email,
       password: password,
-    });
+    })
+      .catch(() => {
+        toast.error('Something gone wrong while signing in. Try again.');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -85,7 +97,7 @@ export const SignInPageContent = () => {
               type="submit"
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              Sign In
+              {isLoading ? 'Loading...' : 'Sign In'}
             </button>
           </div>
         </form>
