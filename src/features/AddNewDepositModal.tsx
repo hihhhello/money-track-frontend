@@ -99,6 +99,7 @@ export const AddNewDepositModal = ({
       .createOne({
         body: {
           name: newCategoryName,
+          type: 'deposit',
         },
       })
       .then((newCategory) => {

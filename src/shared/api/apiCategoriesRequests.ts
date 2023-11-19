@@ -25,7 +25,11 @@ const getAll = (
     )
     .then(({ data }) => data);
 
-const createOne = ({ body }: { body: { name: string } }) =>
+const createOne = ({
+  body,
+}: {
+  body: { name: string; type: 'deposit' | 'expense' };
+}) =>
   axiosInstance
     .post<{
       id: number;

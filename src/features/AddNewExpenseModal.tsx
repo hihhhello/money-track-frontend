@@ -99,6 +99,7 @@ export const AddNewExpenseModal = ({
       .createOne({
         body: {
           name: newCategoryName,
+          type: 'expense',
         },
       })
       .then((newCategory) => {
