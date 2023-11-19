@@ -144,7 +144,10 @@ const HomePage = () => {
             <tbody>
               {transactions?.map((transaction) => {
                 return (
-                  <tr key={transaction.id} className="bg-white">
+                  <tr
+                    key={transaction.id}
+                    className="cursor-pointer bg-white hover:bg-gray-100"
+                  >
                     <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
                       <div
                         className={classNames(
