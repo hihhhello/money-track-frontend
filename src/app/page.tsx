@@ -11,8 +11,10 @@ import { MinusIcon } from '@/shared/ui/Icons/MinusIcon';
 import { TrashIcon } from '@/shared/ui/Icons/TrashIcon';
 import { AddNewExpenseModal } from '@/features/AddNewExpenseModal';
 import { AddNewDepositModal } from '@/features/AddNewDepositModal';
+import { useRouter } from 'next/navigation';
 
 const HomePage = () => {
+  const router = useRouter();
   const loadingToast = useLoadingToast();
 
   const {
@@ -61,6 +63,10 @@ const HomePage = () => {
       .catch(() => {
         loadingToast.handleError({ toastId, message: 'Error' });
       });
+  };
+
+  const handleEditTransaction = (transactionId: number) => {
+    router.push(`/edit-transaction/${transactionId}`);
   };
 
   return (
@@ -146,6 +152,7 @@ const HomePage = () => {
                 return (
                   <tr
                     key={transaction.id}
+                    onClick={() => handleEditTransaction(transaction.id)}
                     className="cursor-pointer bg-white hover:bg-gray-100"
                   >
                     <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
