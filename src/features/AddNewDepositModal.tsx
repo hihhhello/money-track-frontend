@@ -227,6 +227,15 @@ export const AddNewDepositModal = ({
                   />
                 </div>
 
+                <div className="flex flex-col">
+                  <label htmlFor="note">Note</label>
+                  <textarea
+                    className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
+                    name="note"
+                    placeholder="Add note"
+                  />
+                </div>
+
                 <div className="absolute bottom-0 left-0 w-full p-4">
                   <button
                     type="submit"
