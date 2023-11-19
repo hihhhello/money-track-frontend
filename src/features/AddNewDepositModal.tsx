@@ -31,7 +31,7 @@ export const AddNewDepositModal = ({
           type: 'deposit',
         },
       }),
-    queryKey: ['api.categories.getAll'],
+    queryKey: ['api.categories.getAll', "type:'deposit"],
   });
 
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(

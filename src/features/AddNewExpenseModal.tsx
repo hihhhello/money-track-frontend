@@ -31,7 +31,7 @@ export const AddNewExpenseModal = ({
           type: 'expense',
         },
       }),
-    queryKey: ['api.categories.getAll'],
+    queryKey: ['api.categories.getAll', 'type:expense'],
   });
 
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
