@@ -162,7 +162,7 @@ const HomePage = () => {
 
                     <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
                       {transaction.date
-                        ? format(parseISO(transaction.date), 'dd MMMM yyyy')
+                        ? format(parseISO(transaction.date), 'EEEE, dd MMMM')
                         : '--'}
                     </td>
 
