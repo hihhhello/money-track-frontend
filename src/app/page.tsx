@@ -53,8 +53,6 @@ const HomePage = () => {
     (transactionsByDateAccumulator, transaction) => {
       const key = transaction.date ?? 'None';
 
-      console.log(transactionsByDateAccumulator);
-
       if (!transactionsByDateAccumulator[key]) {
         return {
           ...transactionsByDateAccumulator,
