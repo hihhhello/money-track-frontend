@@ -5,9 +5,9 @@ import type { Metadata } from 'next';
 import { Kanit } from 'next/font/google';
 
 import { BaseLayout } from '@/app/_ui/BaseLayout';
-import { QueryClientProvider } from '@/features/QueryClientProvider';
+import { QueryClientProvider } from '@/providers/QueryClientProvider';
 import { classNames } from '@/shared/utils/helpers';
-import { NextAuthProvider } from '@/features/NextAuthProvider';
+import { NextAuthProvider } from '@/providers/NextAuthProvider';
 import { ToastContainer } from 'react-toastify';
 
 const kanit = Kanit({
