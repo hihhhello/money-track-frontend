@@ -12,6 +12,7 @@ import { TrashIcon } from '@/shared/ui/Icons/TrashIcon';
 import { AddNewExpenseModal } from '@/features/AddNewExpenseModal';
 import { AddNewDepositModal } from '@/features/AddNewDepositModal';
 import { Disclosure } from '@headlessui/react';
+import { ChevronDownIcon } from '@/shared/ui/Icons/ChevronDownIcon';
 
 const HomePage = () => {
   const loadingToast = useLoadingToast();
@@ -163,22 +164,32 @@ const HomePage = () => {
             ([date, { transactions, totalAmount }]) => (
               <Disclosure key={date}>
                 <Disclosure.Button className="flex justify-between pr-4">
-                  <span>{format(parseISO(date), 'EEEE, dd MMMM')}</span>
+                  {({ open }) => (
+                    <>
+                      <div className="flex items-center gap-2">
+                        <ChevronDownIcon
+                          className={classNames(open && 'rotate-180')}
+                        />
 
-                  <span
-                    className={classNames(
-                      totalAmount === 0
-                        ? ''
-                        : totalAmount < 0
-                        ? 'text-red-600'
-                        : 'text-green-600',
-                    )}
-                  >
-                    {formatToUSDCurrency(totalAmount)}
-                  </span>
+                        <span>{format(parseISO(date), 'EEEE, dd MMMM')}</span>
+                      </div>
+
+                      <span
+                        className={classNames(
+                          totalAmount === 0
+                            ? ''
+                            : totalAmount < 0
+                            ? 'text-red-600'
+                            : 'text-green-600',
+                        )}
+                      >
+                        {formatToUSDCurrency(totalAmount)}
+                      </span>
+                    </>
+                  )}
                 </Disclosure.Button>
 
-                <Disclosure.Panel className="mt-4 flex flex-col gap-4 pl-4 pr-4">
+                <Disclosure.Panel className="mt-4 flex flex-col gap-4 pl-10 pr-4">
                   {transactions.map((transaction) => (
                     <div
                       key={transaction.id}

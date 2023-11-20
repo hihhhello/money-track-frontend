@@ -1,25 +1,21 @@
-import { twMerge } from 'tailwind-merge';
-
 type ChevronDownIconProps = JSX.IntrinsicElements['svg'];
 
-export const ChevronDownIcon = ({
-  className,
-  ...iconProps
-}: ChevronDownIconProps) => {
+export const ChevronDownIcon = ({ ...iconProps }: ChevronDownIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      viewBox="0 0 16 16"
-      className={twMerge('fill-none stroke-main-dark', className)}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      width="24"
+      height="24"
       {...iconProps}
     >
       <path
-        d="M4 6L8 10L12 6"
-        strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
+        d="M19.5 8.25l-7.5 7.5-7.5-7.5"
       />
     </svg>
   );
