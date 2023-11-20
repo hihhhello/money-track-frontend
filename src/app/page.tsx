@@ -158,7 +158,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="flex flex-col px-4">
+      <div className="flex flex-col gap-4 px-4">
         {transactionsByDate &&
           Object.entries(transactionsByDate).map(
             ([date, { transactions, totalAmount }]) => (
@@ -193,7 +193,7 @@ const HomePage = () => {
                   )}
                 </Disclosure.Button>
 
-                <Disclosure.Panel className="mt-4 flex flex-col gap-4 pl-10 pr-4">
+                <Disclosure.Panel className="flex flex-col gap-4 pl-10 pr-4">
                   {transactions.map((transaction) => (
                     <div
                       key={transaction.id}
