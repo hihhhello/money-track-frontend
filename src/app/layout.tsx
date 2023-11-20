@@ -9,6 +9,7 @@ import { QueryClientProvider } from '@/providers/QueryClientProvider';
 import { classNames } from '@/shared/utils/helpers';
 import { NextAuthProvider } from '@/providers/NextAuthProvider';
 import { ToastContainer } from 'react-toastify';
+import { EnvironmentProvider } from '@/providers/EnvironmentProvider';
 
 const kanit = Kanit({
   subsets: ['latin'],
@@ -33,7 +34,9 @@ export default function RootLayout({
           <NextAuthProvider>
             <ToastContainer />
 
-            <BaseLayout>{children}</BaseLayout>
+            <EnvironmentProvider>
+              <BaseLayout>{children}</BaseLayout>
+            </EnvironmentProvider>
           </NextAuthProvider>
         </QueryClientProvider>
       </body>
