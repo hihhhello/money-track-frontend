@@ -15,7 +15,7 @@ const getAll = (
         id: number;
         name: string;
         user_id: number;
-        category_name: string;
+        type: 'deposit' | 'expense';
       }>
     >(
       createUrlWithSearchParams({
