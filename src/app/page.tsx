@@ -11,6 +11,7 @@ import { MinusIcon } from '@/shared/ui/Icons/MinusIcon';
 import { TrashIcon } from '@/shared/ui/Icons/TrashIcon';
 import { AddNewExpenseModal } from '@/features/AddNewExpenseModal';
 import { AddNewDepositModal } from '@/features/AddNewDepositModal';
+import { Disclosure } from '@headlessui/react';
 
 const HomePage = () => {
   const loadingToast = useLoadingToast();
@@ -31,6 +32,64 @@ const HomePage = () => {
     queryFn: api.transactions.getAll,
     queryKey: ['api.transactions.getAll'],
   });
+
+  const transactionsByDate:
+    | {
+        [date: string]: {
+          transactions: Array<{
+            amount: string;
+            category_name: number;
+            date: string | null;
+            id: number;
+            timestamp: string;
+            type: 'expense' | 'deposit';
+            user_id: number;
+          }>;
+          totalAmount: number;
+        };
+      }
+    | undefined = transactions?.reduce(
+    (transactionsByDateAccumulator, transaction) => {
+      const key = transaction.date ?? 'None';
+
+      console.log(transactionsByDateAccumulator);
+
+      if (!transactionsByDateAccumulator[key]) {
+        return {
+          ...transactionsByDateAccumulator,
+          [key]: {
+            transactions: [transaction],
+            totalAmount:
+              transaction.type === 'deposit'
+                ? parseFloat(transaction.amount)
+                : -parseFloat(transaction.amount),
+          },
+        };
+      }
+
+      return {
+        ...transactionsByDateAccumulator,
+        [key]: {
+          transactions: [
+            ...transactionsByDateAccumulator[key].transactions,
+            transaction,
+          ],
+          totalAmount:
+            transaction.type === 'deposit'
+              ? transactionsByDateAccumulator[key].totalAmount +
+                parseFloat(transaction.amount)
+              : transactionsByDateAccumulator[key].totalAmount -
+                parseFloat(transaction.amount),
+        },
+      };
+    },
+    {} as {
+      [date: string]: {
+        transactions: any[];
+        totalAmount: number;
+      };
+    },
+  );
 
   const totalTransactionsAmount = transactions
     ? transactions.reduce((totalExpensesAccumulator, transaction) => {
@@ -65,7 +124,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <div>
+      <div className="mb-4">
         <div
           className={classNames(
             'mb-4 flex items-center justify-center rounded-md py-8 shadow',
@@ -98,99 +157,62 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="relative max-h-[calc(70vh)] overflow-y-auto">
-        <div className="relative">
-          <table className="relative min-w-full border-separate border-spacing-y-2 divide-y divide-gray-300">
-            <thead className="bg-primary-background sticky top-0 z-10">
-              <tr>
-                <th
-                  scope="col"
-                  className="text-text-dark px-3 py-3.5 text-left text-sm font-semibold"
-                >
-                  <span className="sr-only">Transaction type indicator</span>
-                </th>
+      <div className="flex flex-col px-4">
+        {transactionsByDate &&
+          Object.entries(transactionsByDate).map(
+            ([date, { transactions, totalAmount }]) => (
+              <Disclosure key={date}>
+                <Disclosure.Button className="flex justify-between pr-4">
+                  <span>{format(parseISO(date), 'EEEE, dd MMMM')}</span>
 
-                <th
-                  scope="col"
-                  className="text-text-dark focus-primary cursor-pointer px-3 py-3.5 text-left text-sm font-semibold"
-                  tabIndex={0}
-                >
-                  <div className="flex items-center">Date</div>
-                </th>
+                  <span
+                    className={classNames(
+                      totalAmount === 0
+                        ? ''
+                        : totalAmount < 0
+                        ? 'text-red-600'
+                        : 'text-green-600',
+                    )}
+                  >
+                    {formatToUSDCurrency(totalAmount)}
+                  </span>
+                </Disclosure.Button>
 
-                <th
-                  scope="col"
-                  className="text-text-dark focus-primary cursor-pointer px-3 py-3.5 text-left text-sm font-semibold"
-                >
-                  <div className="flex items-center">Amount</div>
-                </th>
-
-                <th
-                  scope="col"
-                  className="text-text-dark px-3 py-3.5 text-left text-sm font-semibold"
-                >
-                  Category
-                </th>
-
-                <th
-                  scope="col"
-                  className="py-3.5 pl-3 pr-4 text-sm font-semibold"
-                >
-                  Action
-                </th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {transactions?.map((transaction) => {
-                return (
-                  <tr key={transaction.id} className="bg-white">
-                    <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
-                      <div
-                        className={classNames(
-                          'h-2 w-2 rounded-full ring',
-                          transaction.type === 'expense'
-                            ? 'bg-red-600 ring-red-200'
-                            : 'bg-green-600 ring-green-200',
-                        )}
-                      ></div>
-
-                      <span className="sr-only">
-                        Transaction type: {transaction.type}
-                      </span>
-                    </td>
-
-                    <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
-                      {transaction.date
-                        ? format(parseISO(transaction.date), 'EEEE, dd MMMM')
-                        : '--'}
-                    </td>
-
-                    <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
-                      {formatToUSDCurrency(parseFloat(transaction.amount))}
-                    </td>
-
-                    <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
-                      {transaction.category_name}
-                    </td>
-
-                    <td className="text-text-regular whitespace-nowrap rounded-r-md px-3 py-2 pr-4 text-sm">
-                      <div className="flex justify-center gap-2">
-                        <button
-                          onClick={() =>
-                            handleDeleteTransaction(transaction.id)
-                          }
+                <Disclosure.Panel className="mt-4 flex flex-col gap-4 pl-4 pr-4">
+                  {transactions.map((transaction) => (
+                    <div
+                      key={transaction.id}
+                      className="flex items-center justify-between"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div
+                          className={classNames(
+                            'h-2 w-2 rounded-full ring',
+                            transaction.type === 'expense'
+                              ? 'bg-red-600 ring-red-200'
+                              : 'bg-green-600 ring-green-200',
+                          )}
                         >
-                          <TrashIcon className="h-5 w-5 cursor-pointer text-red-600 hover:text-red-700" />
-                        </button>
+                          {' '}
+                          <span className="sr-only">
+                            Transaction type: {transaction.type}
+                          </span>
+                        </div>
+
+                        <span>{transaction.category_name}</span>
                       </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+
+                      <div>
+                        <span>
+                          {formatToUSDCurrency(parseFloat(transaction.amount))}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </Disclosure.Panel>
+              </Disclosure>
+            ),
+          )}
       </div>
 
       <AddNewDepositModal
