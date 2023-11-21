@@ -3,8 +3,8 @@ import { createUrlWithSearchParams } from '../utils/helpers';
 import { axiosInstance } from './apiBase';
 
 const getAll = (
-  input: {
-    searchParams: {
+  input?: {
+    searchParams?: {
       type: 'deposit' | 'expense';
     };
   } & Partial<QueryFunctionContext>,

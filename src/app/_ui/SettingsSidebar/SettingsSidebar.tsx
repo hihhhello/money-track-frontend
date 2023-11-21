@@ -1,10 +1,12 @@
 'use client';
 
 import { useEnvironment } from '@/providers/EnvironmentProvider';
+import { SquaresPlusIcon } from '@/shared/ui/Icons/SquaresPlusIcon';
 import { XMarkIcon } from '@/shared/ui/Icons/XMarkIcon';
 import { Dialog, Transition } from '@headlessui/react';
 import { signOut } from 'next-auth/react';
 import { Fragment } from 'react';
+import { CategoriesDisclosure } from './ui/CategoriesDisclosure';
 
 export const SettingsSidebar = () => {
   const { settingsSidebar } = useEnvironment();
@@ -40,7 +42,7 @@ export const SettingsSidebar = () => {
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
               >
-                <Dialog.Panel className="pointer-events-auto relative w-screen max-w-xs">
+                <Dialog.Panel className="pointer-events-auto relative w-screen max-w-[250px]">
                   <Transition.Child
                     as={Fragment}
                     enter="ease-in-out duration-500"
@@ -63,15 +65,21 @@ export const SettingsSidebar = () => {
                     </div>
                   </Transition.Child>
 
-                  <div className="flex h-full flex-col justify-end overflow-y-auto bg-white py-6 shadow-xl">
-                    <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                      <div className="flex h-full flex-col justify-end">
-                        <button
-                          onClick={() => signOut()}
-                          className="w-full rounded bg-indigo-600 px-3 py-1.5 leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                        >
-                          Sign Out
-                        </button>
+                  <div className="flex h-full flex-col justify-end overflow-y-auto bg-white pb-6 shadow-xl">
+                    <div className="relative flex-1">
+                      <div className="flex h-full flex-col justify-between">
+                        <div className="flex flex-col items-center">
+                          <CategoriesDisclosure />
+                        </div>
+
+                        <div className="px-4 sm:px-6">
+                          <button
+                            onClick={() => signOut()}
+                            className="w-full rounded bg-indigo-600 px-3 py-1.5 leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                          >
+                            Sign Out
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>

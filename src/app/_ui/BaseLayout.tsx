@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { Navbar } from './Navbar';
 import { getServerSession } from 'next-auth';
 import { NEXT_AUTH_OPTIONS } from '@/shared/utils/nextAuth';
-import { SettingsSidebar } from './SettingsSidebar';
+import { SettingsSidebar } from './SettingsSidebar/SettingsSidebar';
 
 type BaseLayoutProps = {
   children: ReactNode;
