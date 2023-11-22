@@ -18,7 +18,7 @@ export const AddNewExpenseModal = ({
 
   const loadingToast = useLoadingToast();
 
-  const { data: categories, refetch: refetchCategories } = useQuery({
+  const { data: categories } = useQuery({
     queryFn: () =>
       api.categories.getAll({
         searchParams: {
@@ -59,23 +59,12 @@ export const AddNewExpenseModal = ({
       });
   };
 
-  const handleAddNewCategory = (categoryName: string) => {
-    return api.categories.createOne({
-      body: {
-        name: categoryName,
-        type: 'expense',
-      },
-    });
-  };
-
   return (
     <AddNewTransactionModal
       categories={categories}
-      handleAddNewCategory={handleAddNewCategory}
       handleAddNewTransaction={handleAddNewTransaction}
       handleClose={handleClose}
       isModalOpen={isModalOpen}
-      handleSuccessAddNewCategory={refetchCategories}
     />
   );
 };

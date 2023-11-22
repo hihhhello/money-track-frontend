@@ -1,10 +1,8 @@
 'use client';
 
-import { PlusIcon } from '@/shared/ui/Icons/PlusIcon';
 import { classNames } from '@/shared/utils/helpers';
 import { FormEvent, Fragment, useState } from 'react';
 import { formatISO } from 'date-fns';
-import { useLoadingToast } from '@/shared/utils/hooks';
 import { toast } from 'react-toastify';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@/shared/ui/Icons/XMarkIcon';
@@ -13,12 +11,6 @@ type AddNewTransactionModalProps = {
   isModalOpen: boolean;
   handleClose: () => void;
   categories: Array<{ id: number; name: string }> | undefined;
-  handleAddNewCategory: (categoryName: string) => Promise<{
-    id: number;
-    name: string;
-    user_id: number;
-  }>;
-  handleSuccessAddNewCategory?: () => void;
   handleAddNewTransaction: (newTransactionValues: {
     amount: string;
     date: string;
@@ -30,12 +22,8 @@ export const AddNewTransactionModal = ({
   handleClose,
   isModalOpen,
   categories,
-  handleAddNewCategory: propsHandleAddNewCategory,
-  handleSuccessAddNewCategory,
   handleAddNewTransaction,
 }: AddNewTransactionModalProps) => {
-  const loadingToast = useLoadingToast();
-
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null,
   );
@@ -49,8 +37,6 @@ export const AddNewTransactionModal = ({
     date: today,
     amount: '',
   });
-
-  const [newCategoryName, setNewCategoryName] = useState('');
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -69,30 +55,6 @@ export const AddNewTransactionModal = ({
       });
       handleClose();
     });
-  };
-
-  const handleAddNewCategory = () => {
-    if (!newCategoryName) {
-      return toast.warn('Category name is required.');
-    }
-
-    const toastId = loadingToast.showLoading('Adding new category...');
-
-    propsHandleAddNewCategory(newCategoryName)
-      .then((newCategory) => {
-        handleSuccessAddNewCategory?.();
-
-        loadingToast.handleSuccess({
-          message: 'New category has been added.',
-          toastId,
-        });
-
-        setSelectedCategoryId(newCategory.id);
-        setNewCategoryName('');
-      })
-      .catch(() => {
-        loadingToast.handleError({ toastId, message: 'Error' });
-      });
   };
 
   return (
@@ -166,25 +128,6 @@ export const AddNewTransactionModal = ({
                         {category.name}
                       </button>
                     ))}
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <input
-                      value={newCategoryName}
-                      onChange={(e) => setNewCategoryName(e.target.value)}
-                      name="newCategoryName"
-                      id="newCategoryName"
-                      placeholder="New Category"
-                      className="focus:ring-primary-green rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
-                    />
-
-                    <button
-                      onClick={handleAddNewCategory}
-                      type="button"
-                      className="rounded-md bg-indigo-600"
-                    >
-                      <PlusIcon className="text-white" />
-                    </button>
                   </div>
                 </div>
 
