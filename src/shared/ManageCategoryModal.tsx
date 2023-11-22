@@ -1,18 +1,21 @@
 'use client';
 
-import { FormEvent, Fragment, useState } from 'react';
+import { FormEvent, Fragment, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@/shared/ui/Icons/XMarkIcon';
 import { isEmpty } from 'lodash';
+import { TrashIcon } from './ui/Icons/TrashIcon';
+import { classNames } from './utils/helpers';
 
 type ManageCategoryModalProps = {
   isModalOpen: boolean;
   handleClose: () => void;
-  handleSubmit: (categoryName: string) => Promise<void> | undefined;
+  handleSubmit: (categoryName: string) => Promise<void> | undefined | void;
   submitButtonLabel?: string;
   title: string;
   defaultCategoryName?: string;
+  handleDelete?: () => Promise<void> | undefined | void;
 };
 
 export const ManageCategoryModal = ({
@@ -22,8 +25,13 @@ export const ManageCategoryModal = ({
   title,
   submitButtonLabel,
   defaultCategoryName,
+  handleDelete,
 }: ManageCategoryModalProps) => {
   const [categoryName, setCategoryName] = useState(defaultCategoryName ?? '');
+
+  useEffect(() => {
+    setCategoryName(defaultCategoryName ?? '');
+  }, [defaultCategoryName]);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -35,6 +43,13 @@ export const ManageCategoryModal = ({
     }
 
     propsHandleSubmit(categoryName)?.then(() => setCategoryName(''));
+  };
+
+  const handleDeleteCategory = () => {
+    handleDelete?.()?.then(() => {
+      setCategoryName('');
+      handleClose();
+    });
   };
 
   return (
@@ -63,7 +78,18 @@ export const ManageCategoryModal = ({
             leaveTo="opacity-0 scale-95"
           >
             <Dialog.Panel className="relative h-full w-full bg-white p-4 pb-20 sm:h-auto sm:max-w-sm sm:rounded">
-              <div className="flex justify-end">
+              <div
+                className={classNames(
+                  'mb-8 flex',
+                  handleDelete ? 'justify-between' : 'justify-end',
+                )}
+              >
+                {handleDelete && (
+                  <button onClick={handleDeleteCategory}>
+                    <TrashIcon className="text-red-600 hover:text-red-500" />
+                  </button>
+                )}
+
                 <button onClick={handleClose}>
                   <XMarkIcon />
                 </button>

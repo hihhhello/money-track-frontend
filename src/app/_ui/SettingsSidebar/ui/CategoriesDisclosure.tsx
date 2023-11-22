@@ -7,6 +7,7 @@ import { SquaresPlusIcon } from '@/shared/ui/Icons/SquaresPlusIcon';
 import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
 import { Disclosure, Transition } from '@headlessui/react';
 import { useQuery } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 
 export const CategoriesDisclosure = () => {
   const loadingToast = useLoadingToast();
@@ -17,9 +18,21 @@ export const CategoriesDisclosure = () => {
     setFalse: handleCloseAddNewCategoryModal,
   } = useBoolean(false);
 
+  const {
+    value: isEditCategoryModalOpen,
+    setTrue: handleOpenEditCategoryModal,
+    setFalse: handleCloseEditCategoryModal,
+  } = useBoolean(false);
+
   const [categoryTypeToAdd, setCategoryTypeToaAdd] = useState<
     null | 'deposit' | 'expense'
   >();
+  const [selectedCategory, setSelectedCategory] = useState<null | {
+    id: number;
+    name: string;
+    user_id: number;
+    type: 'deposit' | 'expense';
+  }>(null);
 
   const { data: categories, refetch: refetchCategories } = useQuery({
     queryFn: api.categories.getAll,
@@ -100,6 +113,42 @@ export const CategoriesDisclosure = () => {
       });
   };
 
+  const handleEditCategory = (categoryName: string) => {
+    toast.warn('Editing is not implemented yet.');
+
+    return;
+  };
+
+  const handleDeleteCategory = () => {
+    if (!selectedCategory) {
+      return;
+    }
+
+    const toastId = loadingToast.showLoading('Deleting your category...');
+
+    return api.categories
+      .deleteOne({
+        params: {
+          categoryId: selectedCategory?.id,
+        },
+      })
+      .then(() => {
+        refetchCategories();
+
+        loadingToast.handleSuccess({
+          toastId,
+          message: 'You successfully deleted category!',
+        });
+      })
+      .catch(() => {
+        loadingToast.handleError({
+          toastId,
+          message:
+            'Something gone wrong while deleting your category. Try again.',
+        });
+      });
+  };
+
   return (
     <>
       <Disclosure>
@@ -132,6 +181,10 @@ export const CategoriesDisclosure = () => {
                 <div className="flex flex-col">
                   {reducedCategories?.expense.map((category) => (
                     <button
+                      onClick={() => {
+                        handleOpenEditCategoryModal();
+                        setSelectedCategory(category);
+                      }}
                       className="px-4 py-2 text-left text-white hover:bg-indigo-400"
                       key={category.id}
                     >
@@ -153,6 +206,10 @@ export const CategoriesDisclosure = () => {
                 <div className="flex flex-col">
                   {reducedCategories?.deposit.map((category) => (
                     <button
+                      onClick={() => {
+                        handleOpenEditCategoryModal();
+                        setSelectedCategory(category);
+                      }}
                       className="px-4 py-2 text-left text-white hover:bg-indigo-400"
                       key={category.id}
                     >
@@ -172,6 +229,16 @@ export const CategoriesDisclosure = () => {
         isModalOpen={isAddNewCategoryModalOpen}
         title="Add new category"
         submitButtonLabel="Add"
+      />
+
+      <ManageCategoryModal
+        handleClose={handleCloseEditCategoryModal}
+        handleSubmit={handleEditCategory}
+        isModalOpen={isEditCategoryModalOpen}
+        defaultCategoryName={selectedCategory?.name}
+        title="Edit category"
+        submitButtonLabel="Edit"
+        handleDelete={handleDeleteCategory}
       />
     </>
   );

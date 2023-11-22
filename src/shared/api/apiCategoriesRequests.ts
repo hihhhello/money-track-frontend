@@ -38,7 +38,13 @@ const createOne = ({
     }>('/categories', body)
     .then(({ data }) => data);
 
+const deleteOne = ({ params }: { params: { categoryId: number } }) =>
+  axiosInstance
+    .delete(`/categories/${params.categoryId}`)
+    .then(({ data }) => data);
+
 export const apiCategoriesRequests = {
   getAll,
   createOne,
+  deleteOne,
 };
