@@ -123,19 +123,23 @@ const HomePage = () => {
       }, 0)
     : 0;
 
-  const handleDeleteTransaction = (transactionId: number) => {
-    const toastId = loadingToast.showLoading('Deleting transaction...');
+  const handleDeleteTransaction = () => {
+    if (!selectedTransaction) {
+      return;
+    }
 
-    api.transactions
+    const toastId = loadingToast.showLoading('Deleting your transaction...');
+
+    return api.transactions
       .deleteOne({
         params: {
-          transactionId,
+          transactionId: selectedTransaction.id,
         },
       })
       .then(() => {
         loadingToast.handleSuccess({
           toastId,
-          message: 'Transaction has been removed.',
+          message: 'You successfully deleted transaction.',
         });
         refetchTransactions();
       })
@@ -155,7 +159,7 @@ const HomePage = () => {
 
     const toastId = loadingToast.showLoading('Editing your transaction...');
 
-    api.transactions
+    return api.transactions
       .editOne({
         body: {
           amount: transactionValues.amount,
@@ -307,7 +311,10 @@ const HomePage = () => {
             ? depositCategories
             : expenseCategories
         }
-        handleClose={handleCloseManageTransactionModal}
+        handleClose={() => {
+          handleCloseManageTransactionModal();
+          setSelectedTransaction(null);
+        }}
         title="Edit transaction"
         submitButtonLabel="Edit"
         defaultTransactionValues={
@@ -319,6 +326,7 @@ const HomePage = () => {
               }
             : undefined
         }
+        handleDelete={handleDeleteTransaction}
       />
     </div>
   );
