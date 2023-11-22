@@ -2,9 +2,9 @@ export type Transaction = {
   amount: string;
   category: {
     id: number;
-    type: 'expense' | 'deposit';
     name: string;
   };
+  description: string | null;
   date: string;
   id: number;
   timestamp: string;

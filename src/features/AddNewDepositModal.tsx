@@ -32,6 +32,7 @@ export const AddNewDepositModal = ({
     amount: string;
     date: string;
     categoryId: number;
+    description: string | null;
   }) => {
     const toastId = loadingToast.showLoading('Adding new deposit...');
 
@@ -42,6 +43,7 @@ export const AddNewDepositModal = ({
           category_id: newTransactionValues.categoryId,
           date: newTransactionValues.date,
           type: 'deposit',
+          description: newTransactionValues.description,
         },
       })
       .then(() => {

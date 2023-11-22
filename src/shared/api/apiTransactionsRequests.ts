@@ -1,7 +1,7 @@
 import { QueryFunctionContext } from '@tanstack/react-query';
 import { axiosInstance } from './apiBase';
 import { createUrlWithSearchParams } from '../utils/helpers';
-import { Transaction } from '../types/transactionType';
+import { Transaction } from '../types/transactionTypes';
 
 const createOne = ({
   body,
@@ -11,6 +11,7 @@ const createOne = ({
     amount: string;
     category_id: number;
     date: string;
+    description?: string | null;
   };
 }) => {
   return axiosInstance.post('/transactions', body);
@@ -41,6 +42,7 @@ const editOne = ({
     amount: string;
     category_id: number;
     date: string;
+    description: string | null;
   }>;
   params: {
     transactionId: number;

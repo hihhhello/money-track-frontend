@@ -8,20 +8,24 @@ import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@/shared/ui/Icons/XMarkIcon';
 import { TrashIcon } from './Icons/TrashIcon';
 
+type TransactionValues = {
+  amount: string;
+  date: string;
+  description: string | null;
+};
+
 type ManageTransactionModalProps = {
   isModalOpen: boolean;
   handleClose: () => void;
   categories: Array<{ id: number; name: string }> | undefined;
-  handleSubmitTransactionValues: (transactionValues: {
-    amount: string;
-    date: string;
-    categoryId: number;
-  }) => Promise<void> | undefined | void;
+  handleSubmitTransactionValues: (
+    transactionValues: TransactionValues & {
+      categoryId: number;
+    },
+  ) => Promise<void> | undefined | void;
   submitButtonLabel?: string;
   title: string;
-  defaultTransactionValues?: {
-    amount: string;
-    date: string;
+  defaultTransactionValues?: TransactionValues & {
     categoryId: number;
   };
   handleDelete?: () => Promise<void> | undefined | void;
@@ -48,16 +52,16 @@ export const ManageTransactionModal = ({
     setTransactionFormValues({
       date: defaultTransactionValues?.date ?? today,
       amount: defaultTransactionValues?.amount ?? '',
+      description: defaultTransactionValues?.description ?? null,
     });
   }, [defaultTransactionValues, today]);
 
-  const [transactionFormValues, setTransactionFormValues] = useState<{
-    amount: string;
-    date: string;
-  }>({
-    date: defaultTransactionValues?.date ?? today,
-    amount: defaultTransactionValues?.amount ?? '',
-  });
+  const [transactionFormValues, setTransactionFormValues] =
+    useState<TransactionValues>({
+      date: defaultTransactionValues?.date ?? today,
+      amount: defaultTransactionValues?.amount ?? '',
+      description: defaultTransactionValues?.description ?? null,
+    });
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -73,6 +77,7 @@ export const ManageTransactionModal = ({
       setTransactionFormValues({
         amount: '',
         date: today,
+        description: null,
       });
       handleClose();
     });
@@ -84,6 +89,7 @@ export const ManageTransactionModal = ({
       setTransactionFormValues({
         date: today,
         amount: '',
+        description: null,
       });
       handleClose();
     });
@@ -193,9 +199,16 @@ export const ManageTransactionModal = ({
                 <div className="flex flex-col">
                   <label htmlFor="note">Note</label>
                   <textarea
+                    onChange={(e) => {
+                      setTransactionFormValues((prevValues) => ({
+                        ...prevValues,
+                        description: e.target.value,
+                      }));
+                    }}
+                    value={transactionFormValues.description ?? ''}
                     className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
-                    name="note"
-                    placeholder="Add note"
+                    name="description"
+                    placeholder="Add description"
                   />
                 </div>
 

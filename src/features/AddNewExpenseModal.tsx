@@ -32,6 +32,7 @@ export const AddNewExpenseModal = ({
     amount: string;
     date: string;
     categoryId: number;
+    description: string | null;
   }) => {
     const toastId = loadingToast.showLoading('Adding new expense...');
 
@@ -42,6 +43,7 @@ export const AddNewExpenseModal = ({
           category_id: newTransactionValues.categoryId,
           date: newTransactionValues.date,
           type: 'expense',
+          description: newTransactionValues.description,
         },
       })
       .then(() => {

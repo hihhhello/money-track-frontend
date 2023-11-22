@@ -14,7 +14,7 @@ import { Disclosure } from '@headlessui/react';
 import { ChevronDownIcon } from '@/shared/ui/Icons/ChevronDownIcon';
 import { ManageTransactionModal } from '@/shared/ui/ManageTransactionModal';
 import { useState } from 'react';
-import { Transaction } from '@/shared/types/transactionType';
+import { Transaction } from '@/shared/types/transactionTypes';
 
 const HomePage = () => {
   const loadingToast = useLoadingToast();
@@ -152,6 +152,7 @@ const HomePage = () => {
     amount: string;
     date: string;
     categoryId: number;
+    description: string | null;
   }) => {
     if (!selectedTransaction) {
       return;
@@ -165,6 +166,7 @@ const HomePage = () => {
           amount: transactionValues.amount,
           category_id: transactionValues.categoryId,
           date: transactionValues.date,
+          description: transactionValues.description,
         },
         params: {
           transactionId: selectedTransaction.id,
@@ -252,7 +254,7 @@ const HomePage = () => {
                   )}
                 </Disclosure.Button>
 
-                <Disclosure.Panel className="flex flex-col gap-4 pl-10 pr-4">
+                <Disclosure.Panel className="flex flex-col pr-2">
                   {transactions.map((transaction) => (
                     <button
                       onClick={() => {
@@ -260,7 +262,7 @@ const HomePage = () => {
                         handleOpenManageTransactionModal();
                       }}
                       key={transaction.id}
-                      className="flex items-center justify-between"
+                      className="flex items-center justify-between py-2 pl-10  pr-2 hover:bg-gray-200"
                     >
                       <div className="flex items-center gap-4">
                         <div
@@ -271,13 +273,18 @@ const HomePage = () => {
                               : 'bg-green-600 ring-green-200',
                           )}
                         >
-                          {' '}
                           <span className="sr-only">
                             Transaction type: {transaction.type}
                           </span>
                         </div>
 
-                        <span>{transaction.category.name}</span>
+                        <div className="flex flex-col justify-start">
+                          <span className="text-left">
+                            {transaction.category.name}
+                          </span>
+
+                          <p className="text-sm">{transaction.description}</p>
+                        </div>
                       </div>
 
                       <div>
@@ -323,6 +330,7 @@ const HomePage = () => {
                 amount: selectedTransaction.amount,
                 categoryId: selectedTransaction.category.id,
                 date: selectedTransaction.date,
+                description: selectedTransaction.description,
               }
             : undefined
         }
