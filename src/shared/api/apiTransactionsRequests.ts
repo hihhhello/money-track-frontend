@@ -1,6 +1,7 @@
 import { QueryFunctionContext } from '@tanstack/react-query';
 import { axiosInstance } from './apiBase';
 import { createUrlWithSearchParams } from '../utils/helpers';
+import { Transaction } from '../types/transactionType';
 
 const createOne = ({
   body,
@@ -24,23 +25,31 @@ const getAll = (
   } & Partial<QueryFunctionContext>,
 ) =>
   axiosInstance
-    .get<
-      Array<{
-        amount: string;
-        category_name: number;
-        date: string | null;
-        id: number;
-        timestamp: string;
-        type: 'expense' | 'deposit';
-        user_id: number;
-      }>
-    >(
+    .get<Transaction[]>(
       createUrlWithSearchParams({
         url: '/transactions',
         searchParams: input?.searchParams,
       }),
     )
     .then(({ data }) => data);
+
+const editOne = ({
+  body,
+  params,
+}: {
+  body: Partial<{
+    amount: string;
+    category_id: number;
+    date: string;
+  }>;
+  params: {
+    transactionId: number;
+  };
+}) =>
+  axiosInstance.patch<Transaction[]>(
+    `/transactions/${params.transactionId}`,
+    body,
+  );
 
 const deleteOne = ({ params }: { params: { transactionId: number } }) =>
   axiosInstance.delete(`/transactions/${params.transactionId}`);
@@ -49,4 +58,5 @@ export const apiTransactionsRequests = {
   createOne,
   getAll,
   deleteOne,
+  editOne,
 };

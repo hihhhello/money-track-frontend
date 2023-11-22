@@ -32,7 +32,7 @@ export default function RootLayout({
       <body className="h-full bg-white text-main-dark">
         <QueryClientProvider>
           <NextAuthProvider>
-            <ToastContainer />
+            <ToastContainer pauseOnFocusLoss={false} />
 
             <EnvironmentProvider>
               <BaseLayout>{children}</BaseLayout>

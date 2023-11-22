@@ -3,7 +3,7 @@
 import { api } from '@/shared/api/api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useLoadingToast } from '@/shared/utils/hooks';
-import { AddNewTransactionModal } from '@/shared/ui/AddNewTransactionModal';
+import { ManageTransactionModal } from '@/shared/ui/ManageTransactionModal';
 
 type AddNewDepositModalProps = {
   isModalOpen: boolean;
@@ -60,11 +60,13 @@ export const AddNewDepositModal = ({
   };
 
   return (
-    <AddNewTransactionModal
+    <ManageTransactionModal
       categories={categories}
-      handleAddNewTransaction={handleAddNewTransaction}
+      handleSubmitTransactionValues={handleAddNewTransaction}
       handleClose={handleClose}
       isModalOpen={isModalOpen}
+      submitButtonLabel="Add"
+      title="Add new deposit"
     />
   );
 };

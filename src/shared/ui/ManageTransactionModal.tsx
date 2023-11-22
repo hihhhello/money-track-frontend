@@ -1,41 +1,62 @@
 'use client';
 
 import { classNames } from '@/shared/utils/helpers';
-import { FormEvent, Fragment, useState } from 'react';
+import { FormEvent, Fragment, useEffect, useState } from 'react';
 import { formatISO } from 'date-fns';
 import { toast } from 'react-toastify';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@/shared/ui/Icons/XMarkIcon';
+import { TrashIcon } from './Icons/TrashIcon';
 
-type AddNewTransactionModalProps = {
+type ManageTransactionModalProps = {
   isModalOpen: boolean;
   handleClose: () => void;
   categories: Array<{ id: number; name: string }> | undefined;
-  handleAddNewTransaction: (newTransactionValues: {
+  handleSubmitTransactionValues: (transactionValues: {
     amount: string;
     date: string;
     categoryId: number;
-  }) => Promise<void>;
+  }) => Promise<void> | undefined | void;
+  submitButtonLabel?: string;
+  title: string;
+  defaultTransactionValues?: {
+    amount: string;
+    date: string;
+    categoryId: number;
+  };
+  handleDelete?: () => Promise<void> | undefined | void;
 };
 
-export const AddNewTransactionModal = ({
+export const ManageTransactionModal = ({
   handleClose,
   isModalOpen,
   categories,
-  handleAddNewTransaction,
-}: AddNewTransactionModalProps) => {
+  handleSubmitTransactionValues,
+  submitButtonLabel,
+  title,
+  defaultTransactionValues,
+  handleDelete,
+}: ManageTransactionModalProps) => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
-    null,
+    defaultTransactionValues?.categoryId ?? null,
   );
 
   const today = formatISO(new Date(), { representation: 'date' });
 
-  const [newTransactionFormValues, setNewTransactionFormValues] = useState<{
+  useEffect(() => {
+    setSelectedCategoryId(defaultTransactionValues?.categoryId ?? null);
+    setTransactionFormValues({
+      date: defaultTransactionValues?.date ?? today,
+      amount: defaultTransactionValues?.amount ?? '',
+    });
+  }, [defaultTransactionValues, today]);
+
+  const [transactionFormValues, setTransactionFormValues] = useState<{
     amount: string;
     date: string;
   }>({
-    date: today,
-    amount: '',
+    date: defaultTransactionValues?.date ?? today,
+    amount: defaultTransactionValues?.amount ?? '',
   });
 
   const handleSubmit = (e: FormEvent) => {
@@ -45,13 +66,24 @@ export const AddNewTransactionModal = ({
       return toast.warn('Select category.');
     }
 
-    handleAddNewTransaction({
-      ...newTransactionFormValues,
+    handleSubmitTransactionValues({
+      ...transactionFormValues,
       categoryId: selectedCategoryId,
-    }).then(() => {
-      setNewTransactionFormValues({
+    })?.then(() => {
+      setTransactionFormValues({
         amount: '',
         date: today,
+      });
+      handleClose();
+    });
+  };
+
+  const handleDeleteTransaction = () => {
+    handleDelete?.()?.then(() => {
+      setSelectedCategoryId(null);
+      setTransactionFormValues({
+        date: today,
+        amount: '',
       });
       handleClose();
     });
@@ -83,7 +115,18 @@ export const AddNewTransactionModal = ({
             leaveTo="opacity-0 scale-95"
           >
             <Dialog.Panel className="relative h-full w-full bg-white p-4 pb-20 sm:h-auto sm:max-w-sm sm:rounded">
-              <div className="flex justify-end">
+              <div
+                className={classNames(
+                  'mb-8 flex',
+                  handleDelete ? 'justify-between' : 'justify-end',
+                )}
+              >
+                {handleDelete && (
+                  <button onClick={handleDeleteTransaction}>
+                    <TrashIcon className="text-red-600 hover:text-red-500" />
+                  </button>
+                )}
+
                 <button onClick={handleClose}>
                   <XMarkIcon />
                 </button>
@@ -93,7 +136,7 @@ export const AddNewTransactionModal = ({
                 as="h3"
                 className="text-base font-semibold leading-6 text-gray-900"
               >
-                Add new expense
+                {title}
               </Dialog.Title>
 
               <form onSubmit={handleSubmit}>
@@ -103,9 +146,9 @@ export const AddNewTransactionModal = ({
                     className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
                     type="number"
                     name="amount"
-                    value={String(newTransactionFormValues.amount)}
+                    value={String(transactionFormValues.amount)}
                     onChange={(e) => {
-                      setNewTransactionFormValues((prevValues) => ({
+                      setTransactionFormValues((prevValues) => ({
                         ...prevValues,
                         amount: e.target.value,
                       }));
@@ -137,9 +180,9 @@ export const AddNewTransactionModal = ({
                     className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
                     name="date"
                     type="date"
-                    value={newTransactionFormValues.date}
+                    value={transactionFormValues.date}
                     onChange={(e) => {
-                      setNewTransactionFormValues((prevValues) => ({
+                      setTransactionFormValues((prevValues) => ({
                         ...prevValues,
                         date: e.target.value,
                       }));
@@ -161,7 +204,7 @@ export const AddNewTransactionModal = ({
                     type="submit"
                     className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
-                    Add
+                    {submitButtonLabel ?? 'Submit'}
                   </button>
                 </div>
               </form>
