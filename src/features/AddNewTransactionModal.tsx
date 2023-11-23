@@ -4,17 +4,35 @@ import { api } from '@/shared/api/api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useLoadingToast } from '@/shared/utils/hooks';
 import { ManageTransactionModal } from '@/shared/ui/ManageTransactionModal';
-import { FinancialOperationType } from '@/shared/types/globalTypes';
+import {
+  FinancialOperationType,
+  FinancialOperationTypeValue,
+} from '@/shared/types/globalTypes';
 
-type AddNewDepositModalProps = {
-  isModalOpen: boolean;
-  handleClose: () => void;
+const TRANSACTION_TYPE_TO_LABEL = {
+  [FinancialOperationType.DEPOSIT]: {
+    ADD_NEW_LOADING: 'Adding new deposit...',
+    ADD_SUCCESS: 'You successfully added new deposit.',
+    MODAL_TITLE: 'Add new deposit',
+  },
+  [FinancialOperationType.EXPENSE]: {
+    ADD_NEW_LOADING: 'Adding new expense...',
+    ADD_SUCCESS: 'You successfully added new expense.',
+    MODAL_TITLE: 'Add new expense',
+  },
 };
 
-export const AddNewDepositModal = ({
+type AddNewTransactionModalProps = {
+  isModalOpen: boolean;
+  handleClose: () => void;
+  transactionType: FinancialOperationTypeValue;
+};
+
+export const AddNewTransactionModal = ({
   handleClose,
   isModalOpen,
-}: AddNewDepositModalProps) => {
+  transactionType,
+}: AddNewTransactionModalProps) => {
   const queryClient = useQueryClient();
 
   const loadingToast = useLoadingToast();
@@ -23,11 +41,15 @@ export const AddNewDepositModal = ({
     queryFn: () =>
       api.categories.getAll({
         searchParams: {
-          type: FinancialOperationType.DEPOSIT,
+          type: transactionType,
         },
       }),
-    queryKey: ['api.categories.getAll', 'type:deposit'],
+    queryKey: ['api.categories.getAll', transactionType],
   });
+
+  console.log(transactionType);
+
+  console.log(categories);
 
   const handleAddNewTransaction = (newTransactionValues: {
     amount: string;
@@ -35,7 +57,9 @@ export const AddNewDepositModal = ({
     categoryId: number;
     description: string | null;
   }) => {
-    const toastId = loadingToast.showLoading('Adding new deposit...');
+    const toastId = loadingToast.showLoading(
+      TRANSACTION_TYPE_TO_LABEL[transactionType].ADD_NEW_LOADING,
+    );
 
     return api.transactions
       .createOne({
@@ -43,7 +67,7 @@ export const AddNewDepositModal = ({
           amount: newTransactionValues.amount,
           category_id: newTransactionValues.categoryId,
           date: newTransactionValues.date,
-          type: FinancialOperationType.DEPOSIT,
+          type: FinancialOperationType.EXPENSE,
           description: newTransactionValues.description,
         },
       })
@@ -53,7 +77,7 @@ export const AddNewDepositModal = ({
         });
 
         loadingToast.handleSuccess({
-          message: 'New deposit has been added.',
+          message: TRANSACTION_TYPE_TO_LABEL[transactionType].ADD_SUCCESS,
           toastId,
         });
       })
@@ -69,7 +93,7 @@ export const AddNewDepositModal = ({
       handleClose={handleClose}
       isModalOpen={isModalOpen}
       submitButtonLabel="Add"
-      title="Add new deposit"
+      title={TRANSACTION_TYPE_TO_LABEL[transactionType].ADD_NEW_LOADING}
     />
   );
 };

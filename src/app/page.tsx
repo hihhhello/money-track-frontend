@@ -8,28 +8,24 @@ import { classNames, formatToUSDCurrency } from '@/shared/utils/helpers';
 import { api } from '@/shared/api/api';
 import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
 import { MinusIcon } from '@/shared/ui/Icons/MinusIcon';
-import { AddNewExpenseModal } from '@/features/AddNewExpenseModal';
-import { AddNewDepositModal } from '@/features/AddNewDepositModal';
 import { Disclosure } from '@headlessui/react';
 import { ChevronDownIcon } from '@/shared/ui/Icons/ChevronDownIcon';
 import { ManageTransactionModal } from '@/shared/ui/ManageTransactionModal';
 import { useState } from 'react';
 import { Transaction } from '@/shared/types/transactionTypes';
-import { FinancialOperationType } from '@/shared/types/globalTypes';
+import {
+  FinancialOperationType,
+  FinancialOperationTypeValue,
+} from '@/shared/types/globalTypes';
+import { AddNewTransactionModal } from '@/features/AddNewTransactionModal';
 
 const HomePage = () => {
   const loadingToast = useLoadingToast();
 
   const {
-    value: isAddNewExpenseModalOpen,
-    setTrue: handleOpenAddNewExpenseModal,
-    setFalse: handleCloseAddNewExpenseModal,
-  } = useBoolean(false);
-
-  const {
-    value: isAddNewDepositModalOpen,
-    setTrue: handleOpenAddNewDepositModal,
-    setFalse: handleCloseAddNewDepositModal,
+    value: isAddNewTransactionModalOpen,
+    setTrue: handleOpenAddNewTransactionModal,
+    setFalse: handleCloseAddNewTransactionModal,
   } = useBoolean(false);
 
   const {
@@ -40,6 +36,9 @@ const HomePage = () => {
 
   const [selectedTransaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
+
+  const [transactionTypeToAdd, setTransactionTypeToAdd] =
+    useState<FinancialOperationTypeValue>(FinancialOperationType.EXPENSE);
 
   const { data: depositCategories } = useQuery({
     queryFn: () =>
@@ -205,14 +204,20 @@ const HomePage = () => {
 
         <div className="flex w-full gap-4">
           <button
-            onClick={handleOpenAddNewDepositModal}
+            onClick={() => {
+              handleOpenAddNewTransactionModal();
+              setTransactionTypeToAdd(FinancialOperationType.DEPOSIT);
+            }}
             className="flex flex-1 items-center justify-center rounded-md border-[6px] border-sky-600 py-4 hover:border-sky-700"
           >
             <PlusIcon className="h-16 w-16 text-sky-600" />
           </button>
 
           <button
-            onClick={handleOpenAddNewExpenseModal}
+            onClick={() => {
+              handleOpenAddNewTransactionModal();
+              setTransactionTypeToAdd(FinancialOperationType.EXPENSE);
+            }}
             className="flex flex-1 items-center justify-center rounded-md border-[6px] border-red-600 py-4 hover:border-red-700"
           >
             <MinusIcon className="h-16 w-16 text-red-600" />
@@ -301,14 +306,10 @@ const HomePage = () => {
           )}
       </div>
 
-      <AddNewDepositModal
-        handleClose={handleCloseAddNewDepositModal}
-        isModalOpen={isAddNewDepositModalOpen}
-      />
-
-      <AddNewExpenseModal
-        handleClose={handleCloseAddNewExpenseModal}
-        isModalOpen={isAddNewExpenseModalOpen}
+      <AddNewTransactionModal
+        handleClose={handleCloseAddNewTransactionModal}
+        isModalOpen={isAddNewTransactionModalOpen}
+        transactionType={transactionTypeToAdd}
       />
 
       <ManageTransactionModal
