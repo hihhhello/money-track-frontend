@@ -1,23 +1,18 @@
 import { QueryFunctionContext } from '@tanstack/react-query';
 import { createUrlWithSearchParams } from '../utils/helpers';
 import { axiosInstance } from './apiBase';
+import { Category } from '../types/categoryTypes';
+import { FinancialOperationTypeValue } from '../types/globalTypes';
 
 const getAll = (
   input?: {
     searchParams?: {
-      type: 'deposit' | 'expense';
+      type: FinancialOperationTypeValue;
     };
   } & Partial<QueryFunctionContext>,
 ) =>
   axiosInstance
-    .get<
-      Array<{
-        id: number;
-        name: string;
-        user_id: number;
-        type: 'deposit' | 'expense';
-      }>
-    >(
+    .get<Category[]>(
       createUrlWithSearchParams({
         url: '/categories',
         searchParams: input?.searchParams,
@@ -28,15 +23,9 @@ const getAll = (
 const createOne = ({
   body,
 }: {
-  body: { name: string; type: 'deposit' | 'expense' };
+  body: { name: string; type: FinancialOperationTypeValue };
 }) =>
-  axiosInstance
-    .post<{
-      id: number;
-      name: string;
-      user_id: number;
-    }>('/categories', body)
-    .then(({ data }) => data);
+  axiosInstance.post<Category>('/categories', body).then(({ data }) => data);
 
 const deleteOne = ({ params }: { params: { categoryId: number } }) =>
   axiosInstance

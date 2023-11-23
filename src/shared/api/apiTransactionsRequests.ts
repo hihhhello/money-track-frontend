@@ -2,12 +2,13 @@ import { QueryFunctionContext } from '@tanstack/react-query';
 import { axiosInstance } from './apiBase';
 import { createUrlWithSearchParams } from '../utils/helpers';
 import { Transaction } from '../types/transactionTypes';
+import { FinancialOperationTypeValue } from '../types/globalTypes';
 
 const createOne = ({
   body,
 }: {
   body: {
-    type: 'expense' | 'deposit';
+    type: FinancialOperationTypeValue;
     amount: string;
     category_id: number;
     date: string;

@@ -4,6 +4,7 @@ import { api } from '@/shared/api/api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useLoadingToast } from '@/shared/utils/hooks';
 import { ManageTransactionModal } from '@/shared/ui/ManageTransactionModal';
+import { FinancialOperationType } from '@/shared/types/globalTypes';
 
 type AddNewExpenseModalProps = {
   isModalOpen: boolean;
@@ -22,7 +23,7 @@ export const AddNewExpenseModal = ({
     queryFn: () =>
       api.categories.getAll({
         searchParams: {
-          type: 'expense',
+          type: FinancialOperationType.EXPENSE,
         },
       }),
     queryKey: ['api.categories.getAll', 'type:expense'],
@@ -42,7 +43,7 @@ export const AddNewExpenseModal = ({
           amount: newTransactionValues.amount,
           category_id: newTransactionValues.categoryId,
           date: newTransactionValues.date,
-          type: 'expense',
+          type: FinancialOperationType.EXPENSE,
           description: newTransactionValues.description,
         },
       })

@@ -4,6 +4,7 @@ import { api } from '@/shared/api/api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useLoadingToast } from '@/shared/utils/hooks';
 import { ManageTransactionModal } from '@/shared/ui/ManageTransactionModal';
+import { FinancialOperationType } from '@/shared/types/globalTypes';
 
 type AddNewDepositModalProps = {
   isModalOpen: boolean;
@@ -22,7 +23,7 @@ export const AddNewDepositModal = ({
     queryFn: () =>
       api.categories.getAll({
         searchParams: {
-          type: 'deposit',
+          type: FinancialOperationType.DEPOSIT,
         },
       }),
     queryKey: ['api.categories.getAll', 'type:deposit'],
@@ -42,7 +43,7 @@ export const AddNewDepositModal = ({
           amount: newTransactionValues.amount,
           category_id: newTransactionValues.categoryId,
           date: newTransactionValues.date,
-          type: 'deposit',
+          type: FinancialOperationType.DEPOSIT,
           description: newTransactionValues.description,
         },
       })

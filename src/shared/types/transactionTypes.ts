@@ -1,3 +1,5 @@
+import { FinancialOperationTypeValue } from './globalTypes';
+
 export type Transaction = {
   amount: string;
   category: {
@@ -8,6 +10,6 @@ export type Transaction = {
   date: string;
   id: number;
   timestamp: string;
-  type: 'expense' | 'deposit';
+  type: FinancialOperationTypeValue;
   user_id: number;
 };

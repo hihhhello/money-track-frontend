@@ -15,6 +15,7 @@ import { ChevronDownIcon } from '@/shared/ui/Icons/ChevronDownIcon';
 import { ManageTransactionModal } from '@/shared/ui/ManageTransactionModal';
 import { useState } from 'react';
 import { Transaction } from '@/shared/types/transactionTypes';
+import { FinancialOperationType } from '@/shared/types/globalTypes';
 
 const HomePage = () => {
   const loadingToast = useLoadingToast();
@@ -44,7 +45,7 @@ const HomePage = () => {
     queryFn: () =>
       api.categories.getAll({
         searchParams: {
-          type: 'deposit',
+          type: FinancialOperationType.DEPOSIT,
         },
       }),
     queryKey: ['api.categories.getAll', 'type:deposit'],
@@ -54,7 +55,7 @@ const HomePage = () => {
     queryFn: () =>
       api.categories.getAll({
         searchParams: {
-          type: 'deposit',
+          type: FinancialOperationType.EXPENSE,
         },
       }),
     queryKey: ['api.categories.getAll', 'type:expense'],
@@ -82,7 +83,7 @@ const HomePage = () => {
           [key]: {
             transactions: [transaction],
             totalAmount:
-              transaction.type === 'deposit'
+              transaction.type === FinancialOperationType.DEPOSIT
                 ? parseFloat(transaction.amount)
                 : -parseFloat(transaction.amount),
           },
@@ -97,7 +98,7 @@ const HomePage = () => {
             transaction,
           ],
           totalAmount:
-            transaction.type === 'deposit'
+            transaction.type === FinancialOperationType.DEPOSIT
               ? transactionsByDateAccumulator[key].totalAmount +
                 parseFloat(transaction.amount)
               : transactionsByDateAccumulator[key].totalAmount -
@@ -115,7 +116,7 @@ const HomePage = () => {
 
   const totalTransactionsAmount = transactions
     ? transactions.reduce((totalExpensesAccumulator, transaction) => {
-        if (transaction.type === 'deposit') {
+        if (transaction.type === FinancialOperationType.DEPOSIT) {
           return totalExpensesAccumulator + parseFloat(transaction.amount);
         }
 
@@ -268,7 +269,7 @@ const HomePage = () => {
                         <div
                           className={classNames(
                             'h-2 w-2 rounded-full ring',
-                            transaction.type === 'expense'
+                            transaction.type === FinancialOperationType.EXPENSE
                               ? 'bg-red-600 ring-red-200'
                               : 'bg-green-600 ring-green-200',
                           )}
@@ -314,7 +315,7 @@ const HomePage = () => {
         isModalOpen={isManageTransactionModalOpen}
         handleSubmitTransactionValues={handleEditTransaction}
         categories={
-          selectedTransaction?.type === 'deposit'
+          selectedTransaction?.type === FinancialOperationType.DEPOSIT
             ? depositCategories
             : expenseCategories
         }

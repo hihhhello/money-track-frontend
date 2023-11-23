@@ -8,6 +8,11 @@ import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
 import { Disclosure, Transition } from '@headlessui/react';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
+import { Category } from '@/shared/types/categoryTypes';
+import {
+  FinancialOperationType,
+  FinancialOperationTypeValue,
+} from '@/shared/types/globalTypes';
 
 export const CategoriesDisclosure = () => {
   const loadingToast = useLoadingToast();
@@ -24,15 +29,11 @@ export const CategoriesDisclosure = () => {
     setFalse: handleCloseEditCategoryModal,
   } = useBoolean(false);
 
-  const [categoryTypeToAdd, setCategoryTypeToaAdd] = useState<
-    null | 'deposit' | 'expense'
-  >();
-  const [selectedCategory, setSelectedCategory] = useState<null | {
-    id: number;
-    name: string;
-    user_id: number;
-    type: 'deposit' | 'expense';
-  }>(null);
+  const [categoryTypeToAdd, setCategoryTypeToaAdd] =
+    useState<null | FinancialOperationTypeValue>();
+  const [selectedCategory, setSelectedCategory] = useState<null | Category>(
+    null,
+  );
 
   const { data: categories, refetch: refetchCategories } = useQuery({
     queryFn: api.categories.getAll,
@@ -41,9 +42,9 @@ export const CategoriesDisclosure = () => {
 
   const reducedCategories = useMemo(
     () =>
-      categories?.reduce(
+      categories?.reduce<{ deposit: Category[]; expense: Category[] }>(
         (categoriesAccumulator, category) => {
-          if (category.type === 'deposit') {
+          if (category.type === FinancialOperationType.DEPOSIT) {
             return {
               ...categoriesAccumulator,
               deposit: [...categoriesAccumulator.deposit, category],
@@ -55,30 +56,20 @@ export const CategoriesDisclosure = () => {
             };
         },
         {
-          deposit: [] as Array<{
-            id: number;
-            name: string;
-            user_id: number;
-            type: 'deposit' | 'expense';
-          }>,
-          expense: [] as Array<{
-            id: number;
-            name: string;
-            user_id: number;
-            type: 'deposit' | 'expense';
-          }>,
+          deposit: [],
+          expense: [],
         },
       ),
     [categories],
   );
 
   const handleAddNewExpenseCategory = () => {
-    setCategoryTypeToaAdd('expense');
+    setCategoryTypeToaAdd(FinancialOperationType.EXPENSE);
     handleOpenAddNewCategoryModal();
   };
 
   const handleAddNewDepositCategory = () => {
-    setCategoryTypeToaAdd('deposit');
+    setCategoryTypeToaAdd(FinancialOperationType.DEPOSIT);
     handleOpenAddNewCategoryModal();
   };
 
