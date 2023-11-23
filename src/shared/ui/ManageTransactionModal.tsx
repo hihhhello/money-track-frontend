@@ -164,7 +164,7 @@ export const ManageTransactionModal = ({
                 </div>
 
                 <div className="mb-4">
-                  <div className="mb-2 flex max-h-48 flex-wrap gap-4 overflow-y-auto">
+                  <div className="mb-2 flex flex-wrap gap-4">
                     {categories?.map((category) => (
                       <button
                         key={category.id}
