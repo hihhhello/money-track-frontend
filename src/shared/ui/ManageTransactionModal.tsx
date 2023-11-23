@@ -121,7 +121,7 @@ export const ManageTransactionModal = ({
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <Dialog.Panel className="relative h-full w-full bg-white p-4 pb-20 sm:h-auto sm:max-w-sm sm:rounded">
+            <Dialog.Panel className="relative h-full w-full overflow-y-auto bg-white p-4 sm:max-w-sm sm:rounded">
               <div
                 className={classNames(
                   'mb-8 flex',
@@ -164,7 +164,7 @@ export const ManageTransactionModal = ({
                 </div>
 
                 <div className="mb-4">
-                  <div className="mb-2 flex max-h-48 flex-wrap gap-4 overflow-y-auto">
+                  <div className="mb-2 flex flex-wrap gap-4">
                     {categories?.map((category) => (
                       <button
                         key={category.id}
@@ -197,7 +197,7 @@ export const ManageTransactionModal = ({
                   />
                 </div>
 
-                <div className="flex flex-col">
+                <div className="mb-4 flex flex-col">
                   <label htmlFor="note">Note</label>
                   <textarea
                     onChange={(e) => {
@@ -213,14 +213,12 @@ export const ManageTransactionModal = ({
                   />
                 </div>
 
-                <div className="absolute bottom-0 left-0 w-full p-4">
-                  <button
-                    type="submit"
-                    className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  >
-                    {submitButtonLabel ?? 'Submit'}
-                  </button>
-                </div>
+                <button
+                  type="submit"
+                  className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  {submitButtonLabel ?? 'Submit'}
+                </button>
               </form>
             </Dialog.Panel>
           </Transition.Child>
