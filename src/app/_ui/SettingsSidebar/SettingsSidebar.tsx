@@ -9,6 +9,7 @@ import { Fragment } from 'react';
 import { CategoriesDisclosure } from './ui/CategoriesDisclosure';
 import Link from 'next/link';
 import { RecurrentTransactionIcon } from '@/shared/ui/Icons/RecurrentTransactionIcon';
+import { PieChartIcon } from '@/shared/ui/Icons/PieChartIcon';
 
 export const SettingsSidebar = () => {
   const { settingsSidebar } = useEnvironment();
@@ -71,6 +72,16 @@ export const SettingsSidebar = () => {
                     <div className="relative flex-1">
                       <div className="flex h-full flex-col justify-between">
                         <div className="flex flex-col items-center">
+                          <Link
+                            onClick={settingsSidebar.handleClose}
+                            href="/"
+                            className="flex w-full flex-col items-center py-4 hover:bg-gray-200"
+                          >
+                            <PieChartIcon className="h-12 w-12 text-indigo-600" />
+
+                            <span>Dashboard</span>
+                          </Link>
+
                           {/* TODO: move to a separate page and make this as a button link */}
                           <CategoriesDisclosure />
 
