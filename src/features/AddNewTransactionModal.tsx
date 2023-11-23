@@ -63,7 +63,7 @@ export const AddNewTransactionModal = ({
           amount: newTransactionValues.amount,
           category_id: newTransactionValues.categoryId,
           date: newTransactionValues.date,
-          type: FinancialOperationType.EXPENSE,
+          type: transactionType,
           description: newTransactionValues.description,
         },
       })
