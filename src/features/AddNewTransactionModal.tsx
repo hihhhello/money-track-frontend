@@ -89,7 +89,7 @@ export const AddNewTransactionModal = ({
       handleClose={handleClose}
       isModalOpen={isModalOpen}
       submitButtonLabel="Add"
-      title={TRANSACTION_TYPE_TO_LABEL[transactionType].ADD_NEW_LOADING}
+      title={TRANSACTION_TYPE_TO_LABEL[transactionType].MODAL_TITLE}
     />
   );
 };
