@@ -79,6 +79,7 @@ export const ManageTransactionModal = ({
         date: today,
         description: null,
       });
+      setSelectedCategoryId(null);
       handleClose();
     });
   };
