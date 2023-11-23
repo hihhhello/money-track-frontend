@@ -1,15 +1,30 @@
 'use client';
 
+import { AddNewRecurrentTransactionModal } from '@/features/AddNewRecurrentTransactionModal';
 import { api } from '@/shared/api/api';
-import { FinancialOperationType } from '@/shared/types/globalTypes';
+import {
+  FinancialOperationType,
+  FinancialOperationTypeValue,
+} from '@/shared/types/globalTypes';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
 import { ChevronDownIcon } from '@/shared/ui/Icons/ChevronDownIcon';
 import { classNames, formatToUSDCurrency } from '@/shared/utils/helpers';
+import { useBoolean } from '@/shared/utils/hooks';
 import { Disclosure } from '@headlessui/react';
 import { useQuery } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
+import { useState } from 'react';
 
 const ManageRecurrentTransactionsPage = () => {
+  const {
+    value: isAddNewRecurrentTransactionModalOpen,
+    setTrue: handleOpenAddNewRecurrentTransactionModal,
+    setFalse: handleCloseAddNewRecurrentTransactionModal,
+  } = useBoolean(false);
+
+  const [transactionTypeToAdd, setTransactionTypeToAdd] =
+    useState<FinancialOperationTypeValue>(FinancialOperationType.EXPENSE);
+
   const { data: recurrentTransactions, refetch: refetchRecurrentTransactions } =
     useQuery({
       queryFn: api.recurrentTransactions.getAll,
@@ -68,12 +83,24 @@ const ManageRecurrentTransactionsPage = () => {
     <div>
       <h1>Recurrent transactions</h1>
 
-      <div className="flex gap-4">
-        <button className="rounded bg-indigo-600 px-3 py-1.5 leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+      <div className="mb-4 flex gap-4">
+        <button
+          onClick={() => {
+            handleOpenAddNewRecurrentTransactionModal();
+            setTransactionTypeToAdd(FinancialOperationType.DEPOSIT);
+          }}
+          className="rounded bg-indigo-600 px-3 py-1.5 leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        >
           Add recurrent deposit
         </button>
 
-        <button className="rounded bg-indigo-600 px-3 py-1.5 leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+        <button
+          onClick={() => {
+            handleOpenAddNewRecurrentTransactionModal();
+            setTransactionTypeToAdd(FinancialOperationType.EXPENSE);
+          }}
+          className="rounded bg-indigo-600 px-3 py-1.5 leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        >
           Add recurrent expense
         </button>
       </div>
@@ -158,6 +185,12 @@ const ManageRecurrentTransactionsPage = () => {
             ),
           )}
       </div>
+
+      <AddNewRecurrentTransactionModal
+        handleClose={handleCloseAddNewRecurrentTransactionModal}
+        isModalOpen={isAddNewRecurrentTransactionModalOpen}
+        recurrentTransactionType={transactionTypeToAdd}
+      />
     </div>
   );
 };
