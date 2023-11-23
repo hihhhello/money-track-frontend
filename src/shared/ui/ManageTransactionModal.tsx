@@ -18,14 +18,14 @@ type ManageTransactionModalProps = {
   isModalOpen: boolean;
   handleClose: () => void;
   categories: Array<{ id: number; name: string }> | undefined;
-  handleSubmitTransactionValues: (
+  handleSubmit: (
     transactionValues: TransactionValues & {
       categoryId: number;
     },
   ) => Promise<void> | undefined | void;
   submitButtonLabel?: string;
   title: string;
-  defaultTransactionValues?: TransactionValues & {
+  defaultValues?: TransactionValues & {
     categoryId: number;
   };
   handleDelete?: () => Promise<void> | undefined | void;
@@ -35,32 +35,32 @@ export const ManageTransactionModal = ({
   handleClose,
   isModalOpen,
   categories,
-  handleSubmitTransactionValues,
+  handleSubmit: propsHandleSubmit,
   submitButtonLabel,
   title,
-  defaultTransactionValues,
+  defaultValues: defaultValues,
   handleDelete,
 }: ManageTransactionModalProps) => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
-    defaultTransactionValues?.categoryId ?? null,
+    defaultValues?.categoryId ?? null,
   );
 
   const today = formatISO(new Date(), { representation: 'date' });
 
   useEffect(() => {
-    setSelectedCategoryId(defaultTransactionValues?.categoryId ?? null);
+    setSelectedCategoryId(defaultValues?.categoryId ?? null);
     setTransactionFormValues({
-      date: defaultTransactionValues?.date ?? today,
-      amount: defaultTransactionValues?.amount ?? '',
-      description: defaultTransactionValues?.description ?? null,
+      date: defaultValues?.date ?? today,
+      amount: defaultValues?.amount ?? '',
+      description: defaultValues?.description ?? null,
     });
-  }, [defaultTransactionValues, today]);
+  }, [defaultValues, today]);
 
   const [transactionFormValues, setTransactionFormValues] =
     useState<TransactionValues>({
-      date: defaultTransactionValues?.date ?? today,
-      amount: defaultTransactionValues?.amount ?? '',
-      description: defaultTransactionValues?.description ?? null,
+      date: defaultValues?.date ?? today,
+      amount: defaultValues?.amount ?? '',
+      description: defaultValues?.description ?? null,
     });
 
   const handleSubmit = (e: FormEvent) => {
@@ -70,7 +70,7 @@ export const ManageTransactionModal = ({
       return toast.warn('Select category.');
     }
 
-    handleSubmitTransactionValues({
+    propsHandleSubmit({
       ...transactionFormValues,
       categoryId: selectedCategoryId,
     })?.then(() => {

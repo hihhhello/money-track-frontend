@@ -6,11 +6,10 @@ import { format, parseISO } from 'date-fns';
 import { PlusIcon } from '@/shared/ui/Icons/PlusIcon';
 import { classNames, formatToUSDCurrency } from '@/shared/utils/helpers';
 import { api } from '@/shared/api/api';
-import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
+import { useBoolean } from '@/shared/utils/hooks';
 import { MinusIcon } from '@/shared/ui/Icons/MinusIcon';
 import { Disclosure } from '@headlessui/react';
 import { ChevronDownIcon } from '@/shared/ui/Icons/ChevronDownIcon';
-import { ManageTransactionModal } from '@/shared/ui/ManageTransactionModal';
 import { useState } from 'react';
 import { Transaction } from '@/shared/types/transactionTypes';
 import {
@@ -18,10 +17,9 @@ import {
   FinancialOperationTypeValue,
 } from '@/shared/types/globalTypes';
 import { AddNewTransactionModal } from '@/features/AddNewTransactionModal';
+import { EditTransactionModal } from '@/features/EditTransactionModal';
 
 const HomePage = () => {
-  const loadingToast = useLoadingToast();
-
   const {
     value: isAddNewTransactionModalOpen,
     setTrue: handleOpenAddNewTransactionModal,
@@ -40,27 +38,7 @@ const HomePage = () => {
   const [transactionTypeToAdd, setTransactionTypeToAdd] =
     useState<FinancialOperationTypeValue>(FinancialOperationType.EXPENSE);
 
-  const { data: depositCategories } = useQuery({
-    queryFn: () =>
-      api.categories.getAll({
-        searchParams: {
-          type: FinancialOperationType.DEPOSIT,
-        },
-      }),
-    queryKey: ['api.categories.getAll', 'type:deposit'],
-  });
-
-  const { data: expenseCategories } = useQuery({
-    queryFn: () =>
-      api.categories.getAll({
-        searchParams: {
-          type: FinancialOperationType.EXPENSE,
-        },
-      }),
-    queryKey: ['api.categories.getAll', 'type:expense'],
-  });
-
-  const { data: transactions, refetch: refetchTransactions } = useQuery({
+  const { data: transactions } = useQuery({
     queryFn: api.transactions.getAll,
     queryKey: ['api.transactions.getAll'],
   });
@@ -122,67 +100,6 @@ const HomePage = () => {
         return totalExpensesAccumulator - parseFloat(transaction.amount);
       }, 0)
     : 0;
-
-  const handleDeleteTransaction = () => {
-    if (!selectedTransaction) {
-      return;
-    }
-
-    const toastId = loadingToast.showLoading('Deleting your transaction...');
-
-    return api.transactions
-      .deleteOne({
-        params: {
-          transactionId: selectedTransaction.id,
-        },
-      })
-      .then(() => {
-        loadingToast.handleSuccess({
-          toastId,
-          message: 'You successfully deleted transaction.',
-        });
-        refetchTransactions();
-      })
-      .catch(() => {
-        loadingToast.handleError({ toastId, message: 'Error' });
-      });
-  };
-
-  const handleEditTransaction = (transactionValues: {
-    amount: string;
-    date: string;
-    categoryId: number;
-    description: string | null;
-  }) => {
-    if (!selectedTransaction) {
-      return;
-    }
-
-    const toastId = loadingToast.showLoading('Editing your transaction...');
-
-    return api.transactions
-      .editOne({
-        body: {
-          amount: transactionValues.amount,
-          category_id: transactionValues.categoryId,
-          date: transactionValues.date,
-          description: transactionValues.description,
-        },
-        params: {
-          transactionId: selectedTransaction.id,
-        },
-      })
-      .then(() => {
-        loadingToast.handleSuccess({
-          toastId,
-          message: 'You successfully edited transaction.',
-        });
-        refetchTransactions();
-      })
-      .catch(() => {
-        loadingToast.handleError({ toastId, message: 'Error' });
-      });
-  };
 
   return (
     <div>
@@ -312,31 +229,13 @@ const HomePage = () => {
         transactionType={transactionTypeToAdd}
       />
 
-      <ManageTransactionModal
+      <EditTransactionModal
         isModalOpen={isManageTransactionModalOpen}
-        handleSubmitTransactionValues={handleEditTransaction}
-        categories={
-          selectedTransaction?.type === FinancialOperationType.DEPOSIT
-            ? depositCategories
-            : expenseCategories
-        }
         handleClose={() => {
           handleCloseManageTransactionModal();
           setSelectedTransaction(null);
         }}
-        title="Edit transaction"
-        submitButtonLabel="Edit"
-        defaultTransactionValues={
-          selectedTransaction
-            ? {
-                amount: selectedTransaction.amount,
-                categoryId: selectedTransaction.category.id,
-                date: selectedTransaction.date,
-                description: selectedTransaction.description,
-              }
-            : undefined
-        }
-        handleDelete={handleDeleteTransaction}
+        selectedTransaction={selectedTransaction}
       />
     </div>
   );

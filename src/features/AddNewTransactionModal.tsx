@@ -85,7 +85,7 @@ export const AddNewTransactionModal = ({
   return (
     <ManageTransactionModal
       categories={categories}
-      handleSubmitTransactionValues={handleAddNewTransaction}
+      handleSubmit={handleAddNewTransaction}
       handleClose={handleClose}
       isModalOpen={isModalOpen}
       submitButtonLabel="Add"
