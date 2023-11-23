@@ -47,10 +47,6 @@ export const AddNewTransactionModal = ({
     queryKey: ['api.categories.getAll', transactionType],
   });
 
-  console.log(transactionType);
-
-  console.log(categories);
-
   const handleAddNewTransaction = (newTransactionValues: {
     amount: string;
     date: string;
