@@ -7,6 +7,8 @@ import { Dialog, Transition } from '@headlessui/react';
 import { signOut } from 'next-auth/react';
 import { Fragment } from 'react';
 import { CategoriesDisclosure } from './ui/CategoriesDisclosure';
+import Link from 'next/link';
+import { RecurrentTransactionIcon } from '@/shared/ui/Icons/RecurrentTransactionIcon';
 
 export const SettingsSidebar = () => {
   const { settingsSidebar } = useEnvironment();
@@ -69,7 +71,18 @@ export const SettingsSidebar = () => {
                     <div className="relative flex-1">
                       <div className="flex h-full flex-col justify-between">
                         <div className="flex flex-col items-center">
+                          {/* TODO: move to a separate page and make this as a button link */}
                           <CategoriesDisclosure />
+
+                          <Link
+                            onClick={settingsSidebar.handleClose}
+                            href="/manage-recurrent-transactions"
+                            className="flex w-full flex-col items-center py-4 hover:bg-gray-200"
+                          >
+                            <RecurrentTransactionIcon className="h-12 w-12 text-indigo-600" />
+
+                            <span>Recurrent Transactions</span>
+                          </Link>
                         </div>
 
                         <div className="px-4 sm:px-6">

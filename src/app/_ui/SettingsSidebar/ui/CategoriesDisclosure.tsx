@@ -143,7 +143,7 @@ export const CategoriesDisclosure = () => {
   return (
     <>
       <Disclosure>
-        <Disclosure.Button className="flex w-full flex-col items-center py-4">
+        <Disclosure.Button className="flex w-full flex-col items-center py-4 hover:bg-gray-200">
           <SquaresPlusIcon className="h-12 w-12 text-indigo-600" />
 
           <span>Categories</span>
