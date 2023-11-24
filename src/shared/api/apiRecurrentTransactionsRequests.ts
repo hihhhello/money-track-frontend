@@ -41,24 +41,27 @@ const getAll = (
     )
     .then(({ data }) => data);
 
-// const editOne = ({
-//   body,
-//   params,
-// }: {
-//   body: Partial<{
-//     amount: string;
-//     category_id: number;
-//     date: string;
-//     description: string | null;
-//   }>;
-//   params: {
-//     transactionId: number;
-//   };
-// }) =>
-//   axiosInstance.patch<Transaction[]>(
-//     `/recurrent_transactions/${params.transactionId}`,
-//     body,
-//   );
+const editOne = ({
+  body,
+  params,
+}: {
+  body: Partial<{
+    amount: string;
+    category_id: number;
+    description: string | null;
+    frequency: RecurrentTransactionFrequencyValue;
+    start_date: string | null;
+    end_date: string | null;
+    next_transaction: string | null;
+  }>;
+  params: {
+    transactionId: number;
+  };
+}) =>
+  axiosInstance.patch<Transaction[]>(
+    `/recurrent_transactions/${params.transactionId}`,
+    body,
+  );
 
 // const deleteOne = ({ params }: { params: { transactionId: number } }) =>
 //   axiosInstance.delete(`/recurrent_transactions/${params.transactionId}`);
@@ -67,5 +70,5 @@ export const apiRecurrentTransactionsRequests = {
   createOne,
   getAll,
   // deleteOne,
-  // editOne,
+  editOne,
 };

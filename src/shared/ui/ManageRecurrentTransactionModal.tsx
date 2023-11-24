@@ -18,7 +18,7 @@ type RecurrentTransactionValues = {
   amount: string;
   frequency: RecurrentTransactionFrequencyValue;
   description: string | null;
-  start_date: string;
+  start_date: string | null;
   end_date: string | null;
 };
 
@@ -205,7 +205,7 @@ export const ManageRecurrentTransactionModal = ({
                     className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
                     name="date"
                     type="date"
-                    value={transactionFormValues.start_date}
+                    value={transactionFormValues.start_date ?? ''}
                     onChange={(e) => {
                       setTransactionFormValues((prevValues) => ({
                         ...prevValues,

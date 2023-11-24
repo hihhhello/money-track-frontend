@@ -27,9 +27,9 @@ const HomePage = () => {
   } = useBoolean(false);
 
   const {
-    value: isManageTransactionModalOpen,
-    setTrue: handleOpenManageTransactionModal,
-    setFalse: handleCloseManageTransactionModal,
+    value: isEditTransactionModalOpen,
+    setTrue: handleOpenEditTransactionModal,
+    setFalse: handleCloseEditTransactionModal,
   } = useBoolean(false);
 
   const [selectedTransaction, setSelectedTransaction] =
@@ -182,7 +182,7 @@ const HomePage = () => {
                     <button
                       onClick={() => {
                         setSelectedTransaction(transaction);
-                        handleOpenManageTransactionModal();
+                        handleOpenEditTransactionModal();
                       }}
                       key={transaction.id}
                       className="flex items-center justify-between py-2 pl-10  pr-2 hover:bg-gray-200"
@@ -230,9 +230,9 @@ const HomePage = () => {
       />
 
       <EditTransactionModal
-        isModalOpen={isManageTransactionModalOpen}
+        isModalOpen={isEditTransactionModalOpen}
         handleClose={() => {
-          handleCloseManageTransactionModal();
+          handleCloseEditTransactionModal();
           setSelectedTransaction(null);
         }}
         selectedTransaction={selectedTransaction}

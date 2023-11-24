@@ -1,6 +1,7 @@
 'use client';
 
 import { AddNewRecurrentTransactionModal } from '@/features/AddNewRecurrentTransactionModal';
+import { EditRecurrentTransactionModal } from '@/features/EditRecurrentTransactionModal';
 import { api } from '@/shared/api/api';
 import {
   FinancialOperationType,
@@ -22,14 +23,22 @@ const ManageRecurrentTransactionsPage = () => {
     setFalse: handleCloseAddNewRecurrentTransactionModal,
   } = useBoolean(false);
 
+  const {
+    value: isEditTransactionModalOpen,
+    setTrue: handleOpenEditTransactionModal,
+    setFalse: handleCloseEditTransactionModal,
+  } = useBoolean(false);
+
+  const [selectedRecurrentTransaction, setSelectedRecurrentTransaction] =
+    useState<RecurrentTransaction | null>(null);
+
   const [transactionTypeToAdd, setTransactionTypeToAdd] =
     useState<FinancialOperationTypeValue>(FinancialOperationType.EXPENSE);
 
-  const { data: recurrentTransactions, refetch: refetchRecurrentTransactions } =
-    useQuery({
-      queryFn: api.recurrentTransactions.getAll,
-      queryKey: ['api.recurrentTransactions.getAll'],
-    });
+  const { data: recurrentTransactions } = useQuery({
+    queryFn: api.recurrentTransactions.getAll,
+    queryKey: ['api.recurrentTransactions.getAll'],
+  });
 
   const recurrentTransactionsByDate:
     | {
@@ -144,8 +153,8 @@ const ManageRecurrentTransactionsPage = () => {
                   {transactions.map((transaction) => (
                     <button
                       onClick={() => {
-                        // setSelectedTransaction(transaction);
-                        // handleOpenManageTransactionModal();
+                        setSelectedRecurrentTransaction(transaction);
+                        handleOpenEditTransactionModal();
                       }}
                       key={transaction.id}
                       className="flex items-center justify-between py-2 pl-10  pr-2 hover:bg-gray-200"
@@ -190,6 +199,12 @@ const ManageRecurrentTransactionsPage = () => {
         handleClose={handleCloseAddNewRecurrentTransactionModal}
         isModalOpen={isAddNewRecurrentTransactionModalOpen}
         recurrentTransactionType={transactionTypeToAdd}
+      />
+
+      <EditRecurrentTransactionModal
+        handleClose={handleCloseEditTransactionModal}
+        isModalOpen={isEditTransactionModalOpen}
+        selectedRecurrentTransaction={selectedRecurrentTransaction}
       />
     </div>
   );
