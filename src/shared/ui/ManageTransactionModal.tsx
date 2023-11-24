@@ -121,7 +121,7 @@ export const ManageTransactionModal = ({
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <Dialog.Panel className="relative h-full w-full overflow-y-auto bg-white p-4 sm:max-w-sm sm:rounded">
+            <Dialog.Panel className="relative h-full w-full overflow-y-auto bg-white p-4 sm:max-w-5xl sm:rounded">
               <div
                 className={classNames(
                   'mb-8 flex',
