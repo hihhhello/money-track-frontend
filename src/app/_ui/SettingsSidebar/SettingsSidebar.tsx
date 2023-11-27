@@ -82,8 +82,15 @@ export const SettingsSidebar = () => {
                             <span>Dashboard</span>
                           </Link>
 
-                          {/* TODO: move to a separate page and make this as a button link */}
-                          <CategoriesDisclosure />
+                          <Link
+                            onClick={settingsSidebar.handleClose}
+                            href="/categories"
+                            className="flex w-full flex-col items-center py-4 hover:bg-gray-200"
+                          >
+                            <SquaresPlusIcon className="h-12 w-12 text-indigo-600" />
+
+                            <span>Categories</span>
+                          </Link>
 
                           <Link
                             onClick={settingsSidebar.handleClose}
