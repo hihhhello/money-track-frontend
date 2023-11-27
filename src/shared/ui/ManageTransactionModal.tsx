@@ -120,7 +120,7 @@ export const ManageTransactionModal = ({
             leaveTo="opacity-0 scale-95"
           >
             <Dialog.Panel className="relative flex h-full w-full flex-col bg-white sm:max-h-[550px] sm:max-w-5xl sm:rounded">
-              <div className="z-10 p-4 shadow-md">
+              <div className="z-10 border-b-2 p-4">
                 <div
                   className={classNames(
                     'flex',
@@ -218,7 +218,7 @@ export const ManageTransactionModal = ({
                 </div>
               </div>
 
-              <div className="z-10 p-4 shadow-md-top">
+              <div className="z-10 border-t-2  p-4">
                 <button
                   onClick={handleSubmit}
                   className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
