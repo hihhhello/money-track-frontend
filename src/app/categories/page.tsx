@@ -145,11 +145,17 @@ const CategoriesPage = () => {
 
   return (
     <div>
-      <h1 className="mb-4">Categories</h1>
+      <h1 className="mb-8">Categories</h1>
 
       <div>
-        <div className="mb-4">
-          <h2>Expense</h2>
+        <div className="mb-8">
+          <div className="mb-4 inline-flex items-center justify-between">
+            <span>Expense</span>
+
+            <button onClick={handleAddNewExpenseCategory}>
+              <PlusIcon />
+            </button>
+          </div>
 
           <div className="flex flex-wrap gap-4">
             {reducedCategories?.expense?.map((category) => (
@@ -169,7 +175,13 @@ const CategoriesPage = () => {
         </div>
 
         <div>
-          <h2>Deposit</h2>
+          <div className="mb-4 inline-flex items-center justify-between">
+            <span>Deposit</span>
+
+            <button onClick={handleAddNewDepositCategory}>
+              <PlusIcon />
+            </button>
+          </div>
 
           <div className="flex flex-wrap gap-4">
             {reducedCategories?.deposit?.map((category) => (
