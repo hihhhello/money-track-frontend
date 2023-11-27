@@ -87,7 +87,7 @@ export const SettingsSidebar = () => {
 
                           <Link
                             onClick={settingsSidebar.handleClose}
-                            href="/manage-recurrent-transactions"
+                            href="/recurrent-transactions"
                             className="flex w-full flex-col items-center py-4 hover:bg-gray-200"
                           >
                             <RecurrentTransactionIcon className="h-12 w-12 text-indigo-600" />

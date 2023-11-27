@@ -16,7 +16,7 @@ import { useQuery } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
 import { useState } from 'react';
 
-const ManageRecurrentTransactionsPage = () => {
+const RecurrentTransactionsPage = () => {
   const {
     value: isAddNewRecurrentTransactionModalOpen,
     setTrue: handleOpenAddNewRecurrentTransactionModal,
@@ -210,4 +210,4 @@ const ManageRecurrentTransactionsPage = () => {
   );
 };
 
-export default ManageRecurrentTransactionsPage;
+export default RecurrentTransactionsPage;
