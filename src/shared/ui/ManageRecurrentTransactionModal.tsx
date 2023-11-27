@@ -75,9 +75,7 @@ export const ManageRecurrentTransactionModal = ({
       start_date: defaultTransactionValues?.start_date ?? today,
     });
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-
+  const handleSubmit = () => {
     if (!selectedCategoryId) {
       return toast.warn('Select category.');
     }
@@ -137,158 +135,164 @@ export const ManageRecurrentTransactionModal = ({
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <Dialog.Panel className="relative h-full w-full overflow-y-auto bg-white p-4 sm:max-w-sm sm:rounded">
-              <div
-                className={classNames(
-                  'mb-8 flex',
-                  handleDelete ? 'justify-between' : 'justify-end',
-                )}
-              >
-                {handleDelete && (
-                  <button onClick={handleDeleteTransaction}>
-                    <TrashIcon className="text-red-600 hover:text-red-500" />
-                  </button>
-                )}
+            <Dialog.Panel className="relative flex h-full w-full flex-col bg-white sm:max-h-[550px] sm:max-w-5xl sm:rounded">
+              <div className="z-10 border-b-2 p-4">
+                <div
+                  className={classNames(
+                    'flex',
+                    handleDelete ? 'justify-between' : 'justify-end',
+                  )}
+                >
+                  {handleDelete && (
+                    <button onClick={handleDeleteTransaction}>
+                      <TrashIcon className="text-red-600 hover:text-red-500" />
+                    </button>
+                  )}
 
-                <button onClick={handleClose}>
-                  <XMarkIcon />
-                </button>
+                  <button onClick={handleClose}>
+                    <XMarkIcon />
+                  </button>
+                </div>
+
+                <Dialog.Title
+                  as="h3"
+                  className="text-base font-semibold leading-6 text-gray-900"
+                >
+                  {title}
+                </Dialog.Title>
               </div>
 
-              <Dialog.Title
-                as="h3"
-                className="text-base font-semibold leading-6 text-gray-900"
-              >
-                {title}
-              </Dialog.Title>
+              <div className="h-full overflow-y-auto p-4">
+                <div>
+                  <div className="mb-4 flex flex-col">
+                    <label htmlFor="amount">Amount</label>
+                    <input
+                      className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
+                      type="number"
+                      name="amount"
+                      value={String(transactionFormValues.amount)}
+                      onChange={(e) => {
+                        setTransactionFormValues((prevValues) => ({
+                          ...prevValues,
+                          amount: e.target.value,
+                        }));
+                      }}
+                    />
+                  </div>
 
-              <form onSubmit={handleSubmit}>
-                <div className="mb-4 flex flex-col">
-                  <label htmlFor="amount">Amount</label>
-                  <input
-                    className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
-                    type="number"
-                    name="amount"
-                    value={String(transactionFormValues.amount)}
-                    onChange={(e) => {
-                      setTransactionFormValues((prevValues) => ({
-                        ...prevValues,
-                        amount: e.target.value,
-                      }));
-                    }}
-                  />
-                </div>
+                  <div className="mb-4">
+                    <span>Category</span>
 
-                <div className="mb-4">
-                  <span>Category</span>
+                    <div className="mb-2 flex flex-wrap gap-4">
+                      {categories?.map((category) => (
+                        <button
+                          key={category.id}
+                          type="button"
+                          onClick={() => setSelectedCategoryId(category.id)}
+                          className={classNames(
+                            'h-full border border-gray-200 px-4 py-2 font-semibold shadow-sm',
+                            selectedCategoryId === category.id && 'bg-gray-100',
+                          )}
+                        >
+                          {category.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
 
-                  <div className="mb-2 flex flex-wrap gap-4">
-                    {categories?.map((category) => (
-                      <button
-                        key={category.id}
-                        type="button"
-                        onClick={() => setSelectedCategoryId(category.id)}
-                        className={classNames(
-                          'h-full border border-gray-200 px-4 py-2 font-semibold shadow-sm',
-                          selectedCategoryId === category.id && 'bg-gray-100',
-                        )}
-                      >
-                        {category.name}
-                      </button>
-                    ))}
+                  <div className="mb-4 flex flex-col">
+                    <label htmlFor="date">Start date</label>
+                    <input
+                      className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
+                      name="date"
+                      type="date"
+                      value={transactionFormValues.start_date ?? ''}
+                      onChange={(e) => {
+                        setTransactionFormValues((prevValues) => ({
+                          ...prevValues,
+                          start_date: e.target.value,
+                        }));
+                      }}
+                    />
+                  </div>
+
+                  <div className="mb-4 flex flex-col">
+                    <label htmlFor="date">End date</label>
+                    <input
+                      className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
+                      name="date"
+                      type="date"
+                      value={transactionFormValues.end_date ?? ''}
+                      onChange={(e) => {
+                        setTransactionFormValues((prevValues) => ({
+                          ...prevValues,
+                          end_date: e.target.value,
+                        }));
+                      }}
+                    />
+                  </div>
+
+                  <div className="mb-4 flex flex-col">
+                    <span>Frequency</span>
+
+                    <div className="mb-2 flex flex-wrap gap-4">
+                      {Object.keys(RecurrentTransactionFrequency).map(
+                        (frequencyKey) => {
+                          const frequency =
+                            RecurrentTransactionFrequency[
+                              frequencyKey as RecurrentTransactionFrequencyKey
+                            ];
+
+                          return (
+                            <button
+                              key={frequencyKey}
+                              type="button"
+                              onClick={() =>
+                                setTransactionFormValues((prevValues) => ({
+                                  ...prevValues,
+                                  frequency,
+                                }))
+                              }
+                              className={classNames(
+                                'h-full border border-gray-200 px-4 py-2 font-semibold shadow-sm',
+                                transactionFormValues.frequency === frequency &&
+                                  'bg-gray-100',
+                              )}
+                            >
+                              {upperFirst(frequency)}
+                            </button>
+                          );
+                        },
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="mb-4 flex flex-col">
+                    <label htmlFor="note">Note</label>
+                    <textarea
+                      onChange={(e) => {
+                        setTransactionFormValues((prevValues) => ({
+                          ...prevValues,
+                          description: e.target.value,
+                        }));
+                      }}
+                      value={transactionFormValues.description ?? ''}
+                      className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
+                      name="description"
+                      placeholder="Add description"
+                    />
                   </div>
                 </div>
+              </div>
 
-                <div className="mb-4 flex flex-col">
-                  <label htmlFor="date">Start date</label>
-                  <input
-                    className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
-                    name="date"
-                    type="date"
-                    value={transactionFormValues.start_date ?? ''}
-                    onChange={(e) => {
-                      setTransactionFormValues((prevValues) => ({
-                        ...prevValues,
-                        start_date: e.target.value,
-                      }));
-                    }}
-                  />
-                </div>
-
-                <div className="mb-4 flex flex-col">
-                  <label htmlFor="date">End date</label>
-                  <input
-                    className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
-                    name="date"
-                    type="date"
-                    value={transactionFormValues.end_date ?? ''}
-                    onChange={(e) => {
-                      setTransactionFormValues((prevValues) => ({
-                        ...prevValues,
-                        end_date: e.target.value,
-                      }));
-                    }}
-                  />
-                </div>
-
-                <div className="mb-4 flex flex-col">
-                  <span>Frequency</span>
-
-                  <div className="mb-2 flex flex-wrap gap-4">
-                    {Object.keys(RecurrentTransactionFrequency).map(
-                      (frequencyKey) => {
-                        const frequency =
-                          RecurrentTransactionFrequency[
-                            frequencyKey as RecurrentTransactionFrequencyKey
-                          ];
-
-                        return (
-                          <button
-                            key={frequencyKey}
-                            type="button"
-                            onClick={() =>
-                              setTransactionFormValues((prevValues) => ({
-                                ...prevValues,
-                                frequency,
-                              }))
-                            }
-                            className={classNames(
-                              'h-full border border-gray-200 px-4 py-2 font-semibold shadow-sm',
-                              transactionFormValues.frequency === frequency &&
-                                'bg-gray-100',
-                            )}
-                          >
-                            {upperFirst(frequency)}
-                          </button>
-                        );
-                      },
-                    )}
-                  </div>
-                </div>
-
-                <div className="mb-4 flex flex-col">
-                  <label htmlFor="note">Note</label>
-                  <textarea
-                    onChange={(e) => {
-                      setTransactionFormValues((prevValues) => ({
-                        ...prevValues,
-                        description: e.target.value,
-                      }));
-                    }}
-                    value={transactionFormValues.description ?? ''}
-                    className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
-                    name="description"
-                    placeholder="Add description"
-                  />
-                </div>
-
+              <div className="z-10 border-t-2  p-4">
                 <button
-                  type="submit"
+                  onClick={handleSubmit}
                   className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   {submitButtonLabel ?? 'Submit'}
                 </button>
-              </form>
+              </div>
             </Dialog.Panel>
           </Transition.Child>
         </div>

@@ -33,9 +33,7 @@ export const ManageCategoryModal = ({
     setCategoryName(defaultCategoryName ?? '');
   }, [defaultCategoryName]);
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-
+  const handleSubmit = () => {
     if (!categoryName || isEmpty(categoryName.trim())) {
       return toast.warn(
         'The category name should contain at least 1 character.',
@@ -127,7 +125,7 @@ export const ManageCategoryModal = ({
 
               <div className="z-10 border-t-2 p-4">
                 <button
-                  type="submit"
+                  onClick={handleSubmit}
                   className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   {submitButtonLabel ?? 'Submit'}
