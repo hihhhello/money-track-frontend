@@ -156,7 +156,10 @@ const CategoriesPage = () => {
               <button
                 key={category.id}
                 type="button"
-                // onClick={() => setSelectedCategoryId(category.id)}
+                onClick={() => {
+                  handleOpenEditCategoryModal();
+                  setSelectedCategory(category);
+                }}
                 className="h-full border border-gray-200 px-4 py-2 font-semibold shadow-sm hover:bg-gray-100"
               >
                 {category.name}
@@ -173,7 +176,10 @@ const CategoriesPage = () => {
               <button
                 key={category.id}
                 type="button"
-                // onClick={() => setSelectedCategoryId(category.id)}
+                onClick={() => {
+                  handleOpenEditCategoryModal();
+                  setSelectedCategory(category);
+                }}
                 className="h-full border border-gray-200 px-4 py-2 font-semibold shadow-sm hover:bg-gray-100"
               >
                 {category.name}
@@ -182,6 +188,24 @@ const CategoriesPage = () => {
           </div>
         </div>
       </div>
+
+      <ManageCategoryModal
+        handleClose={handleCloseAddNewCategoryModal}
+        handleSubmit={handleAddNewCategory}
+        isModalOpen={isAddNewCategoryModalOpen}
+        title="Add new category"
+        submitButtonLabel="Add"
+      />
+
+      <ManageCategoryModal
+        handleClose={handleCloseEditCategoryModal}
+        handleSubmit={handleEditCategory}
+        isModalOpen={isEditCategoryModalOpen}
+        defaultCategoryName={selectedCategory?.name}
+        title="Edit category"
+        submitButtonLabel="Edit"
+        handleDelete={handleDeleteCategory}
+      />
     </div>
   );
 };
