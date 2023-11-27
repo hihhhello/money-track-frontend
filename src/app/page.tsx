@@ -3,13 +3,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
 
-import { PlusIcon } from '@/shared/ui/Icons/PlusIcon';
+import { PlusIcon } from '@/shared/ui/icons/PlusIcon';
 import { classNames, formatToUSDCurrency } from '@/shared/utils/helpers';
 import { api } from '@/shared/api/api';
 import { useBoolean } from '@/shared/utils/hooks';
-import { MinusIcon } from '@/shared/ui/Icons/MinusIcon';
+import { MinusIcon } from '@/shared/ui/icons/MinusIcon';
 import { Disclosure } from '@headlessui/react';
-import { ChevronDownIcon } from '@/shared/ui/Icons/ChevronDownIcon';
+import { ChevronDownIcon } from '@/shared/ui/icons/ChevronDownIcon';
 import { useState } from 'react';
 import { Transaction } from '@/shared/types/transactionTypes';
 import {

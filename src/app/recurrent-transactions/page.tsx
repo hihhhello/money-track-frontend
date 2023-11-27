@@ -8,7 +8,7 @@ import {
   FinancialOperationTypeValue,
 } from '@/shared/types/globalTypes';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
-import { ChevronDownIcon } from '@/shared/ui/Icons/ChevronDownIcon';
+import { ChevronDownIcon } from '@/shared/ui/icons/ChevronDownIcon';
 import { classNames, formatToUSDCurrency } from '@/shared/utils/helpers';
 import { useBoolean } from '@/shared/utils/hooks';
 import { Disclosure } from '@headlessui/react';
