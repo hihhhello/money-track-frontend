@@ -42,7 +42,10 @@ export const ManageCategoryModal = ({
       );
     }
 
-    propsHandleSubmit(categoryName)?.then(() => setCategoryName(''));
+    propsHandleSubmit(categoryName)?.then(() => {
+      setCategoryName('');
+      handleClose();
+    });
   };
 
   const handleDeleteCategory = () => {
