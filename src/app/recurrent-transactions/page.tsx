@@ -8,8 +8,10 @@ import {
   FinancialOperationTypeValue,
 } from '@/shared/types/globalTypes';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
+import { formatToUSDCurrency } from '@/shared/utils/helpers';
 import { useBoolean } from '@/shared/utils/hooks';
 import { useQuery } from '@tanstack/react-query';
+import { format, parseISO } from 'date-fns';
 import { useState } from 'react';
 
 const RecurrentTransactionsPage = () => {
@@ -77,10 +79,16 @@ const RecurrentTransactionsPage = () => {
               </p>
 
               <p className="text-gray-700">
-                Next Transaction: {transaction.next_transaction}
+                Next Transaction:{' '}
+                {format(
+                  parseISO(transaction.next_transaction),
+                  'EEEE, dd MMMM',
+                )}
               </p>
 
-              <p className="text-gray-700">Amount: {transaction.amount}</p>
+              <p className="text-gray-700">
+                Amount: {formatToUSDCurrency(parseFloat(transaction.amount))}
+              </p>
 
               {transaction.description && (
                 <p className="text-gray-700">
@@ -90,13 +98,15 @@ const RecurrentTransactionsPage = () => {
 
               {transaction.start_date && (
                 <p className="text-gray-700">
-                  Start Date: {transaction.start_date}
+                  Start Date:{' '}
+                  {format(parseISO(transaction.start_date), 'EEEE, dd MMMM')}
                 </p>
               )}
 
               {transaction.end_date && (
                 <p className="text-gray-700">
-                  End Date: {transaction.end_date}
+                  End Date:{' '}
+                  {format(parseISO(transaction.end_date), 'EEEE, dd MMMM')}
                 </p>
               )}
             </div>
