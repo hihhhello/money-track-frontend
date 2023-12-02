@@ -4,8 +4,8 @@ import { Fragment, useMemo, useState } from 'react';
 
 import { ManageCategoryModal } from '@/shared/ui/ManageCategoryModal';
 import { api } from '@/shared/api/api';
-import { PlusIcon } from '@/shared/ui/icons/PlusIcon';
-import { SquaresPlusIcon } from '@/shared/ui/icons/SquaresPlusIcon';
+import { PlusIcon } from '@/shared/icons/PlusIcon';
+import { SquaresPlusIcon } from '@/shared/icons/SquaresPlusIcon';
 import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
 import { Disclosure, Transition } from '@headlessui/react';
 import { useQuery } from '@tanstack/react-query';

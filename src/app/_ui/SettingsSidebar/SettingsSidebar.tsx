@@ -1,14 +1,14 @@
 'use client';
 
 import { useEnvironment } from '@/providers/EnvironmentProvider';
-import { SquaresPlusIcon } from '@/shared/ui/icons/SquaresPlusIcon';
-import { XMarkIcon } from '@/shared/ui/icons/XMarkIcon';
+import { SquaresPlusIcon } from '@/shared/icons/SquaresPlusIcon';
+import { XMarkIcon } from '@/shared/icons/XMarkIcon';
 import { Dialog, Transition } from '@headlessui/react';
 import { signOut } from 'next-auth/react';
 import { Fragment } from 'react';
 import Link from 'next/link';
-import { RecurrentTransactionIcon } from '@/shared/ui/icons/RecurrentTransactionIcon';
-import { PieChartIcon } from '@/shared/ui/icons/PieChartIcon';
+import { RecurrentTransactionIcon } from '@/shared/icons/RecurrentTransactionIcon';
+import { PieChartIcon } from '@/shared/icons/PieChartIcon';
 
 export const SettingsSidebar = () => {
   const { settingsSidebar } = useEnvironment();

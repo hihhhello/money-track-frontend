@@ -5,8 +5,8 @@ import { FormEvent, Fragment, useEffect, useState } from 'react';
 import { formatISO } from 'date-fns';
 import { toast } from 'react-toastify';
 import { Dialog, Transition } from '@headlessui/react';
-import { XMarkIcon } from '@/shared/ui/icons/XMarkIcon';
-import { TrashIcon } from './icons/TrashIcon';
+import { XMarkIcon } from '@/shared/icons/XMarkIcon';
+import { TrashIcon } from '../icons/TrashIcon';
 import {
   RecurrentTransactionFrequency,
   RecurrentTransactionFrequencyKey,

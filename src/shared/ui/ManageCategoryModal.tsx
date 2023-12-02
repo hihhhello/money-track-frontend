@@ -3,9 +3,9 @@
 import { FormEvent, Fragment, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Dialog, Transition } from '@headlessui/react';
-import { XMarkIcon } from '@/shared/ui/icons/XMarkIcon';
+import { XMarkIcon } from '@/shared/icons/XMarkIcon';
 import { isEmpty } from 'lodash';
-import { TrashIcon } from './icons/TrashIcon';
+import { TrashIcon } from '../icons/TrashIcon';
 import { classNames } from '../utils/helpers';
 
 type ManageCategoryModalProps = {

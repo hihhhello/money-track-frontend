@@ -3,13 +3,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
 
-import { PlusIcon } from '@/shared/ui/icons/PlusIcon';
+import { PlusIcon } from '@/shared/icons/PlusIcon';
 import { classNames, formatToUSDCurrency } from '@/shared/utils/helpers';
 import { api } from '@/shared/api/api';
 import { useBoolean } from '@/shared/utils/hooks';
-import { MinusIcon } from '@/shared/ui/icons/MinusIcon';
+import { MinusIcon } from '@/shared/icons/MinusIcon';
 import { Disclosure } from '@headlessui/react';
-import { ChevronDownIcon } from '@/shared/ui/icons/ChevronDownIcon';
+import { ChevronDownIcon } from '@/shared/icons/ChevronDownIcon';
 import { useState } from 'react';
 import { Transaction } from '@/shared/types/transactionTypes';
 import {
@@ -115,8 +115,8 @@ const HomePage = () => {
             totalTransactionsAmount === 0
               ? 'bg-gray-200'
               : totalTransactionsAmount > 0
-              ? 'bg-green-600'
-              : 'bg-red-600',
+                ? 'bg-green-600'
+                : 'bg-red-600',
           )}
         >
           <span className="text-4xl text-white">
@@ -178,8 +178,8 @@ const HomePage = () => {
                               totalAmount === 0
                                 ? ''
                                 : totalAmount < 0
-                                ? 'text-red-600'
-                                : 'text-green-600',
+                                  ? 'text-red-600'
+                                  : 'text-green-600',
                             )}
                           >
                             {formatToUSDCurrency(totalAmount)}

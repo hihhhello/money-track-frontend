@@ -1,7 +1,7 @@
 'use client';
 
 import { useEnvironment } from '@/providers/EnvironmentProvider';
-import { SettingsIcon } from '@/shared/ui/icons/SettingsIcon';
+import { SettingsIcon } from '@/shared/icons/SettingsIcon';
 
 export const Navbar = () => {
   const { settingsSidebar } = useEnvironment();
