@@ -94,7 +94,7 @@ const HomePage = () => {
     },
     {} as {
       [date: string]: {
-        transactions: any[];
+        transactions: Transaction[];
         totalAmount: number;
       };
     },
