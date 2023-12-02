@@ -1,3 +1,8 @@
+import {
+  FinancialOperationType,
+  FinancialOperationTypeValue,
+} from '../types/globalTypes';
+
 export const classNames = (...classes: (string | boolean)[]) => {
   return classes.filter(Boolean).join(' ');
 };
@@ -56,3 +61,14 @@ export function createUrlWithSearchParams(params: {
 
   return `${url}?${searchParamsString}`;
 }
+
+export const getNetAmount = (transaction: {
+  amount: string;
+  type: FinancialOperationTypeValue;
+}) => {
+  if (transaction.type === FinancialOperationType.DEPOSIT) {
+    return parseFloat(transaction.amount);
+  }
+
+  return -parseFloat(transaction.amount);
+};

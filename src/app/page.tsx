@@ -4,7 +4,11 @@ import { useQuery } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
 
 import { PlusIcon } from '@/shared/icons/PlusIcon';
-import { classNames, formatToUSDCurrency } from '@/shared/utils/helpers';
+import {
+  classNames,
+  formatToUSDCurrency,
+  getNetAmount,
+} from '@/shared/utils/helpers';
 import { api } from '@/shared/api/api';
 import { useBoolean } from '@/shared/utils/hooks';
 import { MinusIcon } from '@/shared/icons/MinusIcon';
@@ -64,10 +68,10 @@ const HomePage = () => {
           ...transactionsByDateAccumulator,
           [key]: {
             transactions: [transaction],
-            totalAmount:
-              transaction.type === FinancialOperationType.DEPOSIT
-                ? parseFloat(transaction.amount)
-                : -parseFloat(transaction.amount),
+            totalAmount: getNetAmount({
+              amount: transaction.amount,
+              type: transaction.type,
+            }),
           },
         };
       }
@@ -80,11 +84,11 @@ const HomePage = () => {
             transaction,
           ],
           totalAmount:
-            transaction.type === FinancialOperationType.DEPOSIT
-              ? transactionsByDateAccumulator[key].totalAmount +
-                parseFloat(transaction.amount)
-              : transactionsByDateAccumulator[key].totalAmount -
-                parseFloat(transaction.amount),
+            transactionsByDateAccumulator[key].totalAmount +
+            getNetAmount({
+              type: transaction.type,
+              amount: transaction.amount,
+            }),
         },
       };
     },
@@ -97,13 +101,15 @@ const HomePage = () => {
   );
 
   const totalTransactionsAmount = transactions
-    ? transactions.reduce((totalExpensesAccumulator, transaction) => {
-        if (transaction.type === FinancialOperationType.DEPOSIT) {
-          return totalExpensesAccumulator + parseFloat(transaction.amount);
-        }
-
-        return totalExpensesAccumulator - parseFloat(transaction.amount);
-      }, 0)
+    ? transactions.reduce(
+        (totalExpensesAccumulator, transaction) =>
+          totalExpensesAccumulator +
+          getNetAmount({
+            type: transaction.type,
+            amount: transaction.amount,
+          }),
+        0,
+      )
     : 0;
 
   return (
