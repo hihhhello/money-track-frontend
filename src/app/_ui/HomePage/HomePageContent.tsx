@@ -23,6 +23,7 @@ import {
 import { AddNewTransactionModal } from '@/features/AddNewTransactionModal';
 import { EditTransactionModal } from '@/features/EditTransactionModal';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
+import { HomePageTransactionsTotal } from './ui/HomePageTransactionsTotal';
 
 type HomePageContentProps = {
   transactions: Transaction[];
@@ -126,20 +127,7 @@ export const HomePageContent = ({
   return (
     <div>
       <div className="mb-4">
-        <div
-          className={classNames(
-            'mb-4 flex items-center justify-center rounded-md py-8 shadow',
-            totalTransactionsAmount === 0
-              ? 'bg-gray-200'
-              : totalTransactionsAmount > 0
-                ? 'bg-green-600'
-                : 'bg-red-600',
-          )}
-        >
-          <span className="text-4xl text-white">
-            {formatToUSDCurrency(totalTransactionsAmount)}
-          </span>
-        </div>
+        <HomePageTransactionsTotal transactions={initialTransactions} />
 
         <div className="flex w-full gap-4">
           <button
