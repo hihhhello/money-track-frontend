@@ -22,8 +22,17 @@ import {
 } from '@/shared/types/globalTypes';
 import { AddNewTransactionModal } from '@/features/AddNewTransactionModal';
 import { EditTransactionModal } from '@/features/EditTransactionModal';
+import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
 
-export const HomePageContent = () => {
+type HomePageContentProps = {
+  transactions: Transaction[];
+  recurrentTransactions: RecurrentTransaction[];
+};
+
+export const HomePageContent = ({
+  recurrentTransactions: initialRecurrentTransactions,
+  transactions: initialTransactions,
+}: HomePageContentProps) => {
   const {
     value: isAddNewTransactionModalOpen,
     setTrue: handleOpenAddNewTransactionModal,
@@ -45,11 +54,13 @@ export const HomePageContent = () => {
   const { data: transactions } = useQuery({
     queryFn: api.transactions.getAll,
     queryKey: ['api.transactions.getAll'],
+    initialData: initialTransactions,
   });
 
   const { data: recurrentTransactions } = useQuery({
     queryFn: api.recurrentTransactions.getAll,
     queryKey: ['api.recurrentTransactions.getAll'],
+    initialData: initialRecurrentTransactions,
   });
 
   const transactionsByDate:
