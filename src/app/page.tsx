@@ -1,5 +1,5 @@
 import { api } from '@/shared/api/api';
-import { HomePageContent } from './_ui/HomePageContent';
+import { HomePageContent } from './_ui/HomePage/HomePageContent';
 
 const HomePage = async () => {
   const transactions = await api.transactions.getAll();
