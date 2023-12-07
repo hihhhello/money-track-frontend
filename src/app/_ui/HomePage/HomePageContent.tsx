@@ -24,6 +24,7 @@ import { AddNewTransactionModal } from '@/features/AddNewTransactionModal';
 import { EditTransactionModal } from '@/features/EditTransactionModal';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
 import { HomePageTransactionsTotal } from './ui/HomePageTransactionsTotal';
+import { HomePageAddNewTransactionActions } from './ui/HomePageAddNewTransactionActions';
 
 type HomePageContentProps = {
   transactions: Transaction[];
@@ -112,44 +113,12 @@ export const HomePageContent = ({
     },
   );
 
-  const totalTransactionsAmount = transactions
-    ? transactions.reduce(
-        (totalExpensesAccumulator, transaction) =>
-          totalExpensesAccumulator +
-          getNetAmount({
-            type: transaction.type,
-            amount: transaction.amount,
-          }),
-        0,
-      )
-    : 0;
-
   return (
     <div>
       <div className="mb-4">
         <HomePageTransactionsTotal transactions={initialTransactions} />
 
-        <div className="flex w-full gap-4">
-          <button
-            onClick={() => {
-              handleOpenAddNewTransactionModal();
-              setTransactionTypeToAdd(FinancialOperationType.DEPOSIT);
-            }}
-            className="flex flex-1 items-center justify-center rounded-md border-[6px] border-sky-600 py-4 hover:border-sky-700"
-          >
-            <PlusIcon className="h-16 w-16 text-sky-600" />
-          </button>
-
-          <button
-            onClick={() => {
-              handleOpenAddNewTransactionModal();
-              setTransactionTypeToAdd(FinancialOperationType.EXPENSE);
-            }}
-            className="flex flex-1 items-center justify-center rounded-md border-[6px] border-red-600 py-4 hover:border-red-700"
-          >
-            <MinusIcon className="h-16 w-16 text-red-600" />
-          </button>
-        </div>
+        <HomePageAddNewTransactionActions />
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
