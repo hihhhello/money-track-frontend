@@ -14,7 +14,13 @@ import {
   FinancialOperationTypeValue,
 } from '@/shared/types/globalTypes';
 
-export const CategoriesPageContent = () => {
+type CategoriesPageContentProps = {
+  categories: Category[];
+};
+
+export const CategoriesPageContent = ({
+  categories: initialCategories,
+}: CategoriesPageContentProps) => {
   const loadingToast = useLoadingToast();
 
   const {
@@ -38,6 +44,7 @@ export const CategoriesPageContent = () => {
   const { data: categories, refetch: refetchCategories } = useQuery({
     queryFn: api.categories.getAll,
     queryKey: ['api.categories.getAll'],
+    initialData: initialCategories,
   });
 
   const reducedCategories = useMemo(
