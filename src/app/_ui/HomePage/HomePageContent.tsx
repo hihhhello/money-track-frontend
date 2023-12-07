@@ -3,7 +3,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
 
-import { PlusIcon } from '@/shared/icons/PlusIcon';
 import {
   classNames,
   formatToUSDCurrency,
@@ -11,20 +10,13 @@ import {
 } from '@/shared/utils/helpers';
 import { api } from '@/shared/api/api';
 import { useBoolean } from '@/shared/utils/hooks';
-import { MinusIcon } from '@/shared/icons/MinusIcon';
 import { Disclosure } from '@headlessui/react';
 import { ChevronDownIcon } from '@/shared/icons/ChevronDownIcon';
 import { useState } from 'react';
 import { Transaction } from '@/shared/types/transactionTypes';
-import {
-  FinancialOperationType,
-  FinancialOperationTypeValue,
-} from '@/shared/types/globalTypes';
-import { AddNewTransactionModal } from '@/features/AddNewTransactionModal';
+import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { EditTransactionModal } from '@/features/EditTransactionModal';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
-import { HomePageTransactionsTotal } from './ui/HomePageTransactionsTotal';
-import { HomePageAddNewTransactionActions } from './ui/HomePageAddNewTransactionActions';
 
 type HomePageContentProps = {
   transactions: Transaction[];
@@ -36,12 +28,6 @@ export const HomePageContent = ({
   transactions: initialTransactions,
 }: HomePageContentProps) => {
   const {
-    value: isAddNewTransactionModalOpen,
-    setTrue: handleOpenAddNewTransactionModal,
-    setFalse: handleCloseAddNewTransactionModal,
-  } = useBoolean(false);
-
-  const {
     value: isEditTransactionModalOpen,
     setTrue: handleOpenEditTransactionModal,
     setFalse: handleCloseEditTransactionModal,
@@ -49,9 +35,6 @@ export const HomePageContent = ({
 
   const [selectedTransaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
-
-  const [transactionTypeToAdd, setTransactionTypeToAdd] =
-    useState<FinancialOperationTypeValue>(FinancialOperationType.EXPENSE);
 
   const { data: transactions } = useQuery({
     queryFn: api.transactions.getAll,
@@ -115,12 +98,6 @@ export const HomePageContent = ({
 
   return (
     <div>
-      <div className="mb-4">
-        <HomePageTransactionsTotal transactions={initialTransactions} />
-
-        <HomePageAddNewTransactionActions />
-      </div>
-
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <span>Past transactions:</span>
@@ -260,12 +237,6 @@ export const HomePageContent = ({
           </div>
         </div>
       </div>
-
-      <AddNewTransactionModal
-        handleClose={handleCloseAddNewTransactionModal}
-        isModalOpen={isAddNewTransactionModalOpen}
-        transactionType={transactionTypeToAdd}
-      />
 
       <EditTransactionModal
         isModalOpen={isEditTransactionModalOpen}
