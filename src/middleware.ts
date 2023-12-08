@@ -6,6 +6,6 @@ export const config = {
      * Match all request paths except for the ones starting with:
      * - auth/sign-up
      */
-    '/((?!auth|manifest).*)',
+    '/((?!auth|manifest|ios|android|windows11).*)',
   ],
 };

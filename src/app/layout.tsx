@@ -20,6 +20,7 @@ const kanit = Kanit({
 export const metadata: Metadata = {
   title: 'Money Track',
   description: 'Created by Anton',
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({
@@ -29,10 +30,6 @@ export default function RootLayout({
 }) {
   return (
     <html className={classNames('h-full', kanit.className)} lang="en">
-      <head>
-        <link rel="manifest" href="/manifest.json" />
-      </head>
-
       <body className="h-full bg-white text-main-dark">
         <QueryClientProvider>
           <NextAuthProvider>
