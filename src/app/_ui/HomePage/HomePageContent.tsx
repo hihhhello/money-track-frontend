@@ -211,7 +211,6 @@ export const HomePageContent = ({
         isModalOpen={isEditTransactionModalOpen}
         handleClose={() => {
           handleCloseEditTransactionModal();
-          setSelectedTransaction(null);
         }}
         selectedTransaction={selectedTransaction}
       />
