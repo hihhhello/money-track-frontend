@@ -9,12 +9,13 @@ import { Fragment } from 'react';
 import Link from 'next/link';
 import { RecurrentTransactionIcon } from '@/shared/icons/RecurrentTransactionIcon';
 import { PieChartIcon } from '@/shared/icons/PieChartIcon';
+import { SignOutIcon } from '@/shared/icons/SignOutIcon';
 
 export const Sidebar = () => {
   const { settingsSidebar } = useEnvironment();
 
   return (
-    <div className="flex flex-col justify-between pt-[200px]">
+    <div className="flex w-[112px] flex-col justify-between pb-[60px] pt-[200px]">
       <div className="flex flex-col items-center gap-2">
         <Link
           onClick={settingsSidebar.handleClose}
@@ -47,12 +48,14 @@ export const Sidebar = () => {
         </Link>
       </div>
 
-      <div className="px-4 sm:px-6">
+      <div>
         <button
           onClick={() => signOut()}
-          className="w-full rounded bg-indigo-600 px-3 py-1.5 leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          className="group flex w-full flex-col items-center rounded-lg py-[6px] pl-8 pr-12 hover:bg-main-blue/20"
         >
-          Sign Out
+          <SignOutIcon className="h-8 w-8 text-gray-600 group-hover:text-main-blue" />
+
+          <span className="sr-only">Sign Out</span>
         </button>
       </div>
     </div>
