@@ -153,45 +153,52 @@ export const HomePageContent = ({
           </div>
         </div>
 
-        <div>
-          <span>Recurrent transactions:</span>
+        <div className="rounded-3xl bg-main-paper p-4">
+          <div className="mb-6">
+            <div className="inline-block rounded-full border border-main-dark px-6 py-2">
+              <span className="text-main-dark">Recurrent transactions</span>
+            </div>
+          </div>
 
-          <div className="flex flex-col gap-2">
-            {recurrentTransactions?.map((transaction) => (
-              <div key={transaction.id} className="px-2 py-2">
-                <span>
-                  {format(
-                    parseISO(transaction.next_transaction),
-                    'EEEE, dd MMMM',
-                  )}
-                </span>
+          <div className="flex flex-col gap-4">
+            {recurrentTransactions.map((transaction) => (
+              <div
+                key={transaction.id}
+                className="flex items-center justify-between rounded-lg bg-white px-4 py-1 pr-2 hover:bg-gray-200"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="flex flex-col justify-start">
+                    <span className="text-left">
+                      {transaction.category.name}
+                    </span>
 
-                <div className="flex items-center justify-between pl-4">
-                  <div className="flex items-center gap-4">
-                    <div
-                      className={classNames(
-                        'h-2 w-2 rounded-full ring',
-                        transaction.type === FinancialOperationType.EXPENSE
-                          ? 'bg-red-600 ring-red-200'
-                          : 'bg-green-600 ring-green-200',
+                    <p className="text-left text-sm">
+                      {transaction.description}
+                    </p>
+
+                    <p className="text-left text-sm">
+                      {format(
+                        parseISO(transaction.next_transaction),
+                        'EEEE, dd MMMM',
                       )}
-                    >
-                      <span className="sr-only">
-                        Transaction type: {transaction.type}
-                      </span>
-                    </div>
-
-                    <div className="flex flex-col justify-start">
-                      <span className="text-left">
-                        {transaction.category.name}
-                      </span>
-
-                      <p className="text-sm">{transaction.description}</p>
-                    </div>
+                    </p>
                   </div>
+                </div>
 
-                  <span>
-                    {formatToUSDCurrency(parseFloat(transaction.amount))}
+                <div>
+                  <span
+                    className={classNames(
+                      transaction.type === FinancialOperationType.EXPENSE
+                        ? 'text-main-orange'
+                        : 'text-main-blue',
+                    )}
+                  >
+                    {formatToUSDCurrency(
+                      getNetAmount({
+                        amount: transaction.amount,
+                        type: transaction.type,
+                      }),
+                    )}
                   </span>
                 </div>
               </div>
