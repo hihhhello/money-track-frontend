@@ -99,95 +99,57 @@ export const HomePageContent = ({
   return (
     <div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div>
-          <span>Past transactions:</span>
+        <div className="rounded-3xl bg-main-paper p-4">
+          <div className="mb-6">
+            <div className="inline-block rounded-full border border-main-dark px-6 py-2">
+              <span className="text-main-dark">Last transactions</span>
+            </div>
+          </div>
 
           <div className="flex flex-col gap-4">
-            {transactionsByDate &&
-              Object.entries(transactionsByDate).map(
-                ([date, { transactions, totalAmount }]) => (
-                  <Disclosure key={date}>
-                    <Disclosure.Button className="flex justify-between pr-4">
-                      {({ open }) => (
-                        <>
-                          <div className="flex items-center gap-2">
-                            <ChevronDownIcon
-                              className={classNames(open && 'rotate-180')}
-                            />
+            {transactions.map((transaction) => (
+              <button
+                onClick={() => {
+                  setSelectedTransaction(transaction);
+                  handleOpenEditTransactionModal();
+                }}
+                key={transaction.id}
+                className="flex items-center justify-between rounded-lg bg-white px-4 py-1 pr-2 hover:bg-gray-200"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="flex flex-col justify-start">
+                    <span className="text-left">
+                      {transaction.category.name}
+                    </span>
 
-                            <span>
-                              {format(parseISO(date), 'EEEE, dd MMMM')}
-                            </span>
+                    <p className="text-left text-sm">
+                      {transaction.description}
+                    </p>
 
-                            <span className="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
-                              {transactions.length}
-                            </span>
-                          </div>
+                    <p className="text-left text-sm">
+                      {format(parseISO(transaction.date), 'EEEE, dd MMMM')}
+                    </p>
+                  </div>
+                </div>
 
-                          <span
-                            className={classNames(
-                              totalAmount === 0
-                                ? ''
-                                : totalAmount < 0
-                                  ? 'text-red-600'
-                                  : 'text-green-600',
-                            )}
-                          >
-                            {formatToUSDCurrency(totalAmount)}
-                          </span>
-                        </>
-                      )}
-                    </Disclosure.Button>
-
-                    <Disclosure.Panel className="flex flex-col pr-2">
-                      {transactions.map((transaction) => (
-                        <button
-                          onClick={() => {
-                            setSelectedTransaction(transaction);
-                            handleOpenEditTransactionModal();
-                          }}
-                          key={transaction.id}
-                          className="flex items-center justify-between py-2 pl-10  pr-2 hover:bg-gray-200"
-                        >
-                          <div className="flex items-center gap-4">
-                            <div
-                              className={classNames(
-                                'h-2 w-2 rounded-full ring',
-                                transaction.type ===
-                                  FinancialOperationType.EXPENSE
-                                  ? 'bg-red-600 ring-red-200'
-                                  : 'bg-green-600 ring-green-200',
-                              )}
-                            >
-                              <span className="sr-only">
-                                Transaction type: {transaction.type}
-                              </span>
-                            </div>
-
-                            <div className="flex flex-col justify-start">
-                              <span className="text-left">
-                                {transaction.category.name}
-                              </span>
-
-                              <p className="text-sm">
-                                {transaction.description}
-                              </p>
-                            </div>
-                          </div>
-
-                          <div>
-                            <span>
-                              {formatToUSDCurrency(
-                                parseFloat(transaction.amount),
-                              )}
-                            </span>
-                          </div>
-                        </button>
-                      ))}
-                    </Disclosure.Panel>
-                  </Disclosure>
-                ),
-              )}
+                <div>
+                  <span
+                    className={classNames(
+                      transaction.type === FinancialOperationType.EXPENSE
+                        ? 'text-main-orange'
+                        : 'text-main-blue',
+                    )}
+                  >
+                    {formatToUSDCurrency(
+                      getNetAmount({
+                        amount: transaction.amount,
+                        type: transaction.type,
+                      }),
+                    )}
+                  </span>
+                </div>
+              </button>
+            ))}
           </div>
         </div>
 

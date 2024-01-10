@@ -11,7 +11,7 @@ export const BaseLayout = async ({ children }: BaseLayoutProps) => {
   const session = await getServerSession(NEXT_AUTH_OPTIONS);
 
   return (
-    <div className="h-full bg-[#FAFAFF]">
+    <div className="h-full bg-main-paper">
       <div className="flex h-full">
         <Sidebar />
 
