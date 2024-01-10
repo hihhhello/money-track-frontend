@@ -15,7 +15,7 @@ export const BaseLayout = async ({ children }: BaseLayoutProps) => {
       <div className="flex h-full">
         <Sidebar />
 
-        <div className="flex-1 pl-[112px]">
+        <div className="flex-1 sm:pl-[112px]">
           <div className="p-6">
             <main className="container mx-auto rounded-[40px] bg-white">
               <div className="p-10">{children}</div>
