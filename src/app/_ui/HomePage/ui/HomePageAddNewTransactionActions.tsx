@@ -21,7 +21,7 @@ export const HomePageAddNewTransactionActions = () => {
     useState<FinancialOperationTypeValue>(FinancialOperationType.EXPENSE);
 
   return (
-    <div>
+    <div className="flex-1">
       <div className="flex w-full gap-4">
         <button
           onClick={() => {

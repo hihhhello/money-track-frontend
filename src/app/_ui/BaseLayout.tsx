@@ -1,8 +1,6 @@
 import { ReactNode } from 'react';
-import { Navbar } from './Navbar';
 import { getServerSession } from 'next-auth';
 import { NEXT_AUTH_OPTIONS } from '@/shared/utils/nextAuth';
-import { SettingsSidebar } from './SettingsSidebar/SettingsSidebar';
 import { Sidebar } from './Sidebar';
 
 type BaseLayoutProps = {
@@ -18,7 +16,7 @@ export const BaseLayout = async ({ children }: BaseLayoutProps) => {
         <Sidebar />
 
         <div className="flex-1 p-6">
-          <main className="mx-auto rounded-[40px] bg-white">
+          <main className="container mx-auto rounded-[40px] bg-white">
             <div className="p-10">{children}</div>
           </main>
         </div>

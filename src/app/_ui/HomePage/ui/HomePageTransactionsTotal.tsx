@@ -36,17 +36,14 @@ export const HomePageTransactionsTotal = ({
     : 0;
 
   return (
-    <div
-      className={classNames(
-        'mb-4 flex items-center justify-center rounded-md py-8 shadow',
-        totalTransactionsAmount === 0
-          ? 'bg-gray-200'
-          : totalTransactionsAmount > 0
-            ? 'bg-green-600'
-            : 'bg-red-600',
-      )}
-    >
-      <span className="text-4xl text-white">
+    <div className="flex h-full w-full flex-col justify-end gap-2 rounded-3xl bg-main-dark px-3 pb-5 pt-4">
+      <div>
+        <div className="inline-block rounded-full border border-main-white px-6 py-2">
+          <span className="text-main-white">Current Balance</span>
+        </div>
+      </div>
+
+      <span className="text-6xl leading-relaxed text-white">
         {formatToUSDCurrency(totalTransactionsAmount)}
       </span>
     </div>
