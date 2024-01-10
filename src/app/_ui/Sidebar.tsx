@@ -12,7 +12,7 @@ export const Sidebar = () => {
   const { settingsSidebar } = useEnvironment();
 
   return (
-    <div className="flex w-[112px] flex-col justify-between pb-[60px] pt-[200px]">
+    <div className="hidden w-[112px] flex-col justify-between pb-[60px] pt-[200px] sm:flex">
       <div className="flex flex-col items-center gap-2">
         <Link
           onClick={settingsSidebar.handleClose}

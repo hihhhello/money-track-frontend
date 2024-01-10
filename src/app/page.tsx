@@ -9,12 +9,12 @@ const HomePage = async () => {
 
   return (
     <div>
-      <div className="mb-4 grid w-full grid-cols-6 gap-4">
-        <div className="col-span-4">
+      <div className="mb-4 grid w-full grid-cols-1 gap-4 sm:grid-cols-6">
+        <div className="sm:col-span-4">
           <HomePageTransactionsTotal transactions={transactions} />
         </div>
 
-        <div className="col-span-2">
+        <div className="sm:col-span-2">
           <HomePageAddNewTransactionActions />
         </div>
       </div>
