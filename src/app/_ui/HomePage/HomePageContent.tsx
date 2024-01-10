@@ -99,14 +99,14 @@ export const HomePageContent = ({
   return (
     <div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="rounded-3xl bg-main-paper p-4">
+        <div className="flex max-h-[715px] flex-col rounded-3xl bg-main-paper p-4">
           <div className="mb-6">
             <div className="inline-block rounded-full border border-main-dark px-6 py-2">
               <span className="text-main-dark">Last transactions</span>
             </div>
           </div>
 
-          <div className="flex flex-col gap-4">
+          <div className="flex h-full flex-col gap-4 overflow-y-auto">
             {transactions.map((transaction) => (
               <button
                 onClick={() => {
@@ -153,14 +153,14 @@ export const HomePageContent = ({
           </div>
         </div>
 
-        <div className="rounded-3xl bg-main-paper p-4">
+        <div className="flex max-h-[715px] flex-col rounded-3xl bg-main-paper p-4">
           <div className="mb-6">
             <div className="inline-block rounded-full border border-main-dark px-6 py-2">
               <span className="text-main-dark">Recurrent transactions</span>
             </div>
           </div>
 
-          <div className="flex flex-col gap-4">
+          <div className="flex h-full flex-col gap-4 overflow-y-auto">
             {recurrentTransactions.map((transaction) => (
               <div
                 key={transaction.id}
