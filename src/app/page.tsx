@@ -9,7 +9,7 @@ const HomePage = async () => {
 
   return (
     <div>
-      <div className="mb-4 grid w-full grid-cols-6 gap-1">
+      <div className="mb-4 grid w-full grid-cols-6 gap-4">
         <div className="col-span-4">
           <HomePageTransactionsTotal transactions={transactions} />
         </div>

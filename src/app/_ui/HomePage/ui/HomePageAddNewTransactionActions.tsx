@@ -21,26 +21,26 @@ export const HomePageAddNewTransactionActions = () => {
     useState<FinancialOperationTypeValue>(FinancialOperationType.EXPENSE);
 
   return (
-    <div className="flex-1">
-      <div className="flex w-full gap-4">
-        <button
-          onClick={() => {
-            handleOpenAddNewTransactionModal();
-            setTransactionTypeToAdd(FinancialOperationType.DEPOSIT);
-          }}
-          className="flex flex-1 items-center justify-center rounded-md border-[6px] border-sky-600 py-4 hover:border-sky-700"
-        >
-          <PlusIcon className="h-16 w-16 text-sky-600" />
-        </button>
-
+    <div className="h-full">
+      <div className="flex h-full w-full gap-4">
         <button
           onClick={() => {
             handleOpenAddNewTransactionModal();
             setTransactionTypeToAdd(FinancialOperationType.EXPENSE);
           }}
-          className="flex flex-1 items-center justify-center rounded-md border-[6px] border-red-600 py-4 hover:border-red-700"
+          className="flex flex-1 items-center justify-center rounded-md bg-main-blue/95 py-4 hover:bg-main-blue"
         >
-          <MinusIcon className="h-16 w-16 text-red-600" />
+          <MinusIcon className="h-16 w-16 text-main-white" />
+        </button>
+
+        <button
+          onClick={() => {
+            handleOpenAddNewTransactionModal();
+            setTransactionTypeToAdd(FinancialOperationType.DEPOSIT);
+          }}
+          className="group flex flex-1 items-center justify-center rounded-md border-[6px] border-main-blue/95 py-4 hover:border-main-blue"
+        >
+          <PlusIcon className="h-16 w-16 text-main-blue/95 group-hover:text-main-blue" />
         </button>
       </div>
 
