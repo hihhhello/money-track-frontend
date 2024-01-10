@@ -3,6 +3,7 @@ import { Navbar } from './Navbar';
 import { getServerSession } from 'next-auth';
 import { NEXT_AUTH_OPTIONS } from '@/shared/utils/nextAuth';
 import { SettingsSidebar } from './SettingsSidebar/SettingsSidebar';
+import { Sidebar } from './Sidebar';
 
 type BaseLayoutProps = {
   children: ReactNode;
@@ -12,16 +13,16 @@ export const BaseLayout = async ({ children }: BaseLayoutProps) => {
   const session = await getServerSession(NEXT_AUTH_OPTIONS);
 
   return (
-    <div>
-      {session?.user && <Navbar />}
+    <div className="h-full bg-[#FAFAFF]">
+      <div className="flex h-full">
+        <Sidebar />
 
-      <div className="px-4 sm:px-[120px]">
-        <main className="container mx-auto">
-          <div className="pt-2 sm:pt-10">{children}</div>
-        </main>
+        <div className="flex-1 p-6">
+          <main className="mx-auto rounded-[40px] bg-white">
+            <div className="p-10">{children}</div>
+          </main>
+        </div>
       </div>
-
-      <SettingsSidebar />
     </div>
   );
 };

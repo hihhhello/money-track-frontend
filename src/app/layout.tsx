@@ -33,7 +33,7 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
       </head>
 
-      <body className="h-full bg-white text-main-dark">
+      <body className="h-full bg-[#FAFAFF] text-main-dark">
         <QueryClientProvider>
           <NextAuthProvider>
             <ToastContainer pauseOnFocusLoss={false} pauseOnHover={false} />
