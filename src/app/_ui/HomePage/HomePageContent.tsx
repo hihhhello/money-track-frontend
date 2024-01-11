@@ -133,6 +133,7 @@ export const HomePageContent = ({
                 <div>
                   <span
                     className={classNames(
+                      'whitespace-nowrap',
                       transaction.type === FinancialOperationType.EXPENSE
                         ? 'text-main-orange'
                         : 'text-main-blue',
@@ -186,6 +187,7 @@ export const HomePageContent = ({
                 <div>
                   <span
                     className={classNames(
+                      'whitespace-nowrap',
                       transaction.type === FinancialOperationType.EXPENSE
                         ? 'text-main-orange'
                         : 'text-main-blue',
