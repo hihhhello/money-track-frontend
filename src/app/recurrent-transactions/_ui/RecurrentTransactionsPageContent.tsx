@@ -55,7 +55,7 @@ export const RecurrentTransactionsPageContent = ({
             handleOpenAddNewRecurrentTransactionModal();
             setTransactionTypeToAdd(FinancialOperationType.DEPOSIT);
           }}
-          className="rounded bg-indigo-600 px-3 py-1.5 leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          className="rounded bg-main-blue px-3 py-1.5 leading-6 text-white shadow-sm hover:bg-main-blue/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main-blue"
         >
           Add recurrent deposit
         </button>
@@ -65,7 +65,7 @@ export const RecurrentTransactionsPageContent = ({
             handleOpenAddNewRecurrentTransactionModal();
             setTransactionTypeToAdd(FinancialOperationType.EXPENSE);
           }}
-          className="rounded bg-indigo-600 px-3 py-1.5 leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          className="rounded bg-main-blue px-3 py-1.5 leading-6 text-white shadow-sm hover:bg-main-blue/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main-blue"
         >
           Add recurrent expense
         </button>
@@ -74,7 +74,7 @@ export const RecurrentTransactionsPageContent = ({
       <div className="grid grid-cols-1 gap-x-4 sm:grid-cols-3">
         {recurrentTransactions?.map((transaction) => (
           <div key={transaction.id} className="rounded-lg bg-white shadow-lg">
-            <div className="rounded-t-lg bg-indigo-600 px-4 py-2 text-white">
+            <div className="rounded-t-lg bg-main-blue px-4 py-2 text-white">
               <h3>{transaction.category.name}</h3>
             </div>
 
@@ -124,7 +124,7 @@ export const RecurrentTransactionsPageContent = ({
                   setSelectedRecurrentTransaction(transaction);
                   handleOpenEditTransactionModal();
                 }}
-                className="text-indigo-600 hover:text-indigo-400"
+                className="text-main-blue hover:text-main-blue/70"
               >
                 Edit
               </button>
