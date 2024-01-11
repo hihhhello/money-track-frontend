@@ -22,9 +22,9 @@ export const BaseLayout = async ({ children }: BaseLayoutProps) => {
             Boolean(session?.user) && 'sm:pl-[112px]',
           )}
         >
-          <div className="h-full p-6">
+          <div className="min-h-full p-6">
             <main className="container mx-auto h-full rounded-[40px] bg-white">
-              <div className="h-full p-10">{children}</div>
+              <div className="min-h-full p-10">{children}</div>
             </main>
           </div>
         </div>
