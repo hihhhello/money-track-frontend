@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { getServerSession } from 'next-auth';
 import { NEXT_AUTH_OPTIONS } from '@/shared/utils/nextAuth';
 import { Sidebar } from './Sidebar';
+import { classNames } from '@/shared/utils/helpers';
 
 type BaseLayoutProps = {
   children: ReactNode;
@@ -13,9 +14,14 @@ export const BaseLayout = async ({ children }: BaseLayoutProps) => {
   return (
     <div className="h-full bg-main-paper">
       <div className="flex h-full">
-        <Sidebar />
+        {session?.user && <Sidebar />}
 
-        <div className="flex-1 sm:pl-[112px]">
+        <div
+          className={classNames(
+            'flex-1',
+            Boolean(session?.user) && 'sm:pl-[112px]',
+          )}
+        >
           <div className="h-full p-6">
             <main className="container mx-auto h-full rounded-[40px] bg-white">
               <div className="h-full p-10">{children}</div>
