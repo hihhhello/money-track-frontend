@@ -149,19 +149,15 @@ export const CategoriesPageContent = ({
 
   return (
     <div>
-      <h1 className="mb-8">Categories</h1>
-
       <div>
         <div className="mb-8">
           <div className="mb-4 inline-flex items-center justify-between">
-            <span>Expense</span>
-
-            <button onClick={handleAddNewExpenseCategory}>
-              <PlusIcon />
-            </button>
+            <div className="inline-block rounded-full border border-main-dark px-6 py-2">
+              <span className="text-main-dark">Expense</span>
+            </div>
           </div>
 
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-4 rounded-3xl bg-main-paper p-4">
             {reducedCategories?.expense?.map((category) => (
               <button
                 key={category.id}
@@ -170,24 +166,31 @@ export const CategoriesPageContent = ({
                   handleOpenEditCategoryModal();
                   setSelectedCategory(category);
                 }}
-                className="h-full border border-gray-200 px-4 py-2 font-semibold shadow-sm hover:bg-gray-100"
+                className="h-full rounded-3xl bg-white px-4 py-2 shadow-md transition-colors hover:bg-main-dark hover:text-white"
               >
                 {category.name}
               </button>
             ))}
+
+            <button
+              type="button"
+              onClick={handleAddNewExpenseCategory}
+              className="flex h-full gap-2 rounded-3xl bg-main-blue px-4 py-2 text-main-white shadow-md hover:bg-main-blue/90"
+            >
+              New
+              <PlusIcon />
+            </button>
           </div>
         </div>
 
         <div>
           <div className="mb-4 inline-flex items-center justify-between">
-            <span>Deposit</span>
-
-            <button onClick={handleAddNewDepositCategory}>
-              <PlusIcon />
-            </button>
+            <div className="inline-block rounded-full border border-main-dark px-6 py-2">
+              <span className="text-main-dark">Deposit</span>
+            </div>
           </div>
 
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-4 rounded-3xl bg-main-paper p-4">
             {reducedCategories?.deposit?.map((category) => (
               <button
                 key={category.id}
@@ -196,11 +199,20 @@ export const CategoriesPageContent = ({
                   handleOpenEditCategoryModal();
                   setSelectedCategory(category);
                 }}
-                className="h-full border border-gray-200 px-4 py-2 font-semibold shadow-sm hover:bg-gray-100"
+                className="h-full rounded-3xl bg-white px-4 py-2 shadow-md transition-colors hover:bg-main-dark hover:text-white"
               >
                 {category.name}
               </button>
             ))}
+
+            <button
+              type="button"
+              onClick={handleAddNewDepositCategory}
+              className="flex h-full gap-2 rounded-3xl bg-main-blue px-4 py-2 text-main-white shadow-md hover:bg-main-blue/90"
+            >
+              New
+              <PlusIcon />
+            </button>
           </div>
         </div>
       </div>
