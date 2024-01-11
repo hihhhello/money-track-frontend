@@ -150,14 +150,14 @@ export const CategoriesPageContent = ({
   return (
     <div>
       <div>
-        <div className="mb-8">
-          <div className="mb-4 inline-flex items-center justify-between">
+        <div className="mb-8 rounded-3xl bg-main-paper p-4">
+          <div className="mb-6 inline-flex items-center justify-between">
             <div className="inline-block rounded-full border border-main-dark px-6 py-2">
               <span className="text-main-dark">Expense</span>
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-4 rounded-3xl bg-main-paper p-4">
+          <div className="flex flex-wrap gap-4">
             {reducedCategories?.expense?.map((category) => (
               <button
                 key={category.id}
@@ -183,14 +183,14 @@ export const CategoriesPageContent = ({
           </div>
         </div>
 
-        <div>
-          <div className="mb-4 inline-flex items-center justify-between">
+        <div className="rounded-3xl bg-main-paper p-4">
+          <div className="mb-6 inline-flex items-center justify-between">
             <div className="inline-block rounded-full border border-main-dark px-6 py-2">
               <span className="text-main-dark">Deposit</span>
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-4 rounded-3xl bg-main-paper p-4">
+          <div className="flex flex-wrap gap-4">
             {reducedCategories?.deposit?.map((category) => (
               <button
                 key={category.id}
