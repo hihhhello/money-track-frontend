@@ -10,8 +10,6 @@ import {
 } from '@/shared/utils/helpers';
 import { api } from '@/shared/api/api';
 import { useBoolean } from '@/shared/utils/hooks';
-import { Disclosure } from '@headlessui/react';
-import { ChevronDownIcon } from '@/shared/icons/ChevronDownIcon';
 import { useState } from 'react';
 import { Transaction } from '@/shared/types/transactionTypes';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
