@@ -15,6 +15,7 @@ import { Transaction } from '@/shared/types/transactionTypes';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { EditTransactionModal } from '@/features/EditTransactionModal';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
+import { Spinner } from '@/shared/ui/Spinner';
 
 type HomePageContentProps = {
   transactions: Transaction[];
