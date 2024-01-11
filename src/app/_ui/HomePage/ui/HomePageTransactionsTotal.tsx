@@ -39,12 +39,12 @@ export const HomePageTransactionsTotal = ({
     <div className="flex h-full w-full flex-col justify-end gap-2 rounded-3xl bg-main-dark px-3 pb-5 pt-4">
       <div>
         <div className="inline-block rounded-full border border-main-white px-6 py-2">
-          <span className="text-main-white">Current Balance</span>
+          <span className="text-main-white">Current Expenses</span>
         </div>
       </div>
 
       <span className="text-6xl leading-relaxed text-white">
-        {formatToUSDCurrency(totalTransactionsAmount)}
+        {formatToUSDCurrency(Math.abs(totalTransactionsAmount))}
       </span>
     </div>
   );

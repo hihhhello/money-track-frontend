@@ -101,7 +101,7 @@ export const HomePageContent = ({
         <div className="flex max-h-[715px] flex-col rounded-3xl bg-main-paper p-4">
           <div className="mb-6">
             <div className="inline-block rounded-full border border-main-dark px-6 py-2">
-              <span className="text-main-dark">Last transactions</span>
+              <span className="text-main-dark">Last payments</span>
             </div>
           </div>
 
@@ -140,12 +140,7 @@ export const HomePageContent = ({
                         : 'text-main-blue',
                     )}
                   >
-                    {formatToUSDCurrency(
-                      getNetAmount({
-                        amount: transaction.amount,
-                        type: transaction.type,
-                      }),
-                    )}
+                    {formatToUSDCurrency(parseFloat(transaction.amount))}
                   </span>
                 </div>
               </button>
@@ -156,7 +151,7 @@ export const HomePageContent = ({
         <div className="flex max-h-[715px] flex-col rounded-3xl bg-main-paper p-4">
           <div className="mb-6">
             <div className="inline-block rounded-full border border-main-dark px-6 py-2">
-              <span className="text-main-dark">Recurrent transactions</span>
+              <span className="text-main-dark">Upcoming payments</span>
             </div>
           </div>
 
@@ -194,12 +189,7 @@ export const HomePageContent = ({
                         : 'text-main-blue',
                     )}
                   >
-                    {formatToUSDCurrency(
-                      getNetAmount({
-                        amount: transaction.amount,
-                        type: transaction.type,
-                      }),
-                    )}
+                    {formatToUSDCurrency(parseFloat(transaction.amount))}
                   </span>
                 </div>
               </div>
