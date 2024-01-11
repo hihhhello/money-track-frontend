@@ -47,8 +47,6 @@ export const RecurrentTransactionsPageContent = ({
 
   return (
     <div>
-      <h1>Recurrent transactions</h1>
-
       <div className="mb-4 flex gap-4">
         <button
           onClick={() => {
@@ -73,8 +71,11 @@ export const RecurrentTransactionsPageContent = ({
 
       <div className="grid grid-cols-1 gap-x-4 sm:grid-cols-3">
         {recurrentTransactions?.map((transaction) => (
-          <div key={transaction.id} className="rounded-lg bg-white shadow-lg">
-            <div className="rounded-t-lg bg-main-blue px-4 py-2 text-white">
+          <div
+            key={transaction.id}
+            className="rounded-3xl bg-main-paper shadow-md"
+          >
+            <div className="rounded-t-3xl bg-main-blue px-4 py-2 text-white">
               <h3>{transaction.category.name}</h3>
             </div>
 
