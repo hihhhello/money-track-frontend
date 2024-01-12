@@ -33,7 +33,7 @@ module.exports = {
           white: '#F4F4F8',
           blue: '#4160EA',
           orange: '#CF623C',
-          paper: '#FAFAFF',
+          paper: '#F7F7FF',
         },
       },
       borderRadius: {
