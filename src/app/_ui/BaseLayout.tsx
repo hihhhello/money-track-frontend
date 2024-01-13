@@ -12,21 +12,22 @@ type BaseLayoutProps = {
 export const BaseLayout = async ({ children }: BaseLayoutProps) => {
   const session = await getServerSession(NEXT_AUTH_OPTIONS);
 
+  const isSignedInUser = Boolean(session?.user);
+
   return (
     <div className="h-full bg-main-paper">
       <div className="flex h-full">
-        {session?.user && <Sidebar />}
+        {isSignedInUser && <Sidebar />}
 
         <div
-          className={classNames(
-            'flex-1',
-            Boolean(session?.user) && 'sm:pl-[112px]',
-          )}
+          className={classNames('flex-1', isSignedInUser && 'sm:pl-[112px]')}
         >
           <div className="min-h-full p-6">
-            <div className="mb-6 flex justify-end">
-              <Navbar />
-            </div>
+            {isSignedInUser && (
+              <div className="mb-6 flex justify-end">
+                <Navbar />
+              </div>
+            )}
 
             <main className="container mx-auto h-full rounded-[40px] bg-white">
               <div className="min-h-full p-10">{children}</div>
