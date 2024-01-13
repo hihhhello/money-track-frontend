@@ -43,7 +43,7 @@ export const HomePageTransactionsTotal = ({
         </div>
       </div>
 
-      <span className="text-6xl leading-relaxed text-white">
+      <span className="break-words text-3xl leading-relaxed text-white sm:text-6xl">
         {formatToUSDCurrency(Math.abs(totalTransactionsAmount))}
       </span>
     </div>
