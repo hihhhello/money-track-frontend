@@ -43,7 +43,11 @@ axiosInstance.interceptors.response.use(
         type: 'error',
         toastId: '401-error-toast',
       });
-    } else {
+    } else if (
+      typeof window !== 'undefined' &&
+      error.response?.status &&
+      error.response?.status >= 500
+    ) {
       toast('Something went wrong. Try again.', {
         type: 'error',
         toastId: 'other-error-toast',
