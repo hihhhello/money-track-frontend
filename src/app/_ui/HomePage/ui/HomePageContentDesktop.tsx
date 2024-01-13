@@ -126,7 +126,7 @@ export const HomePageContentDesktop = ({
                 <div className="w-full flex-grow">
                   <span
                     className={classNames(
-                      'w-full break-words text-left',
+                      'w-full break-words text-left sm:text-right',
                       transaction.type === FinancialOperationType.EXPENSE
                         ? 'text-main-orange'
                         : 'text-main-blue',
