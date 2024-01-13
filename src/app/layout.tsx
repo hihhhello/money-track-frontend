@@ -19,7 +19,8 @@ const kanit = Kanit({
 
 export const metadata: Metadata = {
   title: 'Money Track',
-  description: 'Created by Anton',
+  description: 'Created by Ratushniak family',
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
 };
 
 export default function RootLayout({
