@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@/shared/icons/XMarkIcon';
 import { TrashIcon } from '../icons/TrashIcon';
+import { twMerge } from 'tailwind-merge';
 
 type TransactionValues = {
   amount: string;
@@ -173,9 +174,10 @@ export const ManageTransactionModal = ({
                           key={category.id}
                           type="button"
                           onClick={() => setSelectedCategoryId(category.id)}
-                          className={classNames(
-                            'h-full border border-gray-200 px-4 py-2 font-semibold shadow-sm',
-                            selectedCategoryId === category.id && 'bg-gray-100',
+                          className={twMerge(
+                            'h-full rounded-3xl bg-white px-4 py-2 shadow-md transition-colors hover:bg-main-dark hover:text-white',
+                            selectedCategoryId === category.id &&
+                              'bg-main-blue text-main-white',
                           )}
                         >
                           {category.name}
