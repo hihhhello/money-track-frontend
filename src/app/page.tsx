@@ -2,7 +2,6 @@ import { api } from '@/shared/api/api';
 import { HomePageContent } from './_ui/HomePage/HomePageContent';
 import { HomePageTransactionsTotal } from './_ui/HomePage/ui/HomePageTransactionsTotal';
 import { HomePageAddNewTransactionActions } from './_ui/HomePage/ui/HomePageAddNewTransactionActions';
-import { Spinner } from '@/shared/ui/Spinner';
 
 const HomePage = async () => {
   const transactions = await api.transactions.getAll();
