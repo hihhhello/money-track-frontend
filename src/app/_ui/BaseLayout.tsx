@@ -15,7 +15,7 @@ export const BaseLayout = async ({ children }: BaseLayoutProps) => {
   const isSignedInUser = Boolean(session?.user);
 
   return (
-    <div className="h-full bg-main-paper">
+    <div className="h-full bg-white sm:bg-main-paper">
       <div className="flex h-full">
         {isSignedInUser && <Sidebar />}
 
@@ -30,7 +30,7 @@ export const BaseLayout = async ({ children }: BaseLayoutProps) => {
             )}
 
             <main className="container mx-auto h-full rounded-[40px] bg-white">
-              <div className="min-h-full p-10">{children}</div>
+              <div className="min-h-full sm:p-10">{children}</div>
             </main>
           </div>
         </div>
