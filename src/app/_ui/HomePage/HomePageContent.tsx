@@ -132,7 +132,7 @@ export const HomePageContent = ({
                 <div className="w-full flex-grow">
                   <p
                     className={classNames(
-                      'w-full break-words text-left',
+                      'w-full break-words text-left sm:text-right',
                       transaction.type === FinancialOperationType.EXPENSE
                         ? 'text-main-orange'
                         : 'text-main-blue',
