@@ -23,7 +23,6 @@ import { Transaction } from '@/shared/types/transactionTypes';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { EditTransactionModal } from '@/features/EditTransactionModal';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
-import { sum } from 'lodash';
 import { twMerge } from 'tailwind-merge';
 
 type HomePageContentProps = {
@@ -55,54 +54,6 @@ export const HomePageContent = ({
     queryKey: ['api.recurrentTransactions.getAll'],
     initialData: initialRecurrentTransactions,
   });
-
-  const transactionsByDate:
-    | {
-        [date: string]: {
-          transactions: Transaction[];
-          totalAmount: number;
-        };
-      }
-    | undefined = transactions?.reduce(
-    (transactionsByDateAccumulator, transaction) => {
-      const key = transaction.date ?? 'None';
-
-      if (!transactionsByDateAccumulator[key]) {
-        return {
-          ...transactionsByDateAccumulator,
-          [key]: {
-            transactions: [transaction],
-            totalAmount: getNetAmount({
-              amount: transaction.amount,
-              type: transaction.type,
-            }),
-          },
-        };
-      }
-
-      return {
-        ...transactionsByDateAccumulator,
-        [key]: {
-          transactions: [
-            ...transactionsByDateAccumulator[key].transactions,
-            transaction,
-          ],
-          totalAmount:
-            transactionsByDateAccumulator[key].totalAmount +
-            getNetAmount({
-              type: transaction.type,
-              amount: transaction.amount,
-            }),
-        },
-      };
-    },
-    {} as {
-      [date: string]: {
-        transactions: Transaction[];
-        totalAmount: number;
-      };
-    },
-  );
 
   const [tab, setTab] = useState('lastPayments');
 
@@ -259,7 +210,6 @@ const Tabs = (props: TabsProps) => {
 
     valueToIndex.set(childValue, childIndex);
 
-    // Ensure the tabRefs array is large enough
     if (!childrenRef.current[index]) {
       childrenRef.current[index] = React.createRef();
     }
