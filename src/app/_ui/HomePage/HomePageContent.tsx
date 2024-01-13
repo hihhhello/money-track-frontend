@@ -11,6 +11,7 @@ import {
 import { api } from '@/shared/api/api';
 import { useBoolean } from '@/shared/utils/hooks';
 import React, {
+  ReactElement,
   ReactNode,
   RefObject,
   useEffect,
@@ -228,6 +229,10 @@ export const HomePageContent = ({
   );
 };
 
+const isReactElement = (node: ReactNode): node is ReactElement => {
+  return (node as ReactElement).type !== undefined;
+};
+
 type TabsProps = {
   children: ReactNode;
   value: string;
@@ -238,12 +243,16 @@ const Tabs = (props: TabsProps) => {
   const [leftOffset, setLeftOffset] = useState(0);
   const tabs = useRef<HTMLDivElement>(null);
   const valueToIndex = useMemo(() => new Map(), []);
-  const childrenRef = useRef([]);
+  const childrenRef = useRef<RefObject<HTMLElement>[]>([]);
 
   let childIndex = 0;
   const children = React.Children.map(props.children, (child, index) => {
     if (!React.isValidElement(child)) {
       return null;
+    }
+
+    if (!isReactElement(child)) {
+      return child;
     }
 
     const childValue = child.key === undefined ? childIndex : child.key;
@@ -259,7 +268,7 @@ const Tabs = (props: TabsProps) => {
 
     const isCurrentTab = props.value === child.key;
 
-    return React.cloneElement(child, {
+    return React.cloneElement(child as ReactElement, {
       ref: childrenRef.current[index],
       className: twMerge(
         child.props.className,
