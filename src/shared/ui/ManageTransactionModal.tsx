@@ -12,7 +12,7 @@ import { twMerge } from 'tailwind-merge';
 type TransactionValues = {
   amount: string;
   date: string;
-  description: string | null;
+  description: string;
 };
 
 type ManageTransactionModalProps = {
@@ -53,7 +53,7 @@ export const ManageTransactionModal = ({
     setTransactionFormValues({
       date: defaultValues?.date ?? today,
       amount: defaultValues?.amount ?? '',
-      description: defaultValues?.description ?? null,
+      description: defaultValues?.description ?? '',
     });
   }, [defaultValues, today]);
 
@@ -61,7 +61,7 @@ export const ManageTransactionModal = ({
     useState<TransactionValues>({
       date: defaultValues?.date ?? today,
       amount: defaultValues?.amount ?? '',
-      description: defaultValues?.description ?? null,
+      description: defaultValues?.description ?? '',
     });
 
   const handleSubmit = () => {
@@ -76,7 +76,7 @@ export const ManageTransactionModal = ({
       setTransactionFormValues({
         amount: '',
         date: today,
-        description: null,
+        description: '',
       });
       setSelectedCategoryId(null);
       handleClose();
@@ -89,7 +89,7 @@ export const ManageTransactionModal = ({
       setTransactionFormValues({
         date: today,
         amount: '',
-        description: null,
+        description: '',
       });
       handleClose();
     });
@@ -211,7 +211,7 @@ export const ManageTransactionModal = ({
                           description: e.target.value,
                         }));
                       }}
-                      value={transactionFormValues.description ?? ''}
+                      value={transactionFormValues.description}
                       className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
                       name="description"
                       placeholder="Add description"

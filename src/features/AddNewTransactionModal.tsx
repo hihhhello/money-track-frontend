@@ -51,7 +51,7 @@ export const AddNewTransactionModal = ({
     amount: string;
     date: string;
     categoryId: number;
-    description: string | null;
+    description: string;
   }) => {
     const toastId = loadingToast.showLoading(
       TRANSACTION_TYPE_TO_LABEL[transactionType].ADD_NEW_LOADING,
