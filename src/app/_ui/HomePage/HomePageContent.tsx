@@ -113,35 +113,33 @@ export const HomePageContent = ({
                   handleOpenEditTransactionModal();
                 }}
                 key={transaction.id}
-                className="flex items-center justify-between rounded-lg bg-white px-4 py-1 pr-2 hover:bg-gray-200"
+                className="flex flex-col rounded-lg bg-white px-4 py-1 pr-2 hover:bg-gray-200 sm:flex-row sm:items-center sm:justify-between"
               >
-                <div className="flex items-center gap-4">
-                  <div className="flex flex-col justify-start">
-                    <span className="text-left">
-                      {transaction.category.name}
-                    </span>
+                <div className="flex w-full flex-grow flex-col items-start">
+                  <span className="w-full break-words text-left">
+                    {transaction.category.name}
+                  </span>
 
-                    <p className="text-left text-sm">
-                      {transaction.description}
-                    </p>
+                  <p className="w-full break-words text-left text-sm">
+                    {transaction.description}
+                  </p>
 
-                    <p className="text-left text-sm">
-                      {format(parseISO(transaction.date), 'EEEE, dd MMMM')}
-                    </p>
-                  </div>
+                  <p className="w-full break-words text-left text-sm">
+                    {format(parseISO(transaction.date), 'EEEE, dd MMMM')}
+                  </p>
                 </div>
 
-                <div>
-                  <span
+                <div className="w-full flex-grow">
+                  <p
                     className={classNames(
-                      'whitespace-nowrap',
+                      'w-full break-words text-left',
                       transaction.type === FinancialOperationType.EXPENSE
                         ? 'text-main-orange'
                         : 'text-main-blue',
                     )}
                   >
                     {formatToUSDCurrency(parseFloat(transaction.amount))}
-                  </span>
+                  </p>
                 </div>
               </button>
             ))}
@@ -159,31 +157,29 @@ export const HomePageContent = ({
             {recurrentTransactions.map((transaction) => (
               <div
                 key={transaction.id}
-                className="flex items-center justify-between rounded-lg bg-white px-4 py-1 pr-2 hover:bg-gray-200"
+                className="flex flex-col rounded-lg bg-white px-4 py-1 pr-2 hover:bg-gray-200 sm:flex-row sm:items-center sm:justify-between"
               >
-                <div className="flex items-center gap-4">
-                  <div className="flex flex-col justify-start">
-                    <span className="text-left">
-                      {transaction.category.name}
-                    </span>
+                <div className="flex w-full flex-grow flex-col items-start">
+                  <span className="w-full break-words text-left">
+                    {transaction.category.name}
+                  </span>
 
-                    <p className="text-left text-sm">
-                      {transaction.description}
-                    </p>
+                  <p className="w-full break-words text-left text-sm">
+                    {transaction.description}
+                  </p>
 
-                    <p className="text-left text-sm">
-                      {format(
-                        parseISO(transaction.next_transaction),
-                        'EEEE, dd MMMM',
-                      )}
-                    </p>
-                  </div>
+                  <p className="w-full break-words text-left text-sm">
+                    {format(
+                      parseISO(transaction.next_transaction),
+                      'EEEE, dd MMMM',
+                    )}
+                  </p>
                 </div>
 
-                <div>
+                <div className="w-full flex-grow">
                   <span
                     className={classNames(
-                      'whitespace-nowrap',
+                      'w-full break-words text-left',
                       transaction.type === FinancialOperationType.EXPENSE
                         ? 'text-main-orange'
                         : 'text-main-blue',
