@@ -13,3 +13,6 @@ export type Transaction = {
   type: FinancialOperationTypeValue;
   user_id: number;
 };
+
+export type APITransactionPeriodFilter = 'today' | 'month' | 'year';
+export type TransactionPeriodFilter = 'today' | 'month' | 'year' | 'all';

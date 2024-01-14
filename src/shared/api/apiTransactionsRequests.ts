@@ -1,7 +1,10 @@
 import { QueryFunctionContext } from '@tanstack/react-query';
 import { axiosInstance } from './apiBase';
 import { createUrlWithSearchParams } from '../utils/helpers';
-import { Transaction } from '../types/transactionTypes';
+import {
+  Transaction,
+  APITransactionPeriodFilter,
+} from '../types/transactionTypes';
 import { FinancialOperationTypeValue } from '../types/globalTypes';
 
 const createOne = ({
@@ -21,8 +24,9 @@ const createOne = ({
 const getAll = (
   input?: {
     searchParams?: {
-      startDate: string;
-      endDate: string;
+      startDate?: string;
+      endDate?: string;
+      period?: APITransactionPeriodFilter;
     };
   } & Partial<QueryFunctionContext>,
 ) =>

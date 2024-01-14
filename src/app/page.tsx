@@ -4,7 +4,11 @@ import { HomePageTransactionsTotal } from './_ui/HomePage/ui/HomePageTransaction
 import { HomePageAddNewTransactionActions } from './_ui/HomePage/ui/HomePageAddNewTransactionActions';
 
 const HomePage = async () => {
-  const transactions = await api.transactions.getAll();
+  const transactions = await api.transactions.getAll({
+    searchParams: {
+      period: 'month',
+    },
+  });
   const recurrentTransactions = await api.recurrentTransactions.getAll();
 
   return (

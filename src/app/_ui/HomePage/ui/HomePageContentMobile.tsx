@@ -1,10 +1,8 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
 
 import { classNames, formatToUSDCurrency } from '@/shared/utils/helpers';
-import { api } from '@/shared/api/api';
 import { useBoolean } from '@/shared/utils/hooks';
 import React, {
   ReactElement,
@@ -27,8 +25,8 @@ type HomePageContentMobileProps = {
 };
 
 export const HomePageContentMobile = ({
-  recurrentTransactions: initialRecurrentTransactions,
-  transactions: initialTransactions,
+  recurrentTransactions,
+  transactions,
 }: HomePageContentMobileProps) => {
   const {
     value: isEditTransactionModalOpen,
@@ -38,18 +36,6 @@ export const HomePageContentMobile = ({
 
   const [selectedTransaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
-
-  const { data: transactions } = useQuery({
-    queryFn: api.transactions.getAll,
-    queryKey: ['api.transactions.getAll'],
-    initialData: initialTransactions,
-  });
-
-  const { data: recurrentTransactions } = useQuery({
-    queryFn: api.recurrentTransactions.getAll,
-    queryKey: ['api.recurrentTransactions.getAll'],
-    initialData: initialRecurrentTransactions,
-  });
 
   const [tab, setTab] = useState<'lastPayments' | 'upcomingPayments'>(
     'lastPayments',
