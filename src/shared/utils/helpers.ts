@@ -1,3 +1,4 @@
+import { compact } from 'lodash';
 import {
   FinancialOperationType,
   FinancialOperationTypeValue,
@@ -45,19 +46,20 @@ export const formatToUSDCurrencyNoCents = (value: number | undefined) => {
 
 export function createUrlWithSearchParams(params: {
   url: string;
-  searchParams?: Record<string, string | number>;
+  searchParams?: Record<string, string | number | undefined>;
 }): string {
   const { url, searchParams } = params;
   if (!searchParams || Object.keys(searchParams).length === 0) {
     return url;
   }
 
-  const searchParamsString = Object.entries(searchParams)
-    .map(
-      ([key, value]) =>
-        `${encodeURIComponent(key)}=${encodeURIComponent(value)}`,
-    )
-    .join('&');
+  const searchParamsString = compact(
+    Object.entries(searchParams).map(([key, value]) =>
+      value
+        ? `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+        : undefined,
+    ),
+  ).join('&');
 
   return `${url}?${searchParamsString}`;
 }
