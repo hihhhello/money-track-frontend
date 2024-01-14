@@ -22,10 +22,12 @@ export const TransactionsPeriodFilterSelect = ({
     <Listbox value={filter} onChange={handleChangeFilter}>
       {({ open }) => (
         <>
-          <div className="relative mt-2">
-            <Listbox.Button className="relative w-full min-w-[144px] cursor-pointer rounded-full border border-main-blue bg-main-blue py-2 pl-4 pr-4 text-left text-white">
+          <div className="relative">
+            <Listbox.Button className="relative w-full min-w-[110px] cursor-pointer rounded-full border border-main-blue bg-main-blue py-2 pl-4 pr-4 text-left text-white sm:min-w-[144px]">
               <span className="flex items-center">
-                <span className="block truncate">{upperFirst(filter)}</span>
+                <span className="block truncate text-sm sm:text-base">
+                  {upperFirst(filter)}
+                </span>
               </span>
 
               <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">

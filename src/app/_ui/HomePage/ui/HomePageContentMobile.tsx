@@ -13,20 +13,28 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Transaction } from '@/shared/types/transactionTypes';
+import {
+  Transaction,
+  TransactionPeriodFilter,
+} from '@/shared/types/transactionTypes';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { EditTransactionModal } from '@/features/EditTransactionModal';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
 import { twMerge } from 'tailwind-merge';
+import { TransactionsPeriodFilterSelect } from '@/features/TransactionsPeriodFilterSelect';
 
 type HomePageContentMobileProps = {
   transactions: Transaction[];
   recurrentTransactions: RecurrentTransaction[];
+  filter: TransactionPeriodFilter;
+  handleChangeFilter: (newFilter: TransactionPeriodFilter) => void;
 };
 
 export const HomePageContentMobile = ({
   recurrentTransactions,
   transactions,
+  filter,
+  handleChangeFilter,
 }: HomePageContentMobileProps) => {
   const {
     value: isEditTransactionModalOpen,
@@ -44,14 +52,14 @@ export const HomePageContentMobile = ({
   return (
     <div>
       <div className="flex max-h-[715px] flex-col rounded-3xl bg-main-paper p-4">
-        <div className="mb-6">
+        <div className="mb-6 flex items-center justify-between">
           <Tabs value={tab}>
             <span
               key="lastPayments"
               onClick={() => setTab('lastPayments')}
               className="cursor-pointer px-4 text-center text-sm text-main-dark"
             >
-              Last payments
+              Last
             </span>
 
             <span
@@ -59,9 +67,14 @@ export const HomePageContentMobile = ({
               onClick={() => setTab('upcomingPayments')}
               className="cursor-pointer px-4 text-center text-sm text-main-dark"
             >
-              Upcoming payments
+              Upcoming
             </span>
           </Tabs>
+
+          <TransactionsPeriodFilterSelect
+            filter={filter}
+            handleChangeFilter={handleChangeFilter}
+          />
         </div>
 
         <div className="flex h-full flex-col gap-4 overflow-y-auto">

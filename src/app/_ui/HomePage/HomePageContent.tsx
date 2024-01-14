@@ -64,6 +64,8 @@ export const HomePageContent = ({
     <HomePageContentMobile
       recurrentTransactions={recurrentTransactions}
       transactions={transactions}
+      filter={transactionsFilter}
+      handleChangeFilter={setTransactionsFilter}
     />
   );
 };
