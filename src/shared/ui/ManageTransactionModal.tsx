@@ -143,7 +143,7 @@ export const ManageTransactionModal = ({
                 </CategoryList>
               </div>
 
-              <div className="flex gap-8">
+              <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
                 <div className="flex flex-1 flex-col gap-2">
                   <label htmlFor="date">Date</label>
                   <Input
