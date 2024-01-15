@@ -17,8 +17,8 @@ export type RecurrentTransaction = {
 };
 
 export const RecurrentTransactionFrequency = {
-  WEEKLY: 'weekly',
   MONTHLY: 'monthly',
+  WEEKLY: 'weekly',
 } as const;
 
 export type RecurrentTransactionFrequencyKey =

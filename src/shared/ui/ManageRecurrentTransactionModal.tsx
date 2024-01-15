@@ -13,6 +13,7 @@ import {
   RecurrentTransactionFrequencyValue,
 } from '../types/recurrentTransactionTypes';
 import { upperFirst } from 'lodash';
+import { twMerge } from 'tailwind-merge';
 
 type RecurrentTransactionValues = {
   amount: string;
@@ -61,7 +62,9 @@ export const ManageRecurrentTransactionModal = ({
       amount: defaultTransactionValues?.amount ?? '',
       description: defaultTransactionValues?.description ?? null,
       end_date: defaultTransactionValues?.end_date ?? null,
-      frequency: RecurrentTransactionFrequency.WEEKLY,
+      frequency:
+        defaultTransactionValues?.frequency ??
+        RecurrentTransactionFrequency.MONTHLY,
       start_date: defaultTransactionValues?.start_date ?? today,
     });
   }, [defaultTransactionValues, today]);
@@ -71,7 +74,9 @@ export const ManageRecurrentTransactionModal = ({
       amount: defaultTransactionValues?.amount ?? '',
       description: defaultTransactionValues?.description ?? null,
       end_date: defaultTransactionValues?.end_date ?? null,
-      frequency: RecurrentTransactionFrequency.WEEKLY,
+      frequency:
+        defaultTransactionValues?.frequency ??
+        RecurrentTransactionFrequency.MONTHLY,
       start_date: defaultTransactionValues?.start_date ?? today,
     });
 
@@ -89,7 +94,7 @@ export const ManageRecurrentTransactionModal = ({
         description: null,
         end_date: null,
         start_date: today,
-        frequency: RecurrentTransactionFrequency.WEEKLY,
+        frequency: RecurrentTransactionFrequency.MONTHLY,
       });
       setSelectedCategoryId(null);
       handleClose();
@@ -104,7 +109,7 @@ export const ManageRecurrentTransactionModal = ({
         description: null,
         end_date: null,
         start_date: today,
-        frequency: RecurrentTransactionFrequency.WEEKLY,
+        frequency: RecurrentTransactionFrequency.MONTHLY,
       });
       handleClose();
     });
@@ -183,15 +188,16 @@ export const ManageRecurrentTransactionModal = ({
                   <div className="mb-4">
                     <span>Category</span>
 
-                    <div className="mb-2 flex flex-wrap gap-4">
+                    <div className="mb-2 flex max-h-40 flex-wrap gap-4 overflow-y-auto p-2 sm:max-h-24">
                       {categories?.map((category) => (
                         <button
                           key={category.id}
                           type="button"
                           onClick={() => setSelectedCategoryId(category.id)}
-                          className={classNames(
-                            'h-full border border-gray-200 px-4 py-2 font-semibold shadow-sm',
-                            selectedCategoryId === category.id && 'bg-gray-100',
+                          className={twMerge(
+                            'h-full rounded-3xl bg-white px-4 py-2 shadow-md transition-colors hover:bg-main-dark hover:text-white',
+                            selectedCategoryId === category.id &&
+                              'bg-main-blue text-main-white',
                           )}
                         >
                           {category.name}
@@ -200,36 +206,38 @@ export const ManageRecurrentTransactionModal = ({
                     </div>
                   </div>
 
-                  <div className="mb-4 flex flex-col">
-                    <label htmlFor="date">Start date</label>
-                    <input
-                      className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
-                      name="date"
-                      type="date"
-                      value={transactionFormValues.start_date ?? ''}
-                      onChange={(e) => {
-                        setTransactionFormValues((prevValues) => ({
-                          ...prevValues,
-                          start_date: e.target.value,
-                        }));
-                      }}
-                    />
-                  </div>
+                  <div className="flex flex-col gap-2 sm:flex-row">
+                    <div className="mb-4 flex w-full flex-col">
+                      <label htmlFor="date">Start date</label>
+                      <input
+                        className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
+                        name="date"
+                        type="date"
+                        value={transactionFormValues.start_date ?? ''}
+                        onChange={(e) => {
+                          setTransactionFormValues((prevValues) => ({
+                            ...prevValues,
+                            start_date: e.target.value,
+                          }));
+                        }}
+                      />
+                    </div>
 
-                  <div className="mb-4 flex flex-col">
-                    <label htmlFor="date">End date</label>
-                    <input
-                      className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
-                      name="date"
-                      type="date"
-                      value={transactionFormValues.end_date ?? ''}
-                      onChange={(e) => {
-                        setTransactionFormValues((prevValues) => ({
-                          ...prevValues,
-                          end_date: e.target.value,
-                        }));
-                      }}
-                    />
+                    <div className="mb-4 flex w-full flex-col">
+                      <label htmlFor="date">End date</label>
+                      <input
+                        className="focus:ring-primary-green block w-full rounded-md border-0 px-4 py-1.5 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-base"
+                        name="date"
+                        type="date"
+                        value={transactionFormValues.end_date ?? ''}
+                        onChange={(e) => {
+                          setTransactionFormValues((prevValues) => ({
+                            ...prevValues,
+                            end_date: e.target.value,
+                          }));
+                        }}
+                      />
+                    </div>
                   </div>
 
                   <div className="mb-4 flex flex-col">
