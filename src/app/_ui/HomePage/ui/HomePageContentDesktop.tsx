@@ -123,7 +123,7 @@ export const HomePageContentDesktop = ({
                 </div>
 
                 <div className="w-full flex-grow">
-                  <span
+                  <p
                     className={classNames(
                       'w-full break-words text-left sm:text-right',
                       transaction.type === FinancialOperationType.EXPENSE
@@ -132,7 +132,7 @@ export const HomePageContentDesktop = ({
                     )}
                   >
                     {formatToUSDCurrency(parseFloat(transaction.amount))}
-                  </span>
+                  </p>
                 </div>
               </div>
             ))}
