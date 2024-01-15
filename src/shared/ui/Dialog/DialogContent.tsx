@@ -12,7 +12,7 @@ export const DialogContent = ({ children }: { children: ReactNode }) => (
       leaveFrom="opacity-100 scale-100"
       leaveTo="opacity-0 scale-95"
     >
-      <Dialog.Panel className="relative flex h-full w-full flex-col bg-white sm:max-h-[550px] sm:max-w-5xl sm:rounded">
+      <Dialog.Panel className="relative flex h-full w-full flex-col bg-main-paper sm:max-h-[550px] sm:max-w-5xl sm:rounded-3xl">
         {children}
       </Dialog.Panel>
     </Transition.Child>
