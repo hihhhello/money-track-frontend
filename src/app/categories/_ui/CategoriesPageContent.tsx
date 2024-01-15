@@ -13,7 +13,7 @@ import {
   FinancialOperationType,
   FinancialOperationTypeValue,
 } from '@/shared/types/globalTypes';
-import { CategoryItem } from '@/shared/ui/CategoryItem';
+import { CategoryItem } from '@/shared/ui/Category/CategoryItem';
 
 type CategoriesPageContentProps = {
   categories: Category[];

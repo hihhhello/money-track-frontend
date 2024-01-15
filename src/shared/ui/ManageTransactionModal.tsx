@@ -10,7 +10,8 @@ import { TrashIcon } from '../icons/TrashIcon';
 import { twMerge } from 'tailwind-merge';
 import { DialogOverlay } from './Dialog/DialogOverlay';
 import { DialogContent } from './Dialog/DialogContent';
-import { CategoryItem } from './CategoryItem';
+import { CategoryItem } from './Category/CategoryItem';
+import { CategoryList } from './Category/CategoryList';
 
 type TransactionValues = {
   amount: string;
@@ -151,7 +152,7 @@ export const ManageTransactionModal = ({
               <div className="mb-4">
                 <span>Category</span>
 
-                <div className="mb-2 flex max-h-40 flex-wrap gap-4 overflow-y-auto p-2 sm:max-h-24">
+                <CategoryList>
                   {categories?.map((category) => (
                     <CategoryItem
                       key={category.id}
@@ -160,7 +161,7 @@ export const ManageTransactionModal = ({
                       {category.name}
                     </CategoryItem>
                   ))}
-                </div>
+                </CategoryList>
               </div>
 
               <div className="flex flex-col">
