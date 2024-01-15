@@ -69,7 +69,7 @@ export const RecurrentTransactionsPageContent = ({
         </button>
       </div>
 
-      <div className="grid grid-cols-1 gap-x-4 sm:grid-cols-3">
+      <div className="grid h-full grid-cols-1 gap-x-4 overflow-y-auto sm:grid-cols-3">
         {recurrentTransactions?.map((transaction) => (
           <div
             key={transaction.id}

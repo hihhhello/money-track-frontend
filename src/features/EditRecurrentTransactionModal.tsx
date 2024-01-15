@@ -73,6 +73,7 @@ export const EditRecurrentTransactionModal = ({
             amount: transactionValues.amount,
             category_id: transactionValues.categoryId,
             description: transactionValues.description,
+            start_date: transactionValues.start_date,
           },
           params: {
             transactionId: selectedTransaction.id,
@@ -95,7 +96,24 @@ export const EditRecurrentTransactionModal = ({
       return;
     }
 
-    toast.warning('Deleting is not implemented yet.');
+    const toastId = loadingToast.showLoading('Deleting your transaction...');
+
+    return api.recurrentTransactions
+      .deleteOne({
+        params: {
+          transactionId: selectedTransaction.id,
+        },
+      })
+      .then(() => {
+        loadingToast.handleSuccess({
+          toastId,
+          message: 'You successfully deleted transaction.',
+        });
+        refetchTransactions();
+      })
+      .catch(() => {
+        loadingToast.handleError({ toastId, message: 'Error' });
+      });
   };
 
   return (

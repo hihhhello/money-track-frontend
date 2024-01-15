@@ -63,12 +63,12 @@ const editOne = ({
     body,
   );
 
-// const deleteOne = ({ params }: { params: { transactionId: number } }) =>
-//   axiosInstance.delete(`/recurrent_transactions/${params.transactionId}`);
+const deleteOne = ({ params }: { params: { transactionId: number } }) =>
+  axiosInstance.delete(`/recurrent_transactions/${params.transactionId}`);
 
 export const apiRecurrentTransactionsRequests = {
   createOne,
   getAll,
-  // deleteOne,
+  deleteOne,
   editOne,
 };
