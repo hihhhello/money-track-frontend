@@ -16,6 +16,7 @@ import { upperFirst } from 'lodash';
 import { twMerge } from 'tailwind-merge';
 import { DialogOverlay } from './Dialog/DialogOverlay';
 import { DialogContent } from './Dialog/DialogContent';
+import { CategoryItem } from './CategoryItem';
 
 type RecurrentTransactionValues = {
   amount: string;
@@ -172,18 +173,12 @@ export const ManageRecurrentTransactionModal = ({
 
                 <div className="mb-2 flex max-h-40 flex-wrap gap-4 overflow-y-auto p-2 sm:max-h-24">
                   {categories?.map((category) => (
-                    <button
+                    <CategoryItem
                       key={category.id}
-                      type="button"
                       onClick={() => setSelectedCategoryId(category.id)}
-                      className={twMerge(
-                        'h-full rounded-3xl bg-white px-4 py-2 shadow-md transition-colors hover:bg-main-dark hover:text-white',
-                        selectedCategoryId === category.id &&
-                          'bg-main-blue text-main-white',
-                      )}
                     >
                       {category.name}
-                    </button>
+                    </CategoryItem>
                   ))}
                 </div>
               </div>

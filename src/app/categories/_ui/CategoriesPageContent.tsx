@@ -13,6 +13,7 @@ import {
   FinancialOperationType,
   FinancialOperationTypeValue,
 } from '@/shared/types/globalTypes';
+import { CategoryItem } from '@/shared/ui/CategoryItem';
 
 type CategoriesPageContentProps = {
   categories: Category[];
@@ -159,17 +160,15 @@ export const CategoriesPageContent = ({
 
           <div className="flex flex-wrap gap-4">
             {reducedCategories?.expense?.map((category) => (
-              <button
+              <CategoryItem
                 key={category.id}
-                type="button"
                 onClick={() => {
                   handleOpenEditCategoryModal();
                   setSelectedCategory(category);
                 }}
-                className="h-full rounded-3xl bg-white px-4 py-2 shadow-md transition-colors hover:bg-main-dark hover:text-white"
               >
                 {category.name}
-              </button>
+              </CategoryItem>
             ))}
 
             <button
@@ -192,17 +191,15 @@ export const CategoriesPageContent = ({
 
           <div className="flex flex-wrap gap-4">
             {reducedCategories?.deposit?.map((category) => (
-              <button
+              <CategoryItem
                 key={category.id}
-                type="button"
                 onClick={() => {
                   handleOpenEditCategoryModal();
                   setSelectedCategory(category);
                 }}
-                className="h-full rounded-3xl bg-white px-4 py-2 shadow-md transition-colors hover:bg-main-dark hover:text-white"
               >
                 {category.name}
-              </button>
+              </CategoryItem>
             ))}
 
             <button
