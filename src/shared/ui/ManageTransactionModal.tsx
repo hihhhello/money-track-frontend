@@ -135,6 +135,7 @@ export const ManageTransactionModal = ({
                     <CategoryItem
                       key={category.id}
                       onClick={() => setSelectedCategoryId(category.id)}
+                      isSelected={selectedCategoryId === category.id}
                     >
                       {category.name}
                     </CategoryItem>
