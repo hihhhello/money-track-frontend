@@ -41,8 +41,8 @@ export const HomePageContentDesktop = ({
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="flex max-h-[715px] flex-col rounded-3xl bg-main-paper p-4">
           <div className="mb-6 flex items-center justify-between">
-            <div className="inline-block rounded-full border border-main-dark px-6 py-2">
-              <span className="text-main-dark">Last payments</span>
+            <div>
+              <span className="text-xl text-main-dark">Last payments</span>
             </div>
 
             <TransactionsPeriodFilterSelect
@@ -94,8 +94,8 @@ export const HomePageContentDesktop = ({
 
         <div className="flex max-h-[715px] flex-col rounded-3xl bg-main-paper p-4">
           <div className="mb-6">
-            <div className="inline-block rounded-full border border-main-dark px-6 py-2">
-              <span className="text-main-dark">Upcoming payments</span>
+            <div>
+              <span className="text-xl text-main-dark">Upcoming payments</span>
             </div>
           </div>
 

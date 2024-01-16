@@ -153,8 +153,8 @@ export const CategoriesPageContent = ({
       <div>
         <div className="mb-8 rounded-3xl bg-main-paper p-4">
           <div className="mb-6 inline-flex items-center justify-between">
-            <div className="inline-block rounded-full border border-main-dark px-6 py-2">
-              <span className="text-main-dark">Expense</span>
+            <div>
+              <span className="text-xl text-main-dark">Expenses</span>
             </div>
           </div>
 
@@ -174,9 +174,8 @@ export const CategoriesPageContent = ({
             <button
               type="button"
               onClick={handleAddNewExpenseCategory}
-              className="flex h-full gap-2 rounded-3xl bg-main-blue px-4 py-2 text-main-white shadow-md hover:bg-main-blue/90"
+              className="flex h-full gap-2 rounded-full bg-main-blue p-2 text-main-white shadow-md hover:bg-main-blue/90"
             >
-              New
               <PlusIcon />
             </button>
           </div>
@@ -184,8 +183,8 @@ export const CategoriesPageContent = ({
 
         <div className="rounded-3xl bg-main-paper p-4">
           <div className="mb-6 inline-flex items-center justify-between">
-            <div className="inline-block rounded-full border border-main-dark px-6 py-2">
-              <span className="text-main-dark">Deposit</span>
+            <div>
+              <span className="text-xl text-main-dark">Deposits</span>
             </div>
           </div>
 
@@ -205,9 +204,8 @@ export const CategoriesPageContent = ({
             <button
               type="button"
               onClick={handleAddNewDepositCategory}
-              className="flex h-full gap-2 rounded-3xl bg-main-blue px-4 py-2 text-main-white shadow-md hover:bg-main-blue/90"
+              className="flex h-full gap-2 rounded-full bg-main-blue p-2 text-main-white shadow-md hover:bg-main-blue/90"
             >
-              New
               <PlusIcon />
             </button>
           </div>
