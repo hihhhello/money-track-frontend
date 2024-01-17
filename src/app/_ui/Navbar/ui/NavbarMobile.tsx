@@ -6,6 +6,7 @@ import { BurgerMenuIcon } from '@/shared/icons/BurgerMenuIcon';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { twMerge } from 'tailwind-merge';
 import { SignOutIcon } from '@/shared/icons/SignOutIcon';
+import { useBoolean } from '@/shared/utils/hooks';
 
 type NavbarMobileProps = {
   handleSignOut: () => void;
@@ -16,17 +17,17 @@ export const NavbarMobile = ({
   pathname,
   handleSignOut,
 }: NavbarMobileProps) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuOpenState = useBoolean(false);
 
   const handleCloseMenu = useCallback(() => {
-    setIsMenuOpen(false);
+    menuOpenState.setFalse();
     document.body.style.overflow = 'unset';
-  }, []);
+  }, [menuOpenState]);
 
   const handleOpenMenu = useCallback(() => {
-    setIsMenuOpen(true);
+    menuOpenState.setTrue();
     document.body.style.overflow = 'hidden';
-  }, []);
+  }, [menuOpenState]);
 
   return (
     <div>
@@ -35,7 +36,7 @@ export const NavbarMobile = ({
       </button>
 
       <Dialog
-        open={isMenuOpen}
+        open={menuOpenState.value}
         onClose={handleCloseMenu}
         className="relative z-50"
       >
@@ -62,6 +63,7 @@ export const NavbarMobile = ({
             <div className="flex w-60 flex-col items-center justify-center gap-8">
               <Link
                 href="/"
+                onClick={menuOpenState.setFalse}
                 className={twMerge(
                   'w-full rounded-full bg-main-blue px-4 py-2 text-center text-white',
                   pathname === '/' && 'bg-main-dark text-white',
@@ -72,6 +74,7 @@ export const NavbarMobile = ({
 
               <Link
                 href="/categories"
+                onClick={menuOpenState.setFalse}
                 className={twMerge(
                   'w-full rounded-full bg-main-blue px-4 py-2 text-center text-white',
                   pathname === '/categories' && 'bg-main-dark text-white',
@@ -82,6 +85,7 @@ export const NavbarMobile = ({
 
               <Link
                 href="/recurrent-transactions"
+                onClick={menuOpenState.setFalse}
                 className={twMerge(
                   'w-full rounded-full bg-main-blue px-4 py-2 text-center text-white',
                   pathname === '/recurrent-transactions' &&
