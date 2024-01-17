@@ -1,19 +1,15 @@
 'use client';
 
 import { classNames } from '@/shared/utils/helpers';
-import { FormEvent, Fragment, useEffect, useState } from 'react';
+import { FormEvent, Fragment, useEffect, useRef, useState } from 'react';
 import { formatISO } from 'date-fns';
 import { toast } from 'react-toastify';
 import { Dialog, Transition } from '@headlessui/react';
-import { XMarkIcon } from '@/shared/icons/XMarkIcon';
-import { TrashIcon } from '../icons/TrashIcon';
-import { twMerge } from 'tailwind-merge';
 import { DialogOverlay } from './Dialog/DialogOverlay';
 import { DialogContent } from './Dialog/DialogContent';
 import { CategoryItem } from './Category/CategoryItem';
 import { CategoryList } from './Category/CategoryList';
 import { Input } from './Input';
-import { TextArea } from './TextArea';
 import { DialogHeader } from './Dialog/DialogHeader';
 
 type TransactionValues = {
