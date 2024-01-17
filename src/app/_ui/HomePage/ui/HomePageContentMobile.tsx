@@ -107,9 +107,7 @@ export const HomePageContentMobile = ({
       return;
     }
 
-    e.currentTarget.style.transform = `translateX(${
-      e.targetTouches[0].clientX - touchStart
-    }px)`;
+    e.currentTarget.style.transform = `translateX(-${diff}px)`;
   };
 
   const onTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
