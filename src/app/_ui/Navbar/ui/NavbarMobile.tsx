@@ -1,5 +1,5 @@
 import { Dialog } from '@headlessui/react';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import Link from 'next/link';
 
 import { BurgerMenuIcon } from '@/shared/icons/BurgerMenuIcon';
