@@ -50,33 +50,6 @@ export const NavbarMobile = ({
                   <SignOutIcon className="text-white" />
                 </button>
               </div>
-
-              {/* {me ? (
-                <div className="flex items-center text-primary-blue">
-                  {me.name && <p>{me.name}</p>}
-
-                  {me.image && (
-                    <Image
-                      src={me.image}
-                      alt="Profile image"
-                      className="ml-1 h-12 w-12 rounded-full"
-                      height={48}
-                      width={48}
-                    />
-                  )}
-
-                  <button
-                    onClick={handleSignOut}
-                    className="ml-6 rounded-lg bg-primary-blue p-2"
-                  >
-                    <SignOutIcon className="text-white" />
-                  </button>
-                </div>
-              ) : !me && isAuthenticating ? (
-                <div className="h-10 w-[108px] animate-pulse rounded-3xl bg-slate-200"></div>
-              ) : (
-                <LogInButton className="rounded-3xl bg-primary-blue px-8 py-2 text-white" />
-              )} */}
             </div>
 
             <button
