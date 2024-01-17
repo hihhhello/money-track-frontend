@@ -79,18 +79,15 @@ export const HomePageContentMobile = ({
       });
   };
 
-  const [touchStartTime, setTouchStartTime] = useState<null | number>(null);
   const [touchStart, setTouchStart] = useState<null | number>(null);
   const [touchEnd, setTouchEnd] = useState<null | number>(null);
 
   const clearTouch = () => {
-    setTouchStartTime(null);
     setTouchStart(null);
     setTouchEnd(null);
   };
 
   const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    setTouchStartTime(new Date().getTime());
     setTouchStart(e.targetTouches[0].clientX);
   };
 
@@ -116,22 +113,11 @@ export const HomePageContentMobile = ({
   };
 
   const onTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (!touchStart || !touchEnd || !touchStartTime) {
+    if (!touchStart || !touchEnd) {
       return;
     }
 
     const coordDiff = touchStart - touchEnd;
-    const timeDiff = Math.abs(touchStartTime - new Date().getTime());
-
-    if (timeDiff < 300) {
-      console.log('timeDiff', timeDiff, coordDiff);
-
-      e.currentTarget.style.transform = `translateX(-160px)`;
-
-      clearTouch();
-
-      return;
-    }
 
     if (coordDiff >= 160) {
       clearTouch();
