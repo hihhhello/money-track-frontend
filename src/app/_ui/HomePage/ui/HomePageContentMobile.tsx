@@ -23,10 +23,6 @@ import { EditTransactionModal } from '@/features/EditTransactionModal';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
 import { twMerge } from 'tailwind-merge';
 import { TransactionsPeriodFilterSelect } from '@/features/TransactionsPeriodFilterSelect';
-import { Menu, Transition } from '@headlessui/react';
-import { ThreeDotsVerticalIcon } from '@/shared/icons/ThreeDotsVerticalIcon';
-import { PencilIcon } from '@heroicons/react/24/solid';
-import { TrashIcon } from '@heroicons/react/24/outline';
 import { api } from '@/shared/api/api';
 import { useQueryClient } from '@tanstack/react-query';
 import { TransactionItemMobile } from '@/shared/ui/Transaction/TransactionItemMobile';
@@ -93,61 +89,58 @@ export const HomePageContentMobile = ({
     setTouchEnd(null);
   };
 
-  const onTouchStart =
-    (transactionId: number) => (e: React.TouchEvent<HTMLDivElement>) => {
-      setTouchStartTime(new Date().getTime());
-      setTouchStart(e.targetTouches[0].clientX);
-    };
+  const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    setTouchStartTime(new Date().getTime());
+    setTouchStart(e.targetTouches[0].clientX);
+  };
 
-  const onTouchMove =
-    (transactionId: number) => (e: React.TouchEvent<HTMLDivElement>) => {
-      if (!touchStart || touchStart - e.targetTouches[0].clientX < 0) {
-        return;
-      }
+  const onTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!touchStart || touchStart - e.targetTouches[0].clientX < 0) {
+      return;
+    }
 
-      setTouchEnd(e.targetTouches[0].clientX);
-      const diff = touchStart - e.targetTouches[0].clientX;
+    setTouchEnd(e.targetTouches[0].clientX);
+    const diff = touchStart - e.targetTouches[0].clientX;
 
-      if (diff >= 160) {
-        e.currentTarget.style.transform = `translateX(-160px)`;
+    if (diff >= 160) {
+      e.currentTarget.style.transform = `translateX(-160px)`;
 
-        clearTouch();
+      clearTouch();
 
-        return;
-      }
+      return;
+    }
 
-      e.currentTarget.style.transform = `translateX(${
-        e.targetTouches[0].clientX - touchStart
-      }px)`;
-    };
+    e.currentTarget.style.transform = `translateX(${
+      e.targetTouches[0].clientX - touchStart
+    }px)`;
+  };
 
-  const onTouchEnd =
-    (transactionId: number) => (e: React.TouchEvent<HTMLDivElement>) => {
-      if (!touchStart || !touchEnd || !touchStartTime) {
-        return;
-      }
+  const onTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!touchStart || !touchEnd || !touchStartTime) {
+      return;
+    }
 
-      const coordDiff = touchStart - touchEnd;
-      const timeDiff = Math.abs(touchStartTime - new Date().getTime());
+    const coordDiff = touchStart - touchEnd;
+    const timeDiff = Math.abs(touchStartTime - new Date().getTime());
 
-      if (timeDiff < 300) {
-        console.log('timeDiff', timeDiff, coordDiff);
+    if (timeDiff < 300) {
+      console.log('timeDiff', timeDiff, coordDiff);
 
-        e.currentTarget.style.transform = `translateX(-160px)`;
+      e.currentTarget.style.transform = `translateX(-160px)`;
 
-        clearTouch();
+      clearTouch();
 
-        return;
-      }
+      return;
+    }
 
-      if (coordDiff >= 160) {
-        clearTouch();
+    if (coordDiff >= 160) {
+      clearTouch();
 
-        return;
-      }
+      return;
+    }
 
-      e.currentTarget.style.transform = `translateX(0px)`;
-    };
+    e.currentTarget.style.transform = `translateX(0px)`;
+  };
 
   return (
     <div>
@@ -189,9 +182,9 @@ export const HomePageContentMobile = ({
                   date={transaction.date}
                   description={transaction.description}
                   type={transaction.type}
-                  onTouchStart={onTouchStart(transaction.id)}
-                  onTouchMove={onTouchMove(transaction.id)}
-                  onTouchEnd={onTouchEnd(transaction.id)}
+                  onTouchStart={onTouchStart}
+                  onTouchMove={onTouchMove}
+                  onTouchEnd={onTouchEnd}
                   key={transaction.id}
                   handleEdit={() => {
                     setSelectedTransaction(transaction);
