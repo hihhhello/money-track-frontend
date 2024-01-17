@@ -63,7 +63,7 @@ export const NavbarMobile = ({
             <div className="flex w-60 flex-col items-center justify-center gap-8">
               <Link
                 href="/"
-                onClick={menuOpenState.setFalse}
+                onClick={handleCloseMenu}
                 className={twMerge(
                   'w-full rounded-full bg-main-blue px-4 py-2 text-center text-white',
                   pathname === '/' && 'bg-main-dark text-white',
@@ -74,7 +74,7 @@ export const NavbarMobile = ({
 
               <Link
                 href="/categories"
-                onClick={menuOpenState.setFalse}
+                onClick={handleCloseMenu}
                 className={twMerge(
                   'w-full rounded-full bg-main-blue px-4 py-2 text-center text-white',
                   pathname === '/categories' && 'bg-main-dark text-white',
@@ -85,7 +85,7 @@ export const NavbarMobile = ({
 
               <Link
                 href="/recurrent-transactions"
-                onClick={menuOpenState.setFalse}
+                onClick={handleCloseMenu}
                 className={twMerge(
                   'w-full rounded-full bg-main-blue px-4 py-2 text-center text-white',
                   pathname === '/recurrent-transactions' &&
