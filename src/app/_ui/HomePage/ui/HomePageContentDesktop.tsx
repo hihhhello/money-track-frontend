@@ -85,7 +85,7 @@ export const HomePageContentDesktop = ({
 
           <div className="flex h-full flex-col gap-4 overflow-y-auto overflow-x-visible">
             {transactions.map((transaction) => (
-              <button
+              <div
                 key={transaction.id}
                 className="flex flex-col rounded-lg bg-white px-4 py-1 pr-2 sm:flex-row sm:items-center sm:justify-between"
               >
@@ -203,7 +203,7 @@ export const HomePageContentDesktop = ({
                     </>
                   )}
                 </Menu>
-              </button>
+              </div>
             ))}
           </div>
         </div>

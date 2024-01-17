@@ -113,7 +113,7 @@ export const HomePageContentMobile = ({
         <div className="flex h-full flex-col gap-4 overflow-y-auto">
           {tab === 'lastPayments'
             ? transactions.map((transaction) => (
-                <button
+                <div
                   key={transaction.id}
                   className="flex items-center justify-between rounded-lg bg-white px-4 py-1 pr-2 sm:flex-row sm:items-center sm:justify-between"
                 >
@@ -233,7 +233,7 @@ export const HomePageContentMobile = ({
                       </>
                     )}
                   </Menu>
-                </button>
+                </div>
               ))
             : recurrentTransactions.map((transaction) => (
                 <div
