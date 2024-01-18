@@ -20,7 +20,10 @@ export const BaseLayout = async ({ children }: BaseLayoutProps) => {
         {isSignedInUser && <Sidebar />}
 
         <div
-          className={classNames('flex-1', isSignedInUser && 'sm:pl-[112px]')}
+          className={classNames(
+            'w-full flex-1',
+            isSignedInUser && 'sm:pl-[112px]',
+          )}
         >
           <div className="min-h-full p-6">
             {isSignedInUser && (

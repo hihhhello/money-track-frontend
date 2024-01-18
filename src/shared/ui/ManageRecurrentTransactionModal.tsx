@@ -150,7 +150,7 @@ export const ManageRecurrentTransactionModal = ({
               <div className="mb-4 flex flex-col gap-2">
                 <span>Category</span>
 
-                <CategoryList>
+                <CategoryList className="mb-2 p-2">
                   {categories?.map((category) => (
                     <CategoryItem
                       key={category.id}

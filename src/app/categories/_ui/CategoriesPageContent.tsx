@@ -14,6 +14,7 @@ import {
   FinancialOperationTypeValue,
 } from '@/shared/types/globalTypes';
 import { CategoryItem } from '@/shared/ui/Category/CategoryItem';
+import { CategoryList } from '@/shared/ui/Category/CategoryList';
 
 type CategoriesPageContentProps = {
   categories: Category[];
@@ -158,7 +159,10 @@ export const CategoriesPageContent = ({
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-4">
+          <CategoryList
+            className="pb-4"
+            handleAddNewCategory={handleAddNewExpenseCategory}
+          >
             {reducedCategories?.expense?.map((category) => (
               <CategoryItem
                 key={category.id}
@@ -170,15 +174,7 @@ export const CategoriesPageContent = ({
                 {category.name}
               </CategoryItem>
             ))}
-
-            <button
-              type="button"
-              onClick={handleAddNewExpenseCategory}
-              className="flex h-full gap-2 rounded-full bg-main-blue p-2 text-main-white shadow-md hover:bg-main-blue/90"
-            >
-              <PlusIcon />
-            </button>
-          </div>
+          </CategoryList>
         </div>
 
         <div className="rounded-3xl bg-main-paper p-4">
@@ -188,7 +184,10 @@ export const CategoriesPageContent = ({
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-4">
+          <CategoryList
+            className="max-w-full pb-4"
+            handleAddNewCategory={handleAddNewDepositCategory}
+          >
             {reducedCategories?.deposit?.map((category) => (
               <CategoryItem
                 key={category.id}
@@ -200,15 +199,7 @@ export const CategoriesPageContent = ({
                 {category.name}
               </CategoryItem>
             ))}
-
-            <button
-              type="button"
-              onClick={handleAddNewDepositCategory}
-              className="flex h-full gap-2 rounded-full bg-main-blue p-2 text-main-white shadow-md hover:bg-main-blue/90"
-            >
-              <PlusIcon />
-            </button>
-          </div>
+          </CategoryList>
         </div>
       </div>
 
