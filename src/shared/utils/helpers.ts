@@ -8,40 +8,40 @@ export const classNames = (...classes: (string | boolean)[]) => {
   return classes.filter(Boolean).join(' ');
 };
 
-const formatterUSDCurrency = new Intl.NumberFormat('en-US', {
+const usdDecimalFormatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'USD',
 });
 
-export const formatToUSDCurrency = (value: number | undefined) => {
+export const formatUSDDecimal = (value: number | undefined) => {
   if (value === undefined) {
     return '';
   }
-  return formatterUSDCurrency.format(value);
+  return usdDecimalFormatter.format(value);
 };
 
-const formatterCompactUSDCurrency = new Intl.NumberFormat('en-US', {
+const usdCompactFormatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'USD',
   notation: 'compact',
 });
 
-export const formatToCompactUSDCurrency = (value: number) =>
-  formatterCompactUSDCurrency.format(value);
+export const formatUSDCompact = (value: number) =>
+  usdCompactFormatter.format(value);
 
-const formatterUSDCurrencyNoCents = new Intl.NumberFormat('en-US', {
+const usdIntegerFormatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'USD',
   minimumFractionDigits: 0,
   maximumFractionDigits: 0,
 });
 
-export const formatToUSDCurrencyNoCents = (value: number | undefined) => {
+export const formatUSDInteger = (value: number | undefined) => {
   if (value === undefined) {
     return '';
   }
 
-  return formatterUSDCurrencyNoCents.format(value);
+  return usdIntegerFormatter.format(value);
 };
 
 export function createUrlWithSearchParams(params: {

@@ -2,7 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 
-import { formatToUSDCurrency, getNetAmount } from '@/shared/utils/helpers';
+import { formatUSDDecimal, getNetAmount } from '@/shared/utils/helpers';
 import { api } from '@/shared/api/api';
 import {
   Transaction,
@@ -61,7 +61,7 @@ export const HomePageTransactionsTotal = ({
       </div>
 
       <span className="break-words text-3xl leading-relaxed text-white sm:text-6xl">
-        {formatToUSDCurrency(Math.abs(totalTransactionsAmount))}
+        {formatUSDDecimal(Math.abs(totalTransactionsAmount))}
       </span>
     </div>
   );

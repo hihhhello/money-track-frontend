@@ -10,9 +10,11 @@ import { CategoryItem } from './Category/CategoryItem';
 import { CategoryList } from './Category/CategoryList';
 import { Input } from './Input';
 import { DialogHeader } from './Dialog/DialogHeader';
+import { DollarInput } from './DollarInput';
+import { isNil } from 'lodash';
 
 type TransactionValues = {
-  amount: string;
+  amount: number | null;
   date: string;
   description: string | null;
 };
@@ -21,14 +23,19 @@ type ManageTransactionModalProps = {
   isModalOpen: boolean;
   handleClose: () => void;
   categories: Array<{ id: number; name: string }> | undefined;
-  handleSubmit: (
-    transactionValues: TransactionValues & {
-      categoryId: number;
-    },
-  ) => Promise<void> | undefined | void;
+  handleSubmit: (transactionValues: {
+    amount: string;
+    date: string;
+    description: string | null;
+    categoryId: number;
+  }) => Promise<void> | undefined | void;
   submitButtonLabel?: string;
   title: string;
-  defaultValues?: TransactionValues;
+  defaultValues?: {
+    amount: string;
+    date: string;
+    description: string | null;
+  };
   handleDelete?: () => Promise<void> | undefined | void;
   handleAddNewCategory?: () => void;
   nestedModal?: ReactNode;
@@ -55,7 +62,7 @@ export const ManageTransactionModal = ({
   useEffect(() => {
     setTransactionFormValues({
       date: defaultValues?.date ?? today,
-      amount: defaultValues?.amount ?? '',
+      amount: defaultValues?.amount ? parseFloat(defaultValues?.amount) : null,
       description: defaultValues?.description ?? null,
     });
   }, [defaultValues, today]);
@@ -63,21 +70,30 @@ export const ManageTransactionModal = ({
   const [transactionFormValues, setTransactionFormValues] =
     useState<TransactionValues>({
       date: defaultValues?.date ?? today,
-      amount: defaultValues?.amount ?? '',
+      amount: defaultValues?.amount ? parseFloat(defaultValues?.amount) : null,
       description: defaultValues?.description ?? null,
     });
 
   const handleSubmit = () => {
+    if (isNil(transactionFormValues.amount)) {
+      return toast.warn('Type an amount.');
+    }
+
+    if (transactionFormValues.amount === 0) {
+      return toast.warn('Type an amount greater than $0.');
+    }
+
     if (!selectedCategoryId) {
-      return toast.warn('Select category.');
+      return toast.warn('Select a category.');
     }
 
     propsHandleSubmit({
       ...transactionFormValues,
+      amount: String(transactionFormValues.amount),
       categoryId: selectedCategoryId,
     })?.then(() => {
       setTransactionFormValues({
-        amount: '',
+        amount: null,
         date: today,
         description: null,
       });
@@ -91,7 +107,7 @@ export const ManageTransactionModal = ({
       handleSelectCategoryId(null);
       setTransactionFormValues({
         date: today,
-        amount: '',
+        amount: null,
         description: null,
       });
       handleClose();
@@ -110,16 +126,15 @@ export const ManageTransactionModal = ({
             <div>
               <div className="mb-4 flex flex-col">
                 <label htmlFor="amount">Amount</label>
-                <Input
-                  type="number"
+                <DollarInput
                   name="amount"
-                  value={String(transactionFormValues.amount)}
-                  onChange={(e) => {
+                  value={transactionFormValues.amount}
+                  handleValueChange={(value) =>
                     setTransactionFormValues((prevValues) => ({
                       ...prevValues,
-                      amount: e.target.value,
-                    }));
-                  }}
+                      amount: value,
+                    }))
+                  }
                 />
               </div>
 

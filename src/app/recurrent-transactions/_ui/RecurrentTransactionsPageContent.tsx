@@ -8,7 +8,7 @@ import {
   FinancialOperationTypeValue,
 } from '@/shared/types/globalTypes';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
-import { formatToUSDCurrency } from '@/shared/utils/helpers';
+import { formatUSDDecimal } from '@/shared/utils/helpers';
 import { useBoolean } from '@/shared/utils/hooks';
 import { useQuery } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
@@ -95,7 +95,7 @@ export const RecurrentTransactionsPageContent = ({
               </p>
 
               <p className="text-gray-700">
-                Amount: {formatToUSDCurrency(parseFloat(transaction.amount))}
+                Amount: {formatUSDDecimal(parseFloat(transaction.amount))}
               </p>
 
               {transaction.description && (

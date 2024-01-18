@@ -3,7 +3,7 @@
 import { Fragment, useState } from 'react';
 import { format, parseISO } from 'date-fns';
 
-import { classNames, formatToUSDCurrency } from '@/shared/utils/helpers';
+import { classNames, formatUSDDecimal } from '@/shared/utils/helpers';
 import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
 import {
   Transaction,
@@ -112,7 +112,7 @@ export const HomePageContentDesktop = ({
                         : 'text-main-blue',
                     )}
                   >
-                    {formatToUSDCurrency(parseFloat(transaction.amount))}
+                    {formatUSDDecimal(parseFloat(transaction.amount))}
                   </p>
                 </div>
 
@@ -247,7 +247,7 @@ export const HomePageContentDesktop = ({
                         : 'text-main-blue',
                     )}
                   >
-                    {formatToUSDCurrency(parseFloat(transaction.amount))}
+                    {formatUSDDecimal(parseFloat(transaction.amount))}
                   </p>
                 </div>
               </div>

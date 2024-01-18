@@ -2,7 +2,7 @@
 
 import { format, parseISO } from 'date-fns';
 
-import { classNames, formatToUSDCurrency } from '@/shared/utils/helpers';
+import { classNames, formatUSDDecimal } from '@/shared/utils/helpers';
 import React from 'react';
 
 import {
@@ -63,7 +63,7 @@ export const TransactionItemMobile = ({
               : 'text-main-blue',
           )}
         >
-          {formatToUSDCurrency(parseFloat(amount))}
+          {formatUSDDecimal(parseFloat(amount))}
         </p>
       </div>
     </div>
