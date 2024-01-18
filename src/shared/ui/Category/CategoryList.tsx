@@ -12,9 +12,12 @@ export const CategoryList = ({
   handleAddNewCategory,
   ...props
 }: CategoryListProps) => (
-  <div className="flex items-center gap-4">
+  <div className="flex flex-col items-start gap-4">
     <div
-      className={twMerge('flex items-center gap-4 overflow-x-auto', className)}
+      className={twMerge(
+        'grid max-h-60 w-full grid-cols-3 gap-4 overflow-y-auto sm:max-h-24 sm:grid-cols-9',
+        className,
+      )}
       {...props}
     >
       {children}
