@@ -5,7 +5,6 @@ import { format, parseISO } from 'date-fns';
 import { classNames, formatUSDDecimal } from '@/shared/utils/helpers';
 import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
 import React, {
-  Fragment,
   ReactElement,
   ReactNode,
   RefObject,
@@ -79,53 +78,6 @@ export const HomePageContentMobile = ({
       });
   };
 
-  const [touchStart, setTouchStart] = useState<null | number>(null);
-  const [touchEnd, setTouchEnd] = useState<null | number>(null);
-
-  const clearTouch = () => {
-    setTouchStart(null);
-    setTouchEnd(null);
-  };
-
-  const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const onTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (!touchStart || touchStart - e.targetTouches[0].clientX < 0) {
-      return;
-    }
-
-    setTouchEnd(e.targetTouches[0].clientX);
-    const diff = touchStart - e.targetTouches[0].clientX;
-
-    if (diff >= 160) {
-      e.currentTarget.style.transform = `translateX(-160px)`;
-
-      clearTouch();
-
-      return;
-    }
-
-    e.currentTarget.style.transform = `translateX(-${diff}px)`;
-  };
-
-  const onTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (!touchStart || !touchEnd) {
-      return;
-    }
-
-    const coordDiff = touchStart - touchEnd;
-
-    if (coordDiff >= 160) {
-      clearTouch();
-
-      return;
-    }
-
-    e.currentTarget.style.transform = `translateX(0px)`;
-  };
-
   return (
     <div>
       <div className="flex max-h-[715px] flex-col rounded-3xl bg-main-paper p-4">
@@ -158,17 +110,11 @@ export const HomePageContentMobile = ({
           {tab === 'lastPayments'
             ? transactions.map((transaction) => (
                 <TransactionItemMobile
-                  onClick={(e) => {
-                    e.currentTarget.style.transform = `translateX(0px)`;
-                  }}
                   amount={transaction.amount}
                   categoryName={transaction.category.name}
                   date={transaction.date}
                   description={transaction.description}
                   type={transaction.type}
-                  onTouchStart={onTouchStart}
-                  onTouchMove={onTouchMove}
-                  onTouchEnd={onTouchEnd}
                   key={transaction.id}
                   handleEdit={() => {
                     setSelectedTransaction(transaction);
