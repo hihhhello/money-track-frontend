@@ -4,7 +4,6 @@ import { useMemo, useState } from 'react';
 
 import { ManageCategoryModal } from '@/shared/ui/ManageCategoryModal';
 import { api } from '@/shared/api/api';
-import { PlusIcon } from '@/shared/icons/PlusIcon';
 import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
