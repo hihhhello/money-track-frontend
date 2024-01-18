@@ -1,18 +1,15 @@
 'use client';
 
-import { classNames } from '@/shared/utils/helpers';
-import { FormEvent, Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { formatISO } from 'date-fns';
 import { toast } from 'react-toastify';
 import { Dialog, Transition } from '@headlessui/react';
-import { XMarkIcon } from '@/shared/icons/XMarkIcon';
-import { TrashIcon } from '../icons/TrashIcon';
 import {
   RecurrentTransactionFrequency,
   RecurrentTransactionFrequencyKey,
   RecurrentTransactionFrequencyValue,
 } from '../types/recurrentTransactionTypes';
-import { upperFirst } from 'lodash';
+import { isNil, upperFirst } from 'lodash';
 import { twMerge } from 'tailwind-merge';
 import { DialogOverlay } from './Dialog/DialogOverlay';
 import { DialogContent } from './Dialog/DialogContent';
@@ -20,9 +17,11 @@ import { CategoryItem } from './Category/CategoryItem';
 import { CategoryList } from './Category/CategoryList';
 import { DialogHeader } from './Dialog/DialogHeader';
 import { Input } from './Input';
+import { DialogActions } from './Dialog/DialogActions';
+import { DollarInput } from './DollarInput';
 
 type RecurrentTransactionValues = {
-  amount: string;
+  amount: number | null;
   frequency: RecurrentTransactionFrequencyValue;
   description: string | null;
   start_date: string | null;
@@ -33,14 +32,22 @@ export type ManageRecurrentTransactionModalProps = {
   isModalOpen: boolean;
   handleClose: () => void;
   categories: Array<{ id: number; name: string }> | undefined;
-  handleSubmit: (
-    transactionValues: RecurrentTransactionValues & {
-      categoryId: number;
-    },
-  ) => Promise<void> | undefined | void;
+  handleSubmit: (transactionValues: {
+    categoryId: number;
+    amount: string;
+    frequency: RecurrentTransactionFrequencyValue;
+    description: string | null;
+    start_date: string | null;
+    end_date: string | null;
+  }) => Promise<void> | undefined | void;
   submitButtonLabel?: string;
   title: string;
-  defaultValues?: RecurrentTransactionValues & {
+  defaultValues?: {
+    amount: string;
+    frequency: RecurrentTransactionFrequencyValue;
+    description: string | null;
+    start_date: string | null;
+    end_date: string | null;
     categoryId: number;
   };
   handleDelete?: () => Promise<void> | undefined | void;
@@ -65,7 +72,9 @@ export const ManageRecurrentTransactionModal = ({
   useEffect(() => {
     setSelectedCategoryId(defaultTransactionValues?.categoryId ?? null);
     setTransactionFormValues({
-      amount: defaultTransactionValues?.amount ?? '',
+      amount: defaultTransactionValues?.amount
+        ? parseFloat(defaultTransactionValues?.amount)
+        : null,
       description: defaultTransactionValues?.description ?? null,
       end_date: defaultTransactionValues?.end_date ?? null,
       frequency:
@@ -77,7 +86,9 @@ export const ManageRecurrentTransactionModal = ({
 
   const [transactionFormValues, setTransactionFormValues] =
     useState<RecurrentTransactionValues>({
-      amount: defaultTransactionValues?.amount ?? '',
+      amount: defaultTransactionValues?.amount
+        ? parseFloat(defaultTransactionValues?.amount)
+        : null,
       description: defaultTransactionValues?.description ?? null,
       end_date: defaultTransactionValues?.end_date ?? null,
       frequency:
@@ -87,16 +98,25 @@ export const ManageRecurrentTransactionModal = ({
     });
 
   const handleSubmit = () => {
+    if (isNil(transactionFormValues.amount)) {
+      return toast.warn('Type an amount.');
+    }
+
+    if (transactionFormValues.amount === 0) {
+      return toast.warn('Type an amount greater than $0.');
+    }
+
     if (!selectedCategoryId) {
       return toast.warn('Select category.');
     }
 
     handleSubmitTransactionValues({
       ...transactionFormValues,
+      amount: String(transactionFormValues.amount),
       categoryId: selectedCategoryId,
     })?.then(() => {
       setTransactionFormValues({
-        amount: '',
+        amount: null,
         description: null,
         end_date: null,
         start_date: today,
@@ -111,7 +131,7 @@ export const ManageRecurrentTransactionModal = ({
     handleDelete?.()?.then(() => {
       setSelectedCategoryId(null);
       setTransactionFormValues({
-        amount: '',
+        amount: null,
         description: null,
         end_date: null,
         start_date: today,
@@ -134,16 +154,15 @@ export const ManageRecurrentTransactionModal = ({
               <div className="mb-4 flex flex-col gap-2">
                 <label htmlFor="amount">Amount</label>
 
-                <Input
-                  type="number"
+                <DollarInput
                   name="amount"
-                  value={String(transactionFormValues.amount)}
-                  onChange={(e) => {
+                  value={transactionFormValues.amount}
+                  handleValueChange={(value) =>
                     setTransactionFormValues((prevValues) => ({
                       ...prevValues,
-                      amount: e.target.value,
-                    }));
-                  }}
+                      amount: value,
+                    }))
+                  }
                 />
               </div>
 
@@ -247,10 +266,10 @@ export const ManageRecurrentTransactionModal = ({
             </div>
           </div>
 
-          <div className="z-10 flex gap-4 p-4">
+          <DialogActions>
             <button
               onClick={handleSubmit}
-              className="block w-full rounded-full bg-main-blue px-3.5 py-2.5 text-sm text-white shadow-sm hover:bg-main-blue/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main-blue"
+              className="block w-full rounded-full bg-main-blue px-3.5 py-2.5 text-lg text-white shadow-sm hover:bg-main-blue/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main-blue sm:text-sm"
             >
               {submitButtonLabel ?? 'Submit'}
             </button>
@@ -258,12 +277,12 @@ export const ManageRecurrentTransactionModal = ({
             {handleDelete && (
               <button
                 onClick={handleDeleteTransaction}
-                className="block w-full rounded-full bg-white px-3.5 py-2.5 text-sm text-main-orange shadow-sm hover:bg-main-dark/10"
+                className="block w-full rounded-full bg-white px-3.5 py-2.5 text-lg text-main-orange shadow-sm hover:bg-main-dark/10 sm:text-sm"
               >
                 Delete
               </button>
             )}
-          </div>
+          </DialogActions>
         </DialogContent>
       </Dialog>
     </Transition>

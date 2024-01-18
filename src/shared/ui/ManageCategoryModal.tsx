@@ -8,6 +8,7 @@ import { DialogOverlay } from './Dialog/DialogOverlay';
 import { DialogContent } from './Dialog/DialogContent';
 import { DialogHeader } from './Dialog/DialogHeader';
 import { Input } from './Input';
+import { DialogActions } from './Dialog/DialogActions';
 
 type ManageCategoryModalProps = {
   isModalOpen: boolean;
@@ -79,10 +80,10 @@ export const ManageCategoryModal = ({
             </div>
           </div>
 
-          <div className="z-10 flex gap-4 p-4">
+          <DialogActions>
             <button
               onClick={handleSubmit}
-              className="block w-full rounded-full bg-main-blue px-3.5 py-2.5 text-sm text-white shadow-sm hover:bg-main-blue/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main-blue"
+              className="block w-full rounded-full bg-main-blue px-3.5 py-2.5 text-lg text-white shadow-sm hover:bg-main-blue/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main-blue sm:text-sm"
             >
               {submitButtonLabel ?? 'Submit'}
             </button>
@@ -90,12 +91,12 @@ export const ManageCategoryModal = ({
             {handleDelete && (
               <button
                 onClick={handleDeleteCategory}
-                className="block w-full rounded-full bg-white px-3.5 py-2.5 text-sm text-main-orange shadow-sm hover:bg-main-dark/10"
+                className="block w-full rounded-full bg-white px-3.5 py-2.5 text-lg text-main-orange shadow-sm hover:bg-main-dark/10 sm:text-sm"
               >
                 Delete
               </button>
             )}
-          </div>
+          </DialogActions>
         </DialogContent>
       </Dialog>
     </Transition>
