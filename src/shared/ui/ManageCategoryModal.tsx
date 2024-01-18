@@ -1,12 +1,9 @@
 'use client';
 
-import { FormEvent, Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Dialog, Transition } from '@headlessui/react';
-import { XMarkIcon } from '@/shared/icons/XMarkIcon';
 import { isEmpty } from 'lodash';
-import { TrashIcon } from '../icons/TrashIcon';
-import { classNames } from '../utils/helpers';
 import { DialogOverlay } from './Dialog/DialogOverlay';
 import { DialogContent } from './Dialog/DialogContent';
 import { DialogHeader } from './Dialog/DialogHeader';
