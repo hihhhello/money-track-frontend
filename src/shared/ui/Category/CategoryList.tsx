@@ -6,10 +6,7 @@ export const CategoryList = ({
   ...props
 }: JSX.IntrinsicElements['div']) => (
   <div
-    className={twMerge(
-      'mb-2 flex max-h-40 flex-wrap gap-4 overflow-y-auto p-2 sm:max-h-24',
-      className,
-    )}
+    className={twMerge('mb-2 flex gap-4 overflow-x-auto p-2', className)}
     {...props}
   >
     {children}
