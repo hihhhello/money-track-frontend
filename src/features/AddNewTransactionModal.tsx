@@ -2,12 +2,14 @@
 
 import { api } from '@/shared/api/api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useLoadingToast } from '@/shared/utils/hooks';
+import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
 import { ManageTransactionModal } from '@/shared/ui/ManageTransactionModal';
 import {
   FinancialOperationType,
   FinancialOperationTypeValue,
 } from '@/shared/types/globalTypes';
+import { ManageCategoryModal } from '@/shared/ui/ManageCategoryModal';
+import { useState } from 'react';
 
 const TRANSACTION_TYPE_TO_LABEL = {
   [FinancialOperationType.DEPOSIT]: {
@@ -37,7 +39,17 @@ export const AddNewTransactionModal = ({
 
   const loadingToast = useLoadingToast();
 
-  const { data: categories } = useQuery({
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+    null,
+  );
+
+  const {
+    value: isAddNewCategoryModalOpen,
+    setTrue: handleOpenAddNewCategoryModal,
+    setFalse: handleCloseAddNewCategoryModal,
+  } = useBoolean(false);
+
+  const { data: categories, refetch: refetchCategories } = useQuery({
     queryFn: () =>
       api.categories.getAll({
         searchParams: {
@@ -82,6 +94,39 @@ export const AddNewTransactionModal = ({
       });
   };
 
+  const handleAddNewCategory = (categoryName: string) => {
+    if (!transactionType) {
+      return;
+    }
+
+    const toastId = loadingToast.showLoading('Adding your new category...');
+
+    return api.categories
+      .createOne({
+        body: {
+          name: categoryName,
+          type: transactionType,
+        },
+      })
+      .then(({ id }) => {
+        setSelectedCategoryId(id);
+
+        refetchCategories();
+
+        loadingToast.handleSuccess({
+          toastId,
+          message: 'You successfully added a new category!',
+        });
+      })
+      .catch(() => {
+        loadingToast.handleError({
+          toastId,
+          message:
+            'Something gone wrong while adding your category. Try again.',
+        });
+      });
+  };
+
   return (
     <ManageTransactionModal
       categories={categories}
@@ -90,6 +135,18 @@ export const AddNewTransactionModal = ({
       isModalOpen={isModalOpen}
       submitButtonLabel="Add"
       title={TRANSACTION_TYPE_TO_LABEL[transactionType].MODAL_TITLE}
+      handleAddNewCategory={handleOpenAddNewCategoryModal}
+      handleSelectCategoryId={setSelectedCategoryId}
+      selectedCategoryId={selectedCategoryId}
+      nestedModal={
+        <ManageCategoryModal
+          handleClose={handleCloseAddNewCategoryModal}
+          handleSubmit={handleAddNewCategory}
+          isModalOpen={isAddNewCategoryModalOpen}
+          title="Add new category"
+          submitButtonLabel="Add"
+        />
+      }
     />
   );
 };

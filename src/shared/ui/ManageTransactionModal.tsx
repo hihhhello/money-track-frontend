@@ -1,7 +1,6 @@
 'use client';
 
-import { classNames } from '@/shared/utils/helpers';
-import { FormEvent, Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, ReactNode, useEffect, useState } from 'react';
 import { formatISO } from 'date-fns';
 import { toast } from 'react-toastify';
 import { Dialog, Transition } from '@headlessui/react';
@@ -29,10 +28,12 @@ type ManageTransactionModalProps = {
   ) => Promise<void> | undefined | void;
   submitButtonLabel?: string;
   title: string;
-  defaultValues?: TransactionValues & {
-    categoryId: number;
-  };
+  defaultValues?: TransactionValues;
   handleDelete?: () => Promise<void> | undefined | void;
+  handleAddNewCategory?: () => void;
+  nestedModal?: ReactNode;
+  selectedCategoryId: number | null;
+  handleSelectCategoryId: (id: number | null) => void;
 };
 
 export const ManageTransactionModal = ({
@@ -44,15 +45,14 @@ export const ManageTransactionModal = ({
   title,
   defaultValues: defaultValues,
   handleDelete,
+  handleAddNewCategory,
+  nestedModal,
+  handleSelectCategoryId,
+  selectedCategoryId,
 }: ManageTransactionModalProps) => {
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
-    defaultValues?.categoryId ?? null,
-  );
-
   const today = formatISO(new Date(), { representation: 'date' });
 
   useEffect(() => {
-    setSelectedCategoryId(defaultValues?.categoryId ?? null);
     setTransactionFormValues({
       date: defaultValues?.date ?? today,
       amount: defaultValues?.amount ?? '',
@@ -81,14 +81,14 @@ export const ManageTransactionModal = ({
         date: today,
         description: null,
       });
-      setSelectedCategoryId(null);
+      handleSelectCategoryId(null);
       handleClose();
     });
   };
 
   const handleDeleteTransaction = () => {
     handleDelete?.()?.then(() => {
-      setSelectedCategoryId(null);
+      handleSelectCategoryId(null);
       setTransactionFormValues({
         date: today,
         amount: '',
@@ -126,11 +126,14 @@ export const ManageTransactionModal = ({
               <div className="mb-4 flex flex-col gap-2">
                 <span>Category</span>
 
-                <CategoryList className="mb-2 p-2">
+                <CategoryList
+                  className="mb-2 p-2"
+                  handleAddNewCategory={handleAddNewCategory}
+                >
                   {categories?.map((category) => (
                     <CategoryItem
                       key={category.id}
-                      onClick={() => setSelectedCategoryId(category.id)}
+                      onClick={() => handleSelectCategoryId(category.id)}
                       isSelected={selectedCategoryId === category.id}
                     >
                       {category.name}
@@ -190,6 +193,8 @@ export const ManageTransactionModal = ({
             )}
           </div>
         </DialogContent>
+
+        {nestedModal}
       </Dialog>
     </Transition>
   );

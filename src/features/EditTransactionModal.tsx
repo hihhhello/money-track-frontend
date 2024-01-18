@@ -2,10 +2,12 @@
 
 import { api } from '@/shared/api/api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useLoadingToast } from '@/shared/utils/hooks';
+import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
 import { ManageTransactionModal } from '@/shared/ui/ManageTransactionModal';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { Transaction } from '@/shared/types/transactionTypes';
+import { useState } from 'react';
+import { ManageCategoryModal } from '@/shared/ui/ManageCategoryModal';
 
 const TRANSACTION_TYPE_TO_LABEL = {
   [FinancialOperationType.DEPOSIT]: {
@@ -35,7 +37,17 @@ export const EditTransactionModal = ({
 
   const loadingToast = useLoadingToast();
 
-  const { data: categories } = useQuery({
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+    selectedTransaction?.category.id ?? null,
+  );
+
+  const {
+    value: isAddNewCategoryModalOpen,
+    setTrue: handleOpenAddNewCategoryModal,
+    setFalse: handleCloseAddNewCategoryModal,
+  } = useBoolean(false);
+
+  const { data: categories, refetch: refetchCategories } = useQuery({
     queryFn: () => {
       if (!selectedTransaction) {
         return;
@@ -116,12 +128,46 @@ export const EditTransactionModal = ({
       });
   };
 
+  const handleAddNewCategory = (categoryName: string) => {
+    if (!selectedTransaction?.type) {
+      return;
+    }
+
+    const toastId = loadingToast.showLoading('Adding your new category...');
+
+    return api.categories
+      .createOne({
+        body: {
+          name: categoryName,
+          type: selectedTransaction.type,
+        },
+      })
+      .then(({ id }) => {
+        setSelectedCategoryId(id);
+
+        refetchCategories();
+
+        loadingToast.handleSuccess({
+          toastId,
+          message: 'You successfully added a new category!',
+        });
+      })
+      .catch(() => {
+        loadingToast.handleError({
+          toastId,
+          message:
+            'Something gone wrong while adding your category. Try again.',
+        });
+      });
+  };
+
   return (
     <ManageTransactionModal
       isModalOpen={isModalOpen}
       handleSubmit={handleEditTransaction}
       categories={categories}
       handleClose={handleClose}
+      handleAddNewCategory={handleOpenAddNewCategoryModal}
       title={
         selectedTransaction?.type
           ? TRANSACTION_TYPE_TO_LABEL[selectedTransaction.type].MODAL_TITLE
@@ -132,13 +178,23 @@ export const EditTransactionModal = ({
         selectedTransaction
           ? {
               amount: selectedTransaction.amount,
-              categoryId: selectedTransaction.category.id,
               date: selectedTransaction.date,
               description: selectedTransaction.description,
             }
           : undefined
       }
       handleDelete={handleDeleteTransaction}
+      handleSelectCategoryId={setSelectedCategoryId}
+      selectedCategoryId={selectedCategoryId}
+      nestedModal={
+        <ManageCategoryModal
+          handleClose={handleCloseAddNewCategoryModal}
+          handleSubmit={handleAddNewCategory}
+          isModalOpen={isAddNewCategoryModalOpen}
+          title="Add new category"
+          submitButtonLabel="Add"
+        />
+      }
     />
   );
 };
