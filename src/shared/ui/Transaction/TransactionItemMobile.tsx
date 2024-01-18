@@ -3,7 +3,7 @@
 import { format, parseISO } from 'date-fns';
 
 import { classNames, formatUSDDecimal } from '@/shared/utils/helpers';
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 
 import {
   FinancialOperationType,
@@ -34,30 +34,29 @@ export const TransactionItemMobile = ({
   className,
   ...divProps
 }: TransactionItemMobileProps) => {
-  const [touchStart, setTouchStart] = useState<null | number>(null);
-  const [touchEnd, setTouchEnd] = useState<null | number>(null);
+  const touchStart = useRef<null | number>(null);
+  const touchEnd = useRef<null | number>(null);
 
-  const clearTouch = () => {
-    setTouchStart(null);
-    setTouchEnd(null);
-  };
+  const setTouchStart = (value: number) => (touchStart.current = value);
+  const setTouchEnd = (value: number) => (touchEnd.current = value);
 
   const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     setTouchStart(e.targetTouches[0].clientX);
   };
 
   const onTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (!touchStart || touchStart - e.targetTouches[0].clientX < 0) {
+    if (
+      !touchStart.current ||
+      touchStart.current - e.targetTouches[0].clientX < 0
+    ) {
       return;
     }
 
     setTouchEnd(e.targetTouches[0].clientX);
-    const diff = touchStart - e.targetTouches[0].clientX;
+    const diff = touchStart.current - e.targetTouches[0].clientX;
 
     if (diff >= 160) {
       e.currentTarget.style.transform = `translateX(-160px)`;
-
-      clearTouch();
 
       return;
     }
@@ -66,15 +65,13 @@ export const TransactionItemMobile = ({
   };
 
   const onTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (!touchStart || !touchEnd) {
+    if (!touchStart.current || !touchEnd.current) {
       return;
     }
 
-    const coordDiff = touchStart - touchEnd;
+    const coordDiff = touchStart.current - touchEnd.current;
 
     if (coordDiff >= 160) {
-      clearTouch();
-
       return;
     }
 
