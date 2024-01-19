@@ -25,6 +25,7 @@ import { TransactionsPeriodFilterSelect } from '@/features/TransactionsPeriodFil
 import { api } from '@/shared/api/api';
 import { useQueryClient } from '@tanstack/react-query';
 import { TransactionItemMobile } from '@/shared/ui/Transaction/TransactionItemMobile';
+import { DeleteConfirmationModal } from '@/shared/ui/DeleteConfirmationModal';
 
 type HomePageContentMobileProps = {
   transactions: Transaction[];
@@ -48,6 +49,12 @@ export const HomePageContentMobile = ({
     setFalse: handleCloseEditTransactionModal,
   } = useBoolean(false);
 
+  const {
+    value: isDeleteTransactionModalOpen,
+    setTrue: handleOpenDeleteTransactionModal,
+    setFalse: handleCloseDeleteTransactionModal,
+  } = useBoolean(false);
+
   const [selectedTransaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
 
@@ -55,13 +62,17 @@ export const HomePageContentMobile = ({
     'lastPayments',
   );
 
-  const handleDeleteTransaction = (transactionId: number) => {
+  const handleDeleteTransaction = () => {
+    if (!selectedTransaction) {
+      return;
+    }
+
     const toastId = loadingToast.showLoading('Deleting your transaction...');
 
     return api.transactions
       .deleteOne({
         params: {
-          transactionId,
+          transactionId: selectedTransaction.id,
         },
       })
       .then(() => {
@@ -72,6 +83,7 @@ export const HomePageContentMobile = ({
         queryClient.refetchQueries({
           queryKey: ['api.transactions.getAll'],
         });
+        handleCloseDeleteTransactionModal();
       })
       .catch(() => {
         loadingToast.handleError({ toastId, message: 'Error' });
@@ -120,7 +132,10 @@ export const HomePageContentMobile = ({
                     setSelectedTransaction(transaction);
                     handleOpenEditTransactionModal();
                   }}
-                  handleDelete={() => handleDeleteTransaction(transaction.id)}
+                  handleDelete={() => {
+                    setSelectedTransaction(transaction);
+                    handleOpenDeleteTransactionModal();
+                  }}
                 />
               ))
             : recurrentTransactions.map((transaction) => (
@@ -168,6 +183,12 @@ export const HomePageContentMobile = ({
           handleCloseEditTransactionModal();
         }}
         selectedTransaction={selectedTransaction}
+      />
+
+      <DeleteConfirmationModal
+        isModalOpen={isDeleteTransactionModalOpen}
+        handleClose={handleCloseDeleteTransactionModal}
+        handleSubmit={handleDeleteTransaction}
       />
     </div>
   );

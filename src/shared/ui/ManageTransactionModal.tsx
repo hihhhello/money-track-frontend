@@ -13,6 +13,7 @@ import { DialogHeader } from './Dialog/DialogHeader';
 import { DollarInput } from './DollarInput';
 import { isNil } from 'lodash';
 import { DialogActions } from './Dialog/DialogActions';
+import { DialogScrollableContent } from './Dialog/DialogScrollableContent';
 
 type TransactionValues = {
   amount: number | null;
@@ -123,73 +124,71 @@ export const ManageTransactionModal = ({
         <DialogContent>
           <DialogHeader handleClose={handleClose} title={title} />
 
-          <div className="h-full overflow-y-auto p-4">
-            <div>
-              <div className="mb-4 flex flex-col">
-                <label htmlFor="amount">Amount</label>
-                <DollarInput
-                  name="amount"
-                  value={transactionFormValues.amount}
-                  handleValueChange={(value) =>
+          <DialogScrollableContent>
+            <div className="mb-4 flex flex-col">
+              <label htmlFor="amount">Amount</label>
+              <DollarInput
+                name="amount"
+                value={transactionFormValues.amount}
+                handleValueChange={(value) =>
+                  setTransactionFormValues((prevValues) => ({
+                    ...prevValues,
+                    amount: value,
+                  }))
+                }
+              />
+            </div>
+
+            <div className="mb-4 flex flex-col gap-2">
+              <span>Category</span>
+
+              <CategoryList
+                className="mb-2 p-2"
+                handleAddNewCategory={handleAddNewCategory}
+              >
+                {categories?.map((category) => (
+                  <CategoryItem
+                    key={category.id}
+                    onClick={() => handleSelectCategoryId(category.id)}
+                    isSelected={selectedCategoryId === category.id}
+                  >
+                    {category.name}
+                  </CategoryItem>
+                ))}
+              </CategoryList>
+            </div>
+
+            <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
+              <div className="flex flex-1 flex-col gap-2">
+                <label htmlFor="date">Date</label>
+                <Input
+                  name="date"
+                  type="date"
+                  value={transactionFormValues.date}
+                  onChange={(e) => {
                     setTransactionFormValues((prevValues) => ({
                       ...prevValues,
-                      amount: value,
-                    }))
-                  }
+                      date: e.target.value,
+                    }));
+                  }}
                 />
               </div>
 
-              <div className="mb-4 flex flex-col gap-2">
-                <span>Category</span>
-
-                <CategoryList
-                  className="mb-2 p-2"
-                  handleAddNewCategory={handleAddNewCategory}
-                >
-                  {categories?.map((category) => (
-                    <CategoryItem
-                      key={category.id}
-                      onClick={() => handleSelectCategoryId(category.id)}
-                      isSelected={selectedCategoryId === category.id}
-                    >
-                      {category.name}
-                    </CategoryItem>
-                  ))}
-                </CategoryList>
-              </div>
-
-              <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
-                <div className="flex flex-1 flex-col gap-2">
-                  <label htmlFor="date">Date</label>
-                  <Input
-                    name="date"
-                    type="date"
-                    value={transactionFormValues.date}
-                    onChange={(e) => {
-                      setTransactionFormValues((prevValues) => ({
-                        ...prevValues,
-                        date: e.target.value,
-                      }));
-                    }}
-                  />
-                </div>
-
-                <div className="flex flex-1 flex-col gap-2">
-                  <label htmlFor="description">Description</label>
-                  <Input
-                    onChange={(e) => {
-                      setTransactionFormValues((prevValues) => ({
-                        ...prevValues,
-                        description: e.target.value,
-                      }));
-                    }}
-                    value={transactionFormValues.description ?? ''}
-                    name="description"
-                  />
-                </div>
+              <div className="flex flex-1 flex-col gap-2">
+                <label htmlFor="description">Description</label>
+                <Input
+                  onChange={(e) => {
+                    setTransactionFormValues((prevValues) => ({
+                      ...prevValues,
+                      description: e.target.value,
+                    }));
+                  }}
+                  value={transactionFormValues.description ?? ''}
+                  name="description"
+                />
               </div>
             </div>
-          </div>
+          </DialogScrollableContent>
 
           <DialogActions>
             <button

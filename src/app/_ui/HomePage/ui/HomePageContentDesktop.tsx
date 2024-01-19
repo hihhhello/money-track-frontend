@@ -19,6 +19,7 @@ import { PencilIcon } from '@heroicons/react/24/solid';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { api } from '@/shared/api/api';
 import { useQueryClient } from '@tanstack/react-query';
+import { DeleteConfirmationModal } from '@/shared/ui/DeleteConfirmationModal';
 
 type HomePageContentDesktopProps = {
   transactions: Transaction[];
@@ -42,16 +43,26 @@ export const HomePageContentDesktop = ({
     setFalse: handleCloseEditTransactionModal,
   } = useBoolean(false);
 
+  const {
+    value: isDeleteTransactionModalOpen,
+    setTrue: handleOpenDeleteTransactionModal,
+    setFalse: handleCloseDeleteTransactionModal,
+  } = useBoolean(false);
+
   const [selectedTransaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
 
-  const handleDeleteTransaction = (transactionId: number) => {
+  const handleDeleteTransaction = () => {
+    if (!selectedTransaction) {
+      return;
+    }
+
     const toastId = loadingToast.showLoading('Deleting your transaction...');
 
     return api.transactions
       .deleteOne({
         params: {
-          transactionId,
+          transactionId: selectedTransaction.id,
         },
       })
       .then(() => {
@@ -62,6 +73,7 @@ export const HomePageContentDesktop = ({
         queryClient.refetchQueries({
           queryKey: ['api.transactions.getAll'],
         });
+        handleCloseDeleteTransactionModal();
       })
       .catch(() => {
         loadingToast.handleError({ toastId, message: 'Error' });
@@ -172,9 +184,10 @@ export const HomePageContentDesktop = ({
                           <Menu.Item>
                             {({ active }) => (
                               <button
-                                onClick={() =>
-                                  handleDeleteTransaction(transaction.id)
-                                }
+                                onClick={() => {
+                                  setSelectedTransaction(transaction);
+                                  handleOpenDeleteTransactionModal();
+                                }}
                                 className={classNames(
                                   'flex w-full items-center gap-2 rounded-b-md px-4 py-2',
                                   active && 'bg-red-100',
@@ -258,10 +271,14 @@ export const HomePageContentDesktop = ({
 
       <EditTransactionModal
         isModalOpen={isEditTransactionModalOpen}
-        handleClose={() => {
-          handleCloseEditTransactionModal();
-        }}
+        handleClose={handleCloseEditTransactionModal}
         selectedTransaction={selectedTransaction}
+      />
+
+      <DeleteConfirmationModal
+        isModalOpen={isDeleteTransactionModalOpen}
+        handleClose={handleCloseDeleteTransactionModal}
+        handleSubmit={handleDeleteTransaction}
       />
     </div>
   );
