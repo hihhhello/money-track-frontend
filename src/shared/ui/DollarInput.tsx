@@ -51,6 +51,7 @@ export const DollarInput = ({
     <Input
       type="text"
       pattern="[0-9]*"
+      inputMode="decimal"
       value={formattedValue}
       onChange={handleInputChange}
       {...inputProps}
