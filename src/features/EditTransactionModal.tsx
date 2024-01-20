@@ -6,7 +6,7 @@ import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
 import { ManageTransactionModal } from '@/shared/ui/ManageTransactionModal';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { Transaction } from '@/shared/types/transactionTypes';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ManageCategoryModal } from '@/shared/ui/ManageCategoryModal';
 
 const TRANSACTION_TYPE_TO_LABEL = {
@@ -40,6 +40,14 @@ export const EditTransactionModal = ({
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     selectedTransaction?.category.id ?? null,
   );
+
+  useEffect(() => {
+    if (!selectedTransaction) {
+      return;
+    }
+
+    setSelectedCategoryId(selectedTransaction.category.id);
+  }, [selectedTransaction]);
 
   const {
     value: isAddNewCategoryModalOpen,
