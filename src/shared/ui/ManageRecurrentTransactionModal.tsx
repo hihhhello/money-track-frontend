@@ -155,6 +155,7 @@ export const ManageRecurrentTransactionModal = ({
                 <label htmlFor="amount">Amount</label>
 
                 <DollarInput
+                  initialFocus
                   name="amount"
                   value={transactionFormValues.amount}
                   handleValueChange={(value) =>

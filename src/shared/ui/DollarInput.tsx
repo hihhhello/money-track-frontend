@@ -1,8 +1,8 @@
 'use client';
 
-import React, { ChangeEvent, useMemo } from 'react';
+import React, { ChangeEvent, Ref, useEffect, useMemo, useRef } from 'react';
 import { Input } from './Input';
-import { formatUSDDecimal } from '../utils/helpers';
+import { formatUSDDecimal, formatUSDInteger } from '../utils/helpers';
 
 type DollarInputProps = Omit<
   JSX.IntrinsicElements['input'],
@@ -19,17 +19,29 @@ type DollarInputProps = Omit<
   handleChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 
   value: number | null;
+  initialFocus?: boolean;
 };
 
 export const DollarInput = ({
   handleChange,
   handleValueChange,
   value,
+  initialFocus,
   ...inputProps
 }: DollarInputProps) => {
+  const ref = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!ref.current || !initialFocus) {
+      return;
+    }
+
+    ref.current.focus();
+  }, [initialFocus]);
+
   const formattedValue = useMemo(() => {
     if (value === null) {
-      return '';
+      return formatUSDDecimal(0);
     }
 
     return formatUSDDecimal(value);
@@ -49,6 +61,7 @@ export const DollarInput = ({
 
   return (
     <Input
+      ref={ref}
       type="text"
       pattern="[0-9]*"
       inputMode="decimal"
