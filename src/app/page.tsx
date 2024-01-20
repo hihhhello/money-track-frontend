@@ -12,7 +12,7 @@ const HomePage = async () => {
   const recurrentTransactions = await api.recurrentTransactions.getAll();
 
   return (
-    <div>
+    <div className="flex flex-1 flex-col">
       <div className="mb-4 grid w-full grid-cols-1 gap-4 sm:grid-cols-6">
         <div className="sm:col-span-4">
           <HomePageTransactionsTotal transactions={transactions} />

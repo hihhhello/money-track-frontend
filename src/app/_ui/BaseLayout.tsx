@@ -21,19 +21,15 @@ export const BaseLayout = async ({ children }: BaseLayoutProps) => {
 
         <div
           className={classNames(
-            'w-full flex-1',
+            'flex w-full',
             isSignedInUser && 'sm:pl-[112px]',
           )}
         >
-          <div className="min-h-full p-6">
-            {isSignedInUser && (
-              <div className="mb-6 flex justify-end">
-                <Navbar />
-              </div>
-            )}
+          <div className="flex flex-1 flex-col p-6">
+            {isSignedInUser && <Navbar />}
 
-            <main className="container mx-auto h-full rounded-[40px] bg-white">
-              <div className="min-h-full sm:p-10">{children}</div>
+            <main className="container mx-auto flex flex-grow overflow-y-hidden bg-white sm:rounded-[40px]">
+              <div className="flex flex-1 sm:p-10">{children}</div>
             </main>
           </div>
         </div>

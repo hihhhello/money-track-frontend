@@ -91,8 +91,8 @@ export const HomePageContentMobile = ({
   };
 
   return (
-    <div>
-      <div className="flex max-h-[715px] flex-col rounded-3xl bg-main-paper p-4">
+    <div className="flex flex-grow overflow-hidden">
+      <div className="flex flex-grow flex-col overflow-hidden rounded-3xl bg-main-paper p-4">
         <div className="mb-6 flex items-center justify-between">
           <Tabs value={tab}>
             <span
@@ -118,7 +118,7 @@ export const HomePageContentMobile = ({
           />
         </div>
 
-        <div className="flex h-full flex-col gap-4 overflow-y-auto">
+        <div className="flex flex-grow flex-col gap-4 overflow-y-auto">
           {tab === 'lastPayments'
             ? transactions.map((transaction) => (
                 <TransactionItemMobile

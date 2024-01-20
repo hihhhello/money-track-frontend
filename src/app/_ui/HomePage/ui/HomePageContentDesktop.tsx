@@ -81,9 +81,9 @@ export const HomePageContentDesktop = ({
   };
 
   return (
-    <div>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="flex max-h-[715px] flex-col rounded-3xl bg-main-paper p-4">
+    <div className="overflow-y-hidden">
+      <div className="flex h-full flex-col gap-4 sm:flex-row">
+        <div className="flex flex-1 flex-col rounded-3xl bg-main-paper p-4">
           <div className="mb-6 flex items-center justify-between">
             <div>
               <span className="text-xl text-main-dark">Last payments</span>
@@ -221,7 +221,7 @@ export const HomePageContentDesktop = ({
           </div>
         </div>
 
-        <div className="flex max-h-[715px] flex-col rounded-3xl bg-main-paper p-4">
+        <div className="flex flex-1 flex-col rounded-3xl bg-main-paper p-4">
           <div className="mb-6">
             <div>
               <span className="text-xl text-main-dark">Upcoming payments</span>
