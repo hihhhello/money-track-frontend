@@ -14,6 +14,7 @@ import { DollarInput } from './DollarInput';
 import { isNil } from 'lodash';
 import { DialogActions } from './Dialog/DialogActions';
 import { DialogScrollableContent } from './Dialog/DialogScrollableContent';
+import { CategoryListLoading } from './Category/CategoryListLoading';
 
 type TransactionValues = {
   amount: number | null;
@@ -25,6 +26,7 @@ type ManageTransactionModalProps = {
   isModalOpen: boolean;
   handleClose: () => void;
   categories: Array<{ id: number; name: string }> | undefined;
+  isCategoriesLoading?: boolean;
   handleSubmit: (transactionValues: {
     amount: string;
     date: string;
@@ -58,6 +60,7 @@ export const ManageTransactionModal = ({
   nestedModal,
   handleSelectCategoryId,
   selectedCategoryId,
+  isCategoriesLoading,
 }: ManageTransactionModalProps) => {
   const today = formatISO(new Date(), { representation: 'date' });
 
@@ -144,20 +147,26 @@ export const ManageTransactionModal = ({
             <div className="mb-4 flex flex-col gap-2">
               <span>Category</span>
 
-              <CategoryList
-                className="mb-2 p-2"
-                handleAddNewCategory={handleAddNewCategory}
-              >
-                {categories?.map((category) => (
-                  <CategoryItem
-                    key={category.id}
-                    onClick={() => handleSelectCategoryId(category.id)}
-                    isSelected={selectedCategoryId === category.id}
-                  >
-                    {category.name}
-                  </CategoryItem>
-                ))}
-              </CategoryList>
+              {isCategoriesLoading ? (
+                <CategoryListLoading
+                  handleAddNewCategory={handleAddNewCategory}
+                />
+              ) : (
+                <CategoryList
+                  className="mb-2 p-2"
+                  handleAddNewCategory={handleAddNewCategory}
+                >
+                  {categories?.map((category) => (
+                    <CategoryItem
+                      key={category.id}
+                      onClick={() => handleSelectCategoryId(category.id)}
+                      isSelected={selectedCategoryId === category.id}
+                    >
+                      {category.name}
+                    </CategoryItem>
+                  ))}
+                </CategoryList>
+              )}
             </div>
 
             <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">

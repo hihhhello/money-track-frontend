@@ -49,7 +49,11 @@ export const AddNewTransactionModal = ({
     setFalse: handleCloseAddNewCategoryModal,
   } = useBoolean(false);
 
-  const { data: categories, refetch: refetchCategories } = useQuery({
+  const {
+    data: categories,
+    refetch: refetchCategories,
+    isLoading: isCategoriesLoading,
+  } = useQuery({
     queryFn: () =>
       api.categories.getAll({
         searchParams: {
@@ -138,6 +142,7 @@ export const AddNewTransactionModal = ({
       handleAddNewCategory={handleOpenAddNewCategoryModal}
       handleSelectCategoryId={setSelectedCategoryId}
       selectedCategoryId={selectedCategoryId}
+      isCategoriesLoading={isCategoriesLoading}
       nestedModal={
         <ManageCategoryModal
           handleClose={handleCloseAddNewCategoryModal}

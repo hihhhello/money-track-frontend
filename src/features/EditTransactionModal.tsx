@@ -55,7 +55,11 @@ export const EditTransactionModal = ({
     setFalse: handleCloseAddNewCategoryModal,
   } = useBoolean(false);
 
-  const { data: categories, refetch: refetchCategories } = useQuery({
+  const {
+    data: categories,
+    refetch: refetchCategories,
+    isLoading: isCategoriesLoading,
+  } = useQuery({
     queryFn: () => {
       if (!selectedTransaction) {
         return;
@@ -176,6 +180,7 @@ export const EditTransactionModal = ({
       categories={categories}
       handleClose={handleClose}
       handleAddNewCategory={handleOpenAddNewCategoryModal}
+      isCategoriesLoading={isCategoriesLoading}
       title={
         selectedTransaction?.type
           ? TRANSACTION_TYPE_TO_LABEL[selectedTransaction.type].MODAL_TITLE
