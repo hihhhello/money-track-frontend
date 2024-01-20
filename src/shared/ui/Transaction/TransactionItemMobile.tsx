@@ -81,12 +81,12 @@ export const TransactionItemMobile = ({
   return (
     <div
       className={twMerge(
-        'relative flex min-h-[120px] items-center justify-between overflow-hidden rounded-lg',
+        'relative flex items-center justify-between rounded-lg',
         className,
       )}
     >
       <div
-        className="z-30 flex h-full min-h-[120px] w-full touch-pan-y flex-col rounded-lg bg-white px-4 py-2 pr-2 transition-transform duration-300"
+        className="z-30 flex h-full w-full flex-grow touch-pan-y flex-col rounded-lg bg-white px-4 py-2 pr-2 transition-transform duration-300"
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
@@ -95,31 +95,39 @@ export const TransactionItemMobile = ({
         }}
         {...divProps}
       >
-        <div className="flex w-full flex-grow flex-col items-start">
-          <span className="w-full break-words text-left">{categoryName}</span>
+        <div className="flex w-full items-start justify-between">
+          <div className="overflow-hidden">
+            <span className="w-full text-ellipsis text-left">
+              {categoryName}
+            </span>
 
-          <p className="w-full break-words text-left text-sm">{description}</p>
+            <p className="w-full break-words text-left text-sm">
+              {description}
+            </p>
+          </div>
 
-          <p className="w-full break-words text-left text-sm">
-            {format(parseISO(date), 'EEEE, dd MMMM')}
-          </p>
+          <div>
+            <p className="break-words text-right text-sm">
+              {format(parseISO(date), 'EEE, dd MMM')}
+            </p>
+
+            <p
+              className={classNames(
+                'w-full break-words text-right sm:text-right',
+                type === FinancialOperationType.EXPENSE
+                  ? 'text-main-orange'
+                  : 'text-main-blue',
+              )}
+            >
+              {formatUSDDecimal(parseFloat(amount))}
+            </p>
+          </div>
         </div>
 
-        <div className="w-full flex-grow">
-          <p
-            className={classNames(
-              'w-full break-words text-left sm:text-right',
-              type === FinancialOperationType.EXPENSE
-                ? 'text-main-orange'
-                : 'text-main-blue',
-            )}
-          >
-            {formatUSDDecimal(parseFloat(amount))}
-          </p>
-        </div>
+        <div className="w-full"></div>
       </div>
 
-      <div className="absolute right-0 z-10 flex min-h-[120px] w-full justify-end">
+      <div className="absolute right-0 z-10 flex h-full w-full justify-end overflow-hidden rounded-lg">
         <div className="flex-1 bg-main-blue/10"></div>
 
         <button
@@ -128,18 +136,18 @@ export const TransactionItemMobile = ({
             'z-20 flex w-[80px] flex-col items-center justify-center gap-2 bg-main-blue/10 px-4 py-2',
           )}
         >
-          <PencilIcon className="h-5 w-5 text-main-blue" />
+          <PencilIcon className="h-8 w-8 text-main-blue" />
 
-          <span className="text-main-blue">Edit</span>
+          <span className="text-sm text-main-blue">Edit</span>
         </button>
 
         <button
           onClick={handleDelete}
           className="z-20 flex w-[80px] flex-col items-center justify-center gap-2 bg-main-orange/10 px-4 py-2"
         >
-          <TrashIcon className="h-5 w-5 text-main-orange" />
+          <TrashIcon className="h-8 w-8 text-main-orange" />
 
-          <span className="text-main-orange">Delete</span>
+          <span className="text-sm text-main-orange">Delete</span>
         </button>
       </div>
     </div>
