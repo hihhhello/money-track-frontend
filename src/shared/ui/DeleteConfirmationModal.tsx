@@ -22,7 +22,7 @@ export const DeleteConfirmationModal = ({
       <Dialog onClose={handleClose} as="div" className="relative z-50">
         <DialogOverlay />
 
-        <DialogContent>
+        <DialogContent panelClassName="sm:max-h-[200px] sm:max-w-xl">
           <DialogHeader handleClose={handleClose} title="Confirm" />
 
           <DialogScrollableContent>
