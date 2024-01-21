@@ -46,92 +46,94 @@ export const RecurrentTransactionsPageContent = ({
   });
 
   return (
-    <div>
-      <div className="mb-4 flex gap-4">
-        <button
-          onClick={() => {
-            handleOpenAddNewRecurrentTransactionModal();
-            setTransactionTypeToAdd(FinancialOperationType.DEPOSIT);
-          }}
-          className="rounded bg-main-blue px-3 py-1.5 leading-6 text-white shadow-sm hover:bg-main-blue/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main-blue"
-        >
-          Add recurrent deposit
-        </button>
-
-        <button
-          onClick={() => {
-            handleOpenAddNewRecurrentTransactionModal();
-            setTransactionTypeToAdd(FinancialOperationType.EXPENSE);
-          }}
-          className="rounded bg-main-blue px-3 py-1.5 leading-6 text-white shadow-sm hover:bg-main-blue/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main-blue"
-        >
-          Add recurrent expense
-        </button>
-      </div>
-
-      <div className="grid h-full grid-cols-1 gap-x-4 overflow-y-auto sm:grid-cols-3">
-        {recurrentTransactions?.map((transaction) => (
-          <div
-            key={transaction.id}
-            className="rounded-3xl bg-main-paper shadow-md"
+    <div className="flex-grow overflow-y-hidden">
+      <div className="flex h-full flex-col">
+        <div className="mb-4 flex gap-4">
+          <button
+            onClick={() => {
+              handleOpenAddNewRecurrentTransactionModal();
+              setTransactionTypeToAdd(FinancialOperationType.DEPOSIT);
+            }}
+            className="rounded bg-main-blue px-3 py-1.5 leading-6 text-white shadow-sm hover:bg-main-blue/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main-blue"
           >
-            <div className="rounded-t-3xl bg-main-blue px-4 py-2 text-white">
-              <h3>{transaction.category.name}</h3>
-            </div>
+            Add recurrent deposit
+          </button>
 
-            <div className="p-4">
-              <p className="text-gray-700">Type: {transaction.type}</p>
+          <button
+            onClick={() => {
+              handleOpenAddNewRecurrentTransactionModal();
+              setTransactionTypeToAdd(FinancialOperationType.EXPENSE);
+            }}
+            className="rounded bg-main-blue px-3 py-1.5 leading-6 text-white shadow-sm hover:bg-main-blue/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main-blue"
+          >
+            Add recurrent expense
+          </button>
+        </div>
 
-              <p className="text-gray-700">
-                Frequency: {transaction.frequency}
-              </p>
+        <div className="grid h-full grid-cols-1 gap-4 overflow-y-auto p-2 sm:grid-cols-4">
+          {recurrentTransactions?.map((transaction) => (
+            <div
+              key={transaction.id}
+              className="rounded-3xl bg-main-paper shadow-md"
+            >
+              <div className="rounded-t-3xl bg-main-blue px-4 py-2 text-white">
+                <h3>{transaction.category.name}</h3>
+              </div>
 
-              <p className="text-gray-700">
-                Next Transaction:{' '}
-                {format(
-                  parseISO(transaction.next_transaction),
-                  'EEEE, dd MMMM',
+              <div className="p-4">
+                <p className="text-gray-700">Type: {transaction.type}</p>
+
+                <p className="text-gray-700">
+                  Frequency: {transaction.frequency}
+                </p>
+
+                <p className="text-gray-700">
+                  Next Transaction:{' '}
+                  {format(
+                    parseISO(transaction.next_transaction),
+                    'EEEE, dd MMMM',
+                  )}
+                </p>
+
+                <p className="text-gray-700">
+                  Amount: {formatUSDDecimal(parseFloat(transaction.amount))}
+                </p>
+
+                {transaction.description && (
+                  <p className="text-gray-700">
+                    Description: {transaction.description}
+                  </p>
                 )}
-              </p>
 
-              <p className="text-gray-700">
-                Amount: {formatUSDDecimal(parseFloat(transaction.amount))}
-              </p>
+                {transaction.start_date && (
+                  <p className="text-gray-700">
+                    Start Date:{' '}
+                    {format(parseISO(transaction.start_date), 'EEEE, dd MMMM')}
+                  </p>
+                )}
 
-              {transaction.description && (
-                <p className="text-gray-700">
-                  Description: {transaction.description}
-                </p>
-              )}
+                {transaction.end_date && (
+                  <p className="text-gray-700">
+                    End Date:{' '}
+                    {format(parseISO(transaction.end_date), 'EEEE, dd MMMM')}
+                  </p>
+                )}
+              </div>
 
-              {transaction.start_date && (
-                <p className="text-gray-700">
-                  Start Date:{' '}
-                  {format(parseISO(transaction.start_date), 'EEEE, dd MMMM')}
-                </p>
-              )}
-
-              {transaction.end_date && (
-                <p className="text-gray-700">
-                  End Date:{' '}
-                  {format(parseISO(transaction.end_date), 'EEEE, dd MMMM')}
-                </p>
-              )}
+              <div className="w-full border-t-2 px-4 py-2">
+                <button
+                  onClick={() => {
+                    setSelectedRecurrentTransaction(transaction);
+                    handleOpenEditTransactionModal();
+                  }}
+                  className="text-main-blue hover:text-main-blue/70"
+                >
+                  Edit
+                </button>
+              </div>
             </div>
-
-            <div className="w-full border-t-2 px-4 py-2">
-              <button
-                onClick={() => {
-                  setSelectedRecurrentTransaction(transaction);
-                  handleOpenEditTransactionModal();
-                }}
-                className="text-main-blue hover:text-main-blue/70"
-              >
-                Edit
-              </button>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       <AddNewRecurrentTransactionModal
