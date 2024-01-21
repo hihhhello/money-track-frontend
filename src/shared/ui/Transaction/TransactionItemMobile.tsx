@@ -81,12 +81,12 @@ export const TransactionItemMobile = ({
   return (
     <div
       className={twMerge(
-        'relative flex items-center justify-between rounded-lg',
+        'relative flex w-full items-center justify-between rounded-lg',
         className,
       )}
     >
       <div
-        className="z-30 flex h-full w-full flex-grow touch-pan-y flex-col rounded-lg bg-white px-4 py-2 pr-2 transition-transform duration-300"
+        className="z-30 flex h-full w-full flex-grow touch-pan-y flex-col rounded-lg bg-white px-2 py-2 transition-transform duration-300"
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
@@ -96,17 +96,17 @@ export const TransactionItemMobile = ({
         {...divProps}
       >
         <div className="flex w-full items-start justify-between">
-          <div className="overflow-hidden">
-            <span className="w-full text-ellipsis text-left">
+          <div className="flex max-w-[140px] flex-1 flex-col overflow-hidden">
+            <span className="overflow-hidden text-ellipsis text-left">
               {categoryName}
             </span>
 
-            <p className="w-full break-words text-left text-sm">
+            <p className="overflow-hidden text-ellipsis text-left text-sm">
               {description}
             </p>
           </div>
 
-          <div>
+          <div className="flex flex-1 flex-col">
             <p className="break-words text-right text-sm">
               {format(parseISO(date), 'EEE, dd MMM')}
             </p>
@@ -123,8 +123,6 @@ export const TransactionItemMobile = ({
             </p>
           </div>
         </div>
-
-        <div className="w-full"></div>
       </div>
 
       <div className="absolute right-0 z-10 flex h-full w-full justify-end overflow-hidden rounded-lg">
