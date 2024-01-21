@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { api } from '@/shared/api/api';
 import { useLoadingToast } from '@/shared/utils/hooks';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 export const SignUpPageContent = () => {
   const loadingToast = useLoadingToast();
@@ -118,6 +119,16 @@ export const SignUpPageContent = () => {
             </button>
           </div>
         </form>
+
+        <p className="mt-10 text-center text-sm text-gray-500">
+          Already have an account?
+          <Link
+            href="/auth/sign-in"
+            className="ml-1 leading-6 text-indigo-600 hover:text-indigo-500"
+          >
+            Sign In
+          </Link>
+        </p>
       </div>
     </div>
   );
