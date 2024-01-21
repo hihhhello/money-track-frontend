@@ -12,7 +12,7 @@ export type RecurrentTransaction = {
   timestamp: string;
   amount: string;
   description: string | null;
-  start_date: string | null;
+  start_date: string;
   end_date: string | null;
 };
 

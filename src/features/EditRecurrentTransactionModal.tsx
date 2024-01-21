@@ -10,6 +10,7 @@ import {
   ManageRecurrentTransactionModalProps,
 } from '@/shared/ui/ManageRecurrentTransactionModal';
 import { toast } from 'react-toastify';
+import { isAfter, parseISO } from 'date-fns';
 
 const TRANSACTION_TYPE_TO_LABEL = {
   [FinancialOperationType.DEPOSIT]: {
@@ -60,7 +61,7 @@ export const EditRecurrentTransactionModal = ({
     });
 
   const handleEditTransaction: ManageRecurrentTransactionModalProps['handleSubmit'] =
-    (transactionValues) => {
+    (transactionValues, options) => {
       if (!selectedTransaction) {
         return;
       }
@@ -73,7 +74,9 @@ export const EditRecurrentTransactionModal = ({
             amount: transactionValues.amount,
             category_id: transactionValues.categoryId,
             description: transactionValues.description,
-            start_date: transactionValues.start_date,
+            ...(options?.isPastStartDate
+              ? { next_transaction: transactionValues.start_date }
+              : { start_date: transactionValues.start_date }),
           },
           params: {
             transactionId: selectedTransaction.id,

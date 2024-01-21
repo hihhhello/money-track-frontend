@@ -1,7 +1,7 @@
 'use client';
 
 import { Fragment, useEffect, useState } from 'react';
-import { formatISO } from 'date-fns';
+import { formatISO, isAfter, parseISO } from 'date-fns';
 import { toast } from 'react-toastify';
 import { Dialog, Transition } from '@headlessui/react';
 import {
@@ -32,14 +32,17 @@ export type ManageRecurrentTransactionModalProps = {
   isModalOpen: boolean;
   handleClose: () => void;
   categories: Array<{ id: number; name: string }> | undefined;
-  handleSubmit: (transactionValues: {
-    categoryId: number;
-    amount: string;
-    frequency: RecurrentTransactionFrequencyValue;
-    description: string | null;
-    start_date: string | null;
-    end_date: string | null;
-  }) => Promise<void> | undefined | void;
+  handleSubmit: (
+    transactionValues: {
+      categoryId: number;
+      amount: string;
+      frequency: RecurrentTransactionFrequencyValue;
+      description: string | null;
+      start_date: string | null;
+      end_date: string | null;
+    },
+    options?: { isPastStartDate?: boolean },
+  ) => Promise<void> | undefined | void;
   submitButtonLabel?: string;
   title: string;
   defaultValues?: {
@@ -68,6 +71,10 @@ export const ManageRecurrentTransactionModal = ({
   );
 
   const today = formatISO(new Date(), { representation: 'date' });
+
+  const isPastStartDate = defaultTransactionValues?.start_date
+    ? isAfter(new Date(), parseISO(defaultTransactionValues.start_date))
+    : false;
 
   useEffect(() => {
     setSelectedCategoryId(defaultTransactionValues?.categoryId ?? null);
@@ -110,11 +117,14 @@ export const ManageRecurrentTransactionModal = ({
       return toast.warn('Select category.');
     }
 
-    handleSubmitTransactionValues({
-      ...transactionFormValues,
-      amount: String(transactionFormValues.amount),
-      categoryId: selectedCategoryId,
-    })?.then(() => {
+    handleSubmitTransactionValues(
+      {
+        ...transactionFormValues,
+        amount: String(transactionFormValues.amount),
+        categoryId: selectedCategoryId,
+      },
+      { isPastStartDate },
+    )?.then(() => {
       setTransactionFormValues({
         amount: null,
         description: null,
@@ -185,10 +195,12 @@ export const ManageRecurrentTransactionModal = ({
 
               <div className="flex flex-col gap-2 sm:flex-row">
                 <div className="mb-4 flex w-full flex-col gap-2">
-                  <label htmlFor="date">Start date</label>
+                  <label htmlFor="date">
+                    {isPastStartDate ? 'Next date' : 'Start date'}
+                  </label>
 
                   <Input
-                    name="date"
+                    name="startDate"
                     type="date"
                     value={transactionFormValues.start_date ?? ''}
                     onChange={(e) => {
@@ -203,7 +215,7 @@ export const ManageRecurrentTransactionModal = ({
                 <div className="mb-4 flex w-full flex-col gap-2">
                   <label htmlFor="date">End date</label>
                   <Input
-                    name="date"
+                    name="endDate"
                     type="date"
                     value={transactionFormValues.end_date ?? ''}
                     onChange={(e) => {
