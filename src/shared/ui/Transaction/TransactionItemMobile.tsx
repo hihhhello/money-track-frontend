@@ -101,7 +101,7 @@ export const TransactionItemMobile = ({
               {categoryName}
             </span>
 
-            <p className="overflow-hidden text-ellipsis text-left text-sm">
+            <p className="overflow-hidden text-ellipsis whitespace-nowrap text-left text-sm">
               {description}
             </p>
           </div>
