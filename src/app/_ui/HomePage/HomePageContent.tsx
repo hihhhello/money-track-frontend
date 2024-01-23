@@ -13,6 +13,8 @@ import { HomePageContentMobile } from './ui/HomePageContentMobile';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/shared/api/api';
+import { getNetAmount } from '@/shared/utils/helpers';
+import { FinancialOperationType } from '@/shared/types/globalTypes';
 
 type HomePageContentProps = {
   transactions: Transaction[];
@@ -59,12 +61,18 @@ export const HomePageContent = ({
         transaction,
       ];
 
+      const updatedTotalAmount =
+        (acc[category]?.totalAmount ?? 0) - parseFloat(transaction.amount);
+
       return {
         ...acc,
         [category]: {
           transactions: updatedCategoryTransactions,
-          totalAmount:
-            (acc[category]?.totalAmount ?? 0) + parseFloat(transaction.amount),
+          totalAmount: updatedTotalAmount,
+          type:
+            updatedTotalAmount >= 0
+              ? FinancialOperationType.DEPOSIT
+              : FinancialOperationType.EXPENSE,
         },
       };
     },

@@ -18,10 +18,9 @@ export type APITransactionPeriodFilter = 'today' | 'month' | 'year';
 export type TransactionPeriodFilter = 'today' | 'month' | 'year' | 'all';
 
 export type TransactionsByCategory = {
-  [category: string]:
-    | {
-        transactions: Transaction[];
-        totalAmount: number | undefined;
-      }
-    | undefined;
+  [category: string]: {
+    transactions: Transaction[];
+    totalAmount: number;
+    type: FinancialOperationTypeValue;
+  };
 };

@@ -17,6 +17,8 @@ import { DeleteConfirmationModal } from '@/shared/ui/DeleteConfirmationModal';
 import { TransactionItemDesktop } from '@/shared/ui/Transaction/TransactionItemDesktop';
 import { QueueListIcon } from '@/shared/icons/QueueListIcon';
 import { TagIcon } from '@/shared/icons/TagIcon';
+import { classNames, formatUSDDecimal } from '@/shared/utils/helpers';
+import { FinancialOperationType } from '@/shared/types/globalTypes';
 
 type HomePageContentDesktopProps = {
   transactions: Transaction[];
@@ -114,24 +116,51 @@ export const HomePageContentDesktop = ({
           </div>
 
           <div className="flex h-full flex-col gap-4 overflow-y-auto overflow-x-visible">
-            {transactions.map((transaction) => (
-              <TransactionItemDesktop
-                handleEdit={() => {
-                  setSelectedTransaction(transaction);
-                  handleOpenEditTransactionModal();
-                }}
-                handleDelete={() => {
-                  setSelectedTransaction(transaction);
-                  handleOpenDeleteTransactionModal();
-                }}
-                key={transaction.id}
-                amount={transaction.amount}
-                categoryName={transaction.category.name}
-                date={transaction.date}
-                description={transaction.description}
-                type={transaction.type}
-              />
-            ))}
+            {view === 'list'
+              ? transactions.map((transaction) => (
+                  <TransactionItemDesktop
+                    handleEdit={() => {
+                      setSelectedTransaction(transaction);
+                      handleOpenEditTransactionModal();
+                    }}
+                    handleDelete={() => {
+                      setSelectedTransaction(transaction);
+                      handleOpenDeleteTransactionModal();
+                    }}
+                    key={transaction.id}
+                    amount={transaction.amount}
+                    categoryName={transaction.category.name}
+                    date={transaction.date}
+                    description={transaction.description}
+                    type={transaction.type}
+                  />
+                ))
+              : Object.entries(transactionsByCategory).map(
+                  ([categoryName, record]) => (
+                    <div className="flex flex-col rounded-lg bg-white px-4 py-1 pr-2 sm:flex-row sm:items-center sm:justify-between">
+                      <div className="flex w-full flex-grow items-start justify-between">
+                        <div>
+                          <span className="w-full break-words text-left">
+                            {categoryName}
+                          </span>
+                        </div>
+
+                        <div>
+                          <p
+                            className={classNames(
+                              'w-full break-words text-left sm:text-right',
+                              record.type === FinancialOperationType.EXPENSE
+                                ? 'text-main-orange'
+                                : 'text-main-blue',
+                            )}
+                          >
+                            {formatUSDDecimal(Math.abs(record.totalAmount))}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ),
+                )}
           </div>
         </div>
 
