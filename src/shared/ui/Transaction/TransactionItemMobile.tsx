@@ -113,7 +113,7 @@ export const TransactionItemMobile = ({
 
             <p
               className={classNames(
-                'w-full break-words text-right sm:text-right',
+                'w-full break-words text-right',
                 type === FinancialOperationType.EXPENSE
                   ? 'text-main-orange'
                   : 'text-main-blue',
