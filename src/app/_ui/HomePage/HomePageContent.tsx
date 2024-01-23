@@ -5,6 +5,7 @@ import {
   Transaction,
   APITransactionPeriodFilter,
   TransactionPeriodFilter,
+  TransactionsByCategory,
 } from '@/shared/types/transactionTypes';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
 import { HomePageContentDesktop } from './ui/HomePageContentDesktop';
@@ -49,6 +50,27 @@ export const HomePageContent = ({
     initialData: initialRecurrentTransactions,
   });
 
+  const transactionsByCategory = transactions.reduce<TransactionsByCategory>(
+    (acc, transaction) => {
+      const category = transaction.category.name;
+
+      const updatedCategoryTransactions = [
+        ...(acc[category]?.transactions ?? []),
+        transaction,
+      ];
+
+      return {
+        ...acc,
+        [category]: {
+          transactions: updatedCategoryTransactions,
+          totalAmount:
+            (acc[category]?.totalAmount ?? 0) + parseFloat(transaction.amount),
+        },
+      };
+    },
+    {},
+  );
+
   if (isDesktop) {
     return (
       <HomePageContentDesktop
@@ -56,6 +78,7 @@ export const HomePageContent = ({
         transactions={transactions}
         filter={transactionsFilter}
         handleChangeFilter={setTransactionsFilter}
+        transactionsByCategory={transactionsByCategory}
       />
     );
   }

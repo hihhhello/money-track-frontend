@@ -6,6 +6,7 @@ import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
 import {
   Transaction,
   TransactionPeriodFilter,
+  TransactionsByCategory,
 } from '@/shared/types/transactionTypes';
 import { EditTransactionModal } from '@/features/EditTransactionModal';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
@@ -14,12 +15,15 @@ import { api } from '@/shared/api/api';
 import { useQueryClient } from '@tanstack/react-query';
 import { DeleteConfirmationModal } from '@/shared/ui/DeleteConfirmationModal';
 import { TransactionItemDesktop } from '@/shared/ui/Transaction/TransactionItemDesktop';
+import { QueueListIcon } from '@/shared/icons/QueueListIcon';
+import { TagIcon } from '@/shared/icons/TagIcon';
 
 type HomePageContentDesktopProps = {
   transactions: Transaction[];
   recurrentTransactions: RecurrentTransaction[];
   filter: TransactionPeriodFilter;
   handleChangeFilter: (newFilter: TransactionPeriodFilter) => void;
+  transactionsByCategory: TransactionsByCategory;
 };
 
 export const HomePageContentDesktop = ({
@@ -27,9 +31,12 @@ export const HomePageContentDesktop = ({
   transactions,
   filter,
   handleChangeFilter,
+  transactionsByCategory,
 }: HomePageContentDesktopProps) => {
   const queryClient = useQueryClient();
   const loadingToast = useLoadingToast();
+
+  const [view, setView] = useState<'list' | 'category'>('list');
 
   const {
     value: isEditTransactionModalOpen,
@@ -85,10 +92,25 @@ export const HomePageContentDesktop = ({
               </span>
             </div>
 
-            <TransactionsPeriodFilterSelect
-              filter={filter}
-              handleChangeFilter={handleChangeFilter}
-            />
+            <div className="flex gap-2">
+              <TransactionsPeriodFilterSelect
+                filter={filter}
+                handleChangeFilter={handleChangeFilter}
+              />
+
+              <button
+                className="rounded-md bg-main-blue p-1"
+                onClick={() =>
+                  setView((prev) => (prev === 'category' ? 'list' : 'category'))
+                }
+              >
+                {view === 'list' ? (
+                  <QueueListIcon className="text-white" />
+                ) : (
+                  <TagIcon className="text-white" />
+                )}
+              </button>
+            </div>
           </div>
 
           <div className="flex h-full flex-col gap-4 overflow-y-auto overflow-x-visible">
