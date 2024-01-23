@@ -19,6 +19,9 @@ import { QueueListIcon } from '@/shared/icons/QueueListIcon';
 import { TagIcon } from '@/shared/icons/TagIcon';
 import { classNames, formatUSDDecimal } from '@/shared/utils/helpers';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
+import { Disclosure } from '@headlessui/react';
+import { ChevronDownIcon } from '@/shared/icons/ChevronDownIcon';
+import { TransactionByCategoryItemDesktop } from '@/shared/ui/Transaction/TransactionByCategoryItemDesktop';
 
 type HomePageContentDesktopProps = {
   transactions: Transaction[];
@@ -137,28 +140,67 @@ export const HomePageContentDesktop = ({
                 ))
               : Object.entries(transactionsByCategory).map(
                   ([categoryName, record]) => (
-                    <div className="flex flex-col rounded-lg bg-white px-4 py-1 pr-2 sm:flex-row sm:items-center sm:justify-between">
-                      <div className="flex w-full flex-grow items-start justify-between">
-                        <div>
-                          <span className="w-full break-words text-left">
-                            {categoryName}
-                          </span>
-                        </div>
+                    <Disclosure key={categoryName}>
+                      <Disclosure.Button>
+                        {({ open }) => (
+                          <>
+                            <div className="flex flex-col rounded-lg bg-white px-4 py-1 pr-2 sm:flex-row sm:items-center sm:justify-between">
+                              <div className="flex w-full flex-grow items-start justify-between">
+                                <div className="flex gap-2">
+                                  <span className="w-full break-words text-left">
+                                    {categoryName}
+                                  </span>
 
-                        <div>
-                          <p
-                            className={classNames(
-                              'w-full break-words text-left sm:text-right',
-                              record.type === FinancialOperationType.EXPENSE
-                                ? 'text-main-orange'
-                                : 'text-main-blue',
-                            )}
-                          >
-                            {formatUSDDecimal(Math.abs(record.totalAmount))}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+                                  <span className="inline-flex items-center rounded-md bg-main-blue/10 px-2 py-1 text-xs font-medium text-main-blue ring-1 ring-inset ring-main-blue/10">
+                                    {record.transactions.length}
+                                  </span>
+                                </div>
+
+                                <div className="flex gap-2">
+                                  <p
+                                    className={classNames(
+                                      'w-full break-words text-left sm:text-right',
+                                      record.type ===
+                                        FinancialOperationType.EXPENSE
+                                        ? 'text-main-orange'
+                                        : 'text-main-blue',
+                                    )}
+                                  >
+                                    {formatUSDDecimal(
+                                      Math.abs(record.totalAmount),
+                                    )}
+                                  </p>
+
+                                  <ChevronDownIcon
+                                    className={classNames(open && 'rotate-180')}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        )}
+                      </Disclosure.Button>
+
+                      <Disclosure.Panel className="flex flex-col gap-4 pl-10">
+                        {record.transactions.map((transaction) => (
+                          <TransactionByCategoryItemDesktop
+                            handleEdit={() => {
+                              setSelectedTransaction(transaction);
+                              handleOpenEditTransactionModal();
+                            }}
+                            handleDelete={() => {
+                              setSelectedTransaction(transaction);
+                              handleOpenDeleteTransactionModal();
+                            }}
+                            key={transaction.id}
+                            amount={transaction.amount}
+                            date={transaction.date}
+                            description={transaction.description}
+                            type={transaction.type}
+                          />
+                        ))}
+                      </Disclosure.Panel>
+                    </Disclosure>
                   ),
                 )}
           </div>
