@@ -144,7 +144,7 @@ export const ManageTransactionModal = ({
               />
             </div>
 
-            <div className="mb-4 flex min-h-[200px] flex-col gap-2 overflow-y-hidden">
+            <div className="mb-4 flex min-h-[430px] flex-grow flex-col gap-2 overflow-y-hidden sm:min-h-[200px]">
               <span>Category</span>
 
               {isCategoriesLoading ? (
