@@ -149,9 +149,9 @@ export const CategoriesPageContent = ({
   };
 
   return (
-    <div>
-      <div>
-        <div className="mb-8 rounded-3xl bg-main-paper p-4">
+    <div className="flex-grow overflow-y-hidden">
+      <div className="flex h-full flex-col">
+        <div className="mb-8 flex h-full flex-col overflow-y-hidden rounded-3xl bg-main-paper p-4">
           <div className="mb-6 inline-flex items-center justify-between">
             <div>
               <span className="text-xl text-main-dark">Expenses</span>
@@ -160,6 +160,7 @@ export const CategoriesPageContent = ({
 
           <CategoryList
             className="pb-4"
+            wrapperClassName="overflow-y-hidden"
             handleAddNewCategory={handleAddNewExpenseCategory}
           >
             {reducedCategories?.expense?.map((category) => (
@@ -176,7 +177,7 @@ export const CategoriesPageContent = ({
           </CategoryList>
         </div>
 
-        <div className="rounded-3xl bg-main-paper p-4">
+        <div className="flex h-full flex-col overflow-y-hidden rounded-3xl bg-main-paper p-4">
           <div className="mb-6 inline-flex items-center justify-between">
             <div>
               <span className="text-xl text-main-dark">Deposits</span>
@@ -184,7 +185,8 @@ export const CategoriesPageContent = ({
           </div>
 
           <CategoryList
-            className="max-w-full pb-4"
+            className="pb-4"
+            wrapperClassName="overflow-y-hidden"
             handleAddNewCategory={handleAddNewDepositCategory}
           >
             {reducedCategories?.deposit?.map((category) => (

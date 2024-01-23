@@ -8,7 +8,7 @@ export const DialogScrollableContent = ({
   ...divProps
 }: DialogScrollableContentProps) => (
   <div
-    className={twMerge('h-full overflow-y-auto p-4', className)}
+    className={twMerge('flex h-full flex-col overflow-y-auto p-4', className)}
     {...divProps}
   >
     {children}

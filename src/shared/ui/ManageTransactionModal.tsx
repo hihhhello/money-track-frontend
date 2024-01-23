@@ -144,7 +144,7 @@ export const ManageTransactionModal = ({
               />
             </div>
 
-            <div className="mb-4 flex flex-col gap-2">
+            <div className="mb-4 flex min-h-[200px] flex-col gap-2 overflow-y-hidden">
               <span>Category</span>
 
               {isCategoriesLoading ? (
@@ -154,6 +154,7 @@ export const ManageTransactionModal = ({
               ) : (
                 <CategoryList
                   className="mb-2 p-2"
+                  wrapperClassName="overflow-y-hidden"
                   handleAddNewCategory={handleAddNewCategory}
                 >
                   {categories?.map((category) => (
