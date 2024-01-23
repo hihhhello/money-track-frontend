@@ -1,22 +1,15 @@
 'use client';
 
-import { Fragment, useState } from 'react';
-import { format, parseISO } from 'date-fns';
+import { useState } from 'react';
 
-import { classNames, formatUSDDecimal } from '@/shared/utils/helpers';
 import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
 import {
   Transaction,
   TransactionPeriodFilter,
 } from '@/shared/types/transactionTypes';
-import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { EditTransactionModal } from '@/features/EditTransactionModal';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
 import { TransactionsPeriodFilterSelect } from '@/features/TransactionsPeriodFilterSelect';
-import { Menu, Transition } from '@headlessui/react';
-import { ThreeDotsVerticalIcon } from '@/shared/icons/ThreeDotsVerticalIcon';
-import { PencilIcon } from '@heroicons/react/24/solid';
-import { TrashIcon } from '@heroicons/react/24/outline';
 import { api } from '@/shared/api/api';
 import { useQueryClient } from '@tanstack/react-query';
 import { DeleteConfirmationModal } from '@/shared/ui/DeleteConfirmationModal';
