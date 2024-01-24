@@ -16,6 +16,7 @@ import React, {
 import {
   Transaction,
   TransactionPeriodFilter,
+  TransactionsByCategory,
 } from '@/shared/types/transactionTypes';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { EditTransactionModal } from '@/features/EditTransactionModal';
@@ -26,12 +27,18 @@ import { api } from '@/shared/api/api';
 import { useQueryClient } from '@tanstack/react-query';
 import { TransactionItemMobile } from '@/shared/ui/Transaction/TransactionItemMobile';
 import { DeleteConfirmationModal } from '@/shared/ui/DeleteConfirmationModal';
+import { QueueListIcon } from '@/shared/icons/QueueListIcon';
+import { TagIcon } from '@/shared/icons/TagIcon';
+import { Disclosure } from '@headlessui/react';
+import { TransactionByCategoryItemMobile } from '@/shared/ui/Transaction/TransactionByCategoryItemMobile';
+import { ChevronDownIcon } from '@/shared/icons/ChevronDownIcon';
 
 type HomePageContentMobileProps = {
   transactions: Transaction[];
   recurrentTransactions: RecurrentTransaction[];
   filter: TransactionPeriodFilter;
   handleChangeFilter: (newFilter: TransactionPeriodFilter) => void;
+  transactionsByCategory: TransactionsByCategory;
 };
 
 export const HomePageContentMobile = ({
@@ -39,6 +46,7 @@ export const HomePageContentMobile = ({
   transactions,
   filter,
   handleChangeFilter,
+  transactionsByCategory,
 }: HomePageContentMobileProps) => {
   const queryClient = useQueryClient();
   const loadingToast = useLoadingToast();
@@ -61,6 +69,8 @@ export const HomePageContentMobile = ({
   const [tab, setTab] = useState<'lastPayments' | 'upcomingPayments'>(
     'lastPayments',
   );
+
+  const [view, setView] = useState<'list' | 'category'>('list');
 
   const handleDeleteTransaction = () => {
     if (!selectedTransaction) {
@@ -116,11 +126,93 @@ export const HomePageContentMobile = ({
             filter={filter}
             handleChangeFilter={handleChangeFilter}
           />
+
+          <button
+            className="rounded-md bg-main-blue p-1"
+            onClick={() =>
+              setView((prev) => (prev === 'category' ? 'list' : 'category'))
+            }
+          >
+            {view === 'list' ? (
+              <QueueListIcon className="text-white" />
+            ) : (
+              <TagIcon className="text-white" />
+            )}
+          </button>
         </div>
 
         <div className="flex flex-grow flex-col gap-3 overflow-y-auto">
-          {tab === 'lastPayments'
-            ? transactions.map((transaction) => (
+          {(() => {
+            if (tab === 'lastPayments') {
+              if (view === 'category') {
+                return Object.entries(transactionsByCategory).map(
+                  ([categoryName, record]) => (
+                    <Disclosure key={categoryName}>
+                      <Disclosure.Button>
+                        {({ open }) => (
+                          <>
+                            <div className="flex flex-col rounded-lg bg-white px-4 py-1 pr-2 sm:flex-row sm:items-center sm:justify-between">
+                              <div className="flex w-full flex-grow items-start justify-between">
+                                <div className="flex gap-2">
+                                  <span className="w-full break-words text-left">
+                                    {categoryName}
+                                  </span>
+
+                                  <span className="inline-flex items-center rounded-md bg-main-blue/10 px-2 py-1 text-xs font-medium text-main-blue ring-1 ring-inset ring-main-blue/10">
+                                    {record.transactions.length}
+                                  </span>
+                                </div>
+
+                                <div className="flex gap-2">
+                                  <p
+                                    className={classNames(
+                                      'w-full break-words text-left sm:text-right',
+                                      record.type ===
+                                        FinancialOperationType.EXPENSE
+                                        ? 'text-main-orange'
+                                        : 'text-main-blue',
+                                    )}
+                                  >
+                                    {formatUSDDecimal(
+                                      Math.abs(record.totalAmount),
+                                    )}
+                                  </p>
+
+                                  <ChevronDownIcon
+                                    className={classNames(open && 'rotate-180')}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        )}
+                      </Disclosure.Button>
+
+                      <Disclosure.Panel className="flex flex-col gap-4 pl-5">
+                        {record.transactions.map((transaction) => (
+                          <TransactionByCategoryItemMobile
+                            amount={transaction.amount}
+                            date={transaction.date}
+                            description={transaction.description}
+                            type={transaction.type}
+                            key={transaction.id}
+                            handleEdit={() => {
+                              setSelectedTransaction(transaction);
+                              handleOpenEditTransactionModal();
+                            }}
+                            handleDelete={() => {
+                              setSelectedTransaction(transaction);
+                              handleOpenDeleteTransactionModal();
+                            }}
+                          />
+                        ))}
+                      </Disclosure.Panel>
+                    </Disclosure>
+                  ),
+                );
+              }
+
+              return transactions.map((transaction) => (
                 <TransactionItemMobile
                   amount={transaction.amount}
                   categoryName={transaction.category.name}
@@ -137,45 +229,48 @@ export const HomePageContentMobile = ({
                     handleOpenDeleteTransactionModal();
                   }}
                 />
-              ))
-            : recurrentTransactions.map((transaction) => (
-                <div
-                  key={transaction.id}
-                  className="flex flex-col rounded-lg bg-white px-4 py-1 pr-2 hover:bg-gray-200 sm:flex-row sm:items-center sm:justify-between"
-                >
-                  <div className="flex w-full flex-grow items-start justify-between">
-                    <div>
-                      <span className="w-full break-words text-left">
-                        {transaction.category.name}
-                      </span>
+              ));
+            }
 
-                      <p className="w-full break-words text-left text-sm">
-                        {transaction.description}
-                      </p>
-                    </div>
+            return recurrentTransactions.map((transaction) => (
+              <div
+                key={transaction.id}
+                className="flex flex-col rounded-lg bg-white px-4 py-1 pr-2 hover:bg-gray-200 sm:flex-row sm:items-center sm:justify-between"
+              >
+                <div className="flex w-full flex-grow items-start justify-between">
+                  <div>
+                    <span className="w-full break-words text-left">
+                      {transaction.category.name}
+                    </span>
 
-                    <div>
-                      <p className="w-full break-words text-right text-sm">
-                        {format(
-                          parseISO(transaction.next_transaction),
-                          'EEE, dd MMM',
-                        )}
-                      </p>
+                    <p className="w-full break-words text-left text-sm">
+                      {transaction.description}
+                    </p>
+                  </div>
 
-                      <p
-                        className={classNames(
-                          'w-full break-words text-right',
-                          transaction.type === FinancialOperationType.EXPENSE
-                            ? 'text-main-orange'
-                            : 'text-main-blue',
-                        )}
-                      >
-                        {formatUSDDecimal(parseFloat(transaction.amount))}
-                      </p>
-                    </div>
+                  <div>
+                    <p className="w-full break-words text-right text-sm">
+                      {format(
+                        parseISO(transaction.next_transaction),
+                        'EEE, dd MMM',
+                      )}
+                    </p>
+
+                    <p
+                      className={classNames(
+                        'w-full break-words text-right',
+                        transaction.type === FinancialOperationType.EXPENSE
+                          ? 'text-main-orange'
+                          : 'text-main-blue',
+                      )}
+                    >
+                      {formatUSDDecimal(parseFloat(transaction.amount))}
+                    </p>
                   </div>
                 </div>
-              ))}
+              </div>
+            ));
+          })()}
         </div>
       </div>
 

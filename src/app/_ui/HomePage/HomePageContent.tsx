@@ -98,6 +98,7 @@ export const HomePageContent = ({
       transactions={transactions}
       filter={transactionsFilter}
       handleChangeFilter={setTransactionsFilter}
+      transactionsByCategory={transactionsByCategory}
     />
   );
 };
