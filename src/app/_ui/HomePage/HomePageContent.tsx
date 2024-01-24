@@ -52,31 +52,32 @@ export const HomePageContent = ({
     initialData: initialRecurrentTransactions,
   });
 
-  const transactionsByCategory = transactions.reduce<TransactionsByCategory>(
-    (acc, transaction) => {
-      const category = transaction.category.name;
+  const transactionsByCategory = Object.fromEntries(
+    Object.entries(
+      transactions.reduce<TransactionsByCategory>((acc, transaction) => {
+        const category = transaction.category.name;
 
-      const updatedCategoryTransactions = [
-        ...(acc[category]?.transactions ?? []),
-        transaction,
-      ];
+        const updatedCategoryTransactions = [
+          ...(acc[category]?.transactions ?? []),
+          transaction,
+        ];
 
-      const updatedTotalAmount =
-        (acc[category]?.totalAmount ?? 0) - parseFloat(transaction.amount);
+        const updatedTotalAmount =
+          (acc[category]?.totalAmount ?? 0) - parseFloat(transaction.amount);
 
-      return {
-        ...acc,
-        [category]: {
-          transactions: updatedCategoryTransactions,
-          totalAmount: updatedTotalAmount,
-          type:
-            updatedTotalAmount >= 0
-              ? FinancialOperationType.DEPOSIT
-              : FinancialOperationType.EXPENSE,
-        },
-      };
-    },
-    {},
+        return {
+          ...acc,
+          [category]: {
+            transactions: updatedCategoryTransactions,
+            totalAmount: updatedTotalAmount,
+            type:
+              updatedTotalAmount >= 0
+                ? FinancialOperationType.DEPOSIT
+                : FinancialOperationType.EXPENSE,
+          },
+        };
+      }, {}),
+    ).sort(([, a], [, b]) => a.totalAmount - b.totalAmount),
   );
 
   if (isDesktop) {
