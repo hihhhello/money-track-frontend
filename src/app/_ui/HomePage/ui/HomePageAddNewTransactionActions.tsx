@@ -28,9 +28,9 @@ export const HomePageAddNewTransactionActions = () => {
             handleOpenAddNewTransactionModal();
             setTransactionTypeToAdd(FinancialOperationType.EXPENSE);
           }}
-          className="flex flex-1 items-center justify-center rounded-3xl bg-main-blue/95 py-4 hover:bg-main-blue"
+          className="flex flex-1 items-center justify-center rounded-3xl bg-main-blue/95 py-2 hover:bg-main-blue sm:py-4"
         >
-          <MinusIcon className="h-16 w-16 text-main-white" />
+          <MinusIcon className="h-10 w-10 text-main-white sm:h-16 sm:w-16" />
         </button>
 
         <button
@@ -38,9 +38,9 @@ export const HomePageAddNewTransactionActions = () => {
             handleOpenAddNewTransactionModal();
             setTransactionTypeToAdd(FinancialOperationType.DEPOSIT);
           }}
-          className="group flex flex-1 items-center justify-center rounded-3xl border-[6px] border-main-blue/95 py-4 hover:border-main-blue"
+          className="group flex flex-1 items-center justify-center rounded-3xl border-[6px] border-main-blue/95 py-2 hover:border-main-blue sm:py-4"
         >
-          <PlusIcon className="h-16 w-16 text-main-blue/95 group-hover:text-main-blue" />
+          <PlusIcon className="h-10 w-10 text-main-blue/95 group-hover:text-main-blue sm:h-16 sm:w-16" />
         </button>
       </div>
 

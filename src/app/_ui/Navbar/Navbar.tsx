@@ -19,7 +19,7 @@ export const Navbar = () => {
   }
 
   return (
-    <div className="mb-6 flex justify-end">
+    <div className="mb-3 flex justify-end">
       <NavbarMobile handleSignOut={handleSignOut} pathname={pathname} />
     </div>
   );
