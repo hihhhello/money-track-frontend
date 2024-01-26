@@ -22,6 +22,7 @@ export const SpendingGroupsPageContent = ({
   const { data: spendingGroups, refetch: refetchSpendingGroups } = useQuery({
     queryFn: api.spendingGroups.getAll,
     initialData: initialSpendingGroups,
+    queryKey: ['api.spendingGroups.getAll'],
   });
 
   const {
