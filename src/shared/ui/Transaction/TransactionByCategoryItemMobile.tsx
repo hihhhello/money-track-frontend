@@ -12,6 +12,7 @@ import {
 import { PencilIcon } from '@heroicons/react/24/solid';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { twMerge } from 'tailwind-merge';
+import { RecurrentTransactionIcon } from '@/shared/icons/RecurrentTransactionIcon';
 
 type TransactionByCategoryItemMobileProps = {
   description: string | null;
@@ -20,6 +21,7 @@ type TransactionByCategoryItemMobileProps = {
   amount: string;
   handleEdit: () => void;
   handleDelete: () => void;
+  recurrentTransactionId?: number | null;
 } & JSX.IntrinsicElements['div'];
 
 export const TransactionByCategoryItemMobile = ({
@@ -30,6 +32,7 @@ export const TransactionByCategoryItemMobile = ({
   handleEdit,
   type,
   className,
+  recurrentTransactionId,
   ...divProps
 }: TransactionByCategoryItemMobileProps) => {
   const touchStart = useRef<null | number>(null);
@@ -107,9 +110,17 @@ export const TransactionByCategoryItemMobile = ({
 
           <p className="w-full break-words text-left text-sm">{description}</p>
 
-          <p className="w-full break-words text-right text-sm">
-            {format(parseISO(date), 'EEE, dd MMM')}
-          </p>
+          <div className="flex w-full items-center justify-end gap-1">
+            <div>
+              {recurrentTransactionId && (
+                <RecurrentTransactionIcon className="text-main-blue" />
+              )}
+            </div>
+
+            <p className="break-words text-right text-sm">
+              {format(parseISO(date), 'EEE, dd MMM')}
+            </p>
+          </div>
         </div>
       </div>
 

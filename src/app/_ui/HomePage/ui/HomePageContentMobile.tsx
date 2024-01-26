@@ -204,6 +204,7 @@ export const HomePageContentMobile = ({
                               setSelectedTransaction(transaction);
                               handleOpenDeleteTransactionModal();
                             }}
+                            recurrentTransactionId={transaction.recurrent_id}
                           />
                         ))}
                       </Disclosure.Panel>
@@ -228,6 +229,7 @@ export const HomePageContentMobile = ({
                     setSelectedTransaction(transaction);
                     handleOpenDeleteTransactionModal();
                   }}
+                  recurrentTransactionId={transaction.recurrent_id}
                 />
               ));
             }
