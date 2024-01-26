@@ -12,6 +12,7 @@ export type Transaction = {
   timestamp: string;
   type: FinancialOperationTypeValue;
   user_id: number;
+  recurrent_id: number | null;
 };
 
 export type APITransactionPeriodFilter = 'today' | 'month' | 'year';

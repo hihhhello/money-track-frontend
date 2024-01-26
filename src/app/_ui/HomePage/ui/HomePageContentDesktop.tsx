@@ -136,6 +136,7 @@ export const HomePageContentDesktop = ({
                     date={transaction.date}
                     description={transaction.description}
                     type={transaction.type}
+                    recurrentTransactionId={transaction.recurrent_id}
                   />
                 ))
               : Object.entries(transactionsByCategory).map(
@@ -197,6 +198,7 @@ export const HomePageContentDesktop = ({
                             date={transaction.date}
                             description={transaction.description}
                             type={transaction.type}
+                            recurrentTransactionId={transaction.recurrent_id}
                           />
                         ))}
                       </Disclosure.Panel>

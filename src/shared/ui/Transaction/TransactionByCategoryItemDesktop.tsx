@@ -12,6 +12,7 @@ import { TrashIcon } from '@heroicons/react/24/outline';
 
 import { FinancialOperationTypeValue } from '@/shared/types/globalTypes';
 import { twMerge } from 'tailwind-merge';
+import { RecurrentTransactionIcon } from '@/shared/icons/RecurrentTransactionIcon';
 
 type TransactionByCategoryItemDesktopProps = {
   description: string | null;
@@ -20,6 +21,7 @@ type TransactionByCategoryItemDesktopProps = {
   amount: string;
   handleEdit?: () => void;
   handleDelete?: () => void;
+  recurrentTransactionId?: number | null;
 } & JSX.IntrinsicElements['div'];
 
 export const TransactionByCategoryItemDesktop = ({
@@ -30,6 +32,7 @@ export const TransactionByCategoryItemDesktop = ({
   handleDelete,
   handleEdit,
   className,
+  recurrentTransactionId,
   ...divProps
 }: TransactionByCategoryItemDesktopProps) => {
   return (
@@ -54,9 +57,17 @@ export const TransactionByCategoryItemDesktop = ({
 
         <p className="w-full break-words text-left text-sm">{description}</p>
 
-        <p className="w-full break-words text-right text-sm">
-          {format(parseISO(date), 'EEE, dd MMM')}
-        </p>
+        <div className="flex w-full items-center justify-end gap-1">
+          <div>
+            {recurrentTransactionId && (
+              <RecurrentTransactionIcon className="text-main-blue" />
+            )}
+          </div>
+
+          <p className="break-words text-right text-sm">
+            {format(parseISO(date), 'EEE, dd MMM')}
+          </p>
+        </div>
       </div>
 
       {(handleEdit || handleDelete) && (
