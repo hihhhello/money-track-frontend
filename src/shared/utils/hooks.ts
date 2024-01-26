@@ -14,8 +14,8 @@ export const useLoadingToast = () => {
       toast.update(toastId, {
         render: message,
         type: 'success',
-        autoClose: 2500,
         isLoading: false,
+        autoClose: 1500,
       });
     },
     [],
@@ -26,8 +26,8 @@ export const useLoadingToast = () => {
       toast.update(toastId, {
         render: message,
         type: 'error',
-        autoClose: 2500,
         isLoading: false,
+        autoClose: 1500,
       });
     },
     [],
