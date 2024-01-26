@@ -1,6 +1,6 @@
 import { api } from '@/shared/api/api';
 
-const GroupsPage = async () => {
+const SpendingGroupsPage = async () => {
   return (
     <>
       <h1>Coming Soon</h1>
@@ -8,4 +8,4 @@ const GroupsPage = async () => {
   );
 };
 
-export default GroupsPage;
+export default SpendingGroupsPage;

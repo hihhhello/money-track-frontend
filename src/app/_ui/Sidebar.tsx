@@ -69,16 +69,16 @@ export const Sidebar = () => {
         </Link>
 
         <Link
-          href="/groups"
+          href="/spending-groups"
           className={twMerge(
             'group flex w-full flex-col items-center rounded-lg py-[6px] pl-8 pr-12 transition-colors hover:bg-main-blue/20',
-            pathname === '/groups' && 'bg-main-blue/20',
+            pathname === '/spending-groups' && 'bg-main-blue/20',
           )}
         >
           <UserGroupIcon
             className={twMerge(
               'h-8 w-8 text-gray-600 group-hover:text-main-blue',
-              pathname === '/groups' && 'text-main-blue',
+              pathname === '/spending-groups' && 'text-main-blue',
             )}
           />
 
