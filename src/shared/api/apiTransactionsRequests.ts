@@ -53,7 +53,7 @@ const editOne = ({
     transactionId: number;
   };
 }) =>
-  axiosInstance.patch<Transaction[]>(
+  axiosInstance.patch<Transaction>(
     `/transactions/${params.transactionId}`,
     body,
   );
