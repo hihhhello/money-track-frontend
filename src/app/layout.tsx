@@ -1,7 +1,7 @@
 import './globals.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Kanit } from 'next/font/google';
 
 import { BaseLayout } from '@/app/_ui/BaseLayout';
@@ -20,7 +20,13 @@ const kanit = Kanit({
 export const metadata: Metadata = {
   title: 'Money Track',
   description: 'Created by Ratushniak family',
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
+};
+
+export const viewport: Viewport = {
+  themeColor: 'black',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({
