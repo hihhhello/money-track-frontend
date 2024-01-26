@@ -9,16 +9,15 @@ import { PieChartIcon } from '@/shared/icons/PieChartIcon';
 import { SignOutIcon } from '@/shared/icons/SignOutIcon';
 import { twMerge } from 'tailwind-merge';
 import { usePathname } from 'next/navigation';
+import { UserGroupIcon } from '@/shared/icons/UserGroupIcon';
 
 export const Sidebar = () => {
-  const { settingsSidebar } = useEnvironment();
   const pathname = usePathname();
 
   return (
     <div className="fixed hidden h-full w-[112px] flex-col justify-between pb-[60px] pt-[200px] sm:flex">
       <div className="flex flex-col items-center gap-2">
         <Link
-          onClick={settingsSidebar.handleClose}
           href="/"
           className={twMerge(
             'group flex w-full flex-col items-center rounded-lg py-[6px] pl-8 pr-12 transition-colors hover:bg-main-blue/20',
@@ -36,7 +35,6 @@ export const Sidebar = () => {
         </Link>
 
         <Link
-          onClick={settingsSidebar.handleClose}
           href="/categories"
           className={twMerge(
             'group flex w-full flex-col items-center rounded-lg py-[6px] pl-8 pr-12 transition-colors hover:bg-main-blue/20',
@@ -54,7 +52,6 @@ export const Sidebar = () => {
         </Link>
 
         <Link
-          onClick={settingsSidebar.handleClose}
           href="/recurrent-transactions"
           className={twMerge(
             'group flex w-full flex-col items-center rounded-lg py-[6px] pl-8 pr-12 transition-colors hover:bg-main-blue/20',
@@ -69,6 +66,23 @@ export const Sidebar = () => {
           />
 
           <span className="sr-only">Recurrent Transactions</span>
+        </Link>
+
+        <Link
+          href="/groups"
+          className={twMerge(
+            'group flex w-full flex-col items-center rounded-lg py-[6px] pl-8 pr-12 transition-colors hover:bg-main-blue/20',
+            pathname === '/groups' && 'bg-main-blue/20',
+          )}
+        >
+          <UserGroupIcon
+            className={twMerge(
+              'h-8 w-8 text-gray-600 group-hover:text-main-blue',
+              pathname === '/groups' && 'text-main-blue',
+            )}
+          />
+
+          <span className="sr-only">Groups</span>
         </Link>
       </div>
 
