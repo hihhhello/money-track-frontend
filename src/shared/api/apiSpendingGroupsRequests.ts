@@ -9,12 +9,12 @@ const createOne = ({
     description?: string | null;
   };
 }) => {
-  return axiosInstance.post('/spending-groups', body);
+  return axiosInstance.post('/spending_groups', body);
 };
 
 const getAll = () =>
   axiosInstance
-    .get<SpendingGroup[]>('/spending-groups')
+    .get<SpendingGroup[]>('/spending_groups')
     .then(({ data }) => data);
 
 const editOne = ({
@@ -30,12 +30,12 @@ const editOne = ({
   };
 }) =>
   axiosInstance.patch<SpendingGroup>(
-    `/spending-groups/${params.spendingGroupId}`,
+    `/spending_groups/${params.spendingGroupId}`,
     body,
   );
 
 const deleteOne = ({ params }: { params: { spendingGroupId: number } }) =>
-  axiosInstance.delete(`/spending-groups/${params.spendingGroupId}`);
+  axiosInstance.delete(`/spending_groups/${params.spendingGroupId}`);
 
 export const apiSpendingGroupsRequests = {
   createOne,

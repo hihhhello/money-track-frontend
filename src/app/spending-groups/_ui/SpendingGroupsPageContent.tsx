@@ -69,11 +69,16 @@ export const SpendingGroupsPageContent = ({
           </button>
         </div>
 
-        {spendingGroups?.map((spendingGroup) => (
-          <div key={spendingGroup.id} className="flex flex-col rounded-lg bg-white px-4 py-1 pr-2 sm:flex-row sm:items-center sm:justify-between">
-            {spendingGroup.name} - {spendingGroup.description}
-          </div>
-        ))}
+        <div className="flex flex-col gap-4">
+          {spendingGroups?.map((spendingGroup) => (
+            <div
+              key={spendingGroup.id}
+              className="flex flex-col rounded-lg bg-main-paper px-4 py-1 pr-2 sm:flex-row sm:items-center sm:justify-between"
+            >
+              {spendingGroup.name} - {spendingGroup.description}
+            </div>
+          ))}
+        </div>
       </div>
 
       <ManageSpendingGroupModal
