@@ -19,9 +19,11 @@ export type ManageSpendingGroupModalProps = {
   }) => Promise<void> | undefined | void;
   submitButtonLabel?: string;
   title: string;
-  defaultCategoryName?: string;
-  defaultDescription?: string;
   handleDelete?: () => Promise<void> | undefined | void;
+  defaultValues?: {
+    name: string;
+    description?: string | null;
+  };
 };
 
 export const ManageSpendingGroupModal = ({
@@ -30,15 +32,22 @@ export const ManageSpendingGroupModal = ({
   handleSubmit: propsHandleSubmit,
   title,
   submitButtonLabel,
-  defaultCategoryName,
   handleDelete,
+  defaultValues,
 }: ManageSpendingGroupModalProps) => {
-  const [categoryName, setCategoryName] = useState(defaultCategoryName ?? '');
-  const [description, setDescription] = useState(defaultCategoryName ?? null);
+  const [categoryName, setCategoryName] = useState(defaultValues?.name ?? '');
+  const [description, setDescription] = useState(
+    defaultValues?.description ?? null,
+  );
 
   useEffect(() => {
-    setCategoryName(defaultCategoryName ?? '');
-  }, [defaultCategoryName]);
+    if (!defaultValues) {
+      return;
+    }
+
+    setCategoryName(defaultValues.name ?? '');
+    setDescription(defaultValues.description ?? null);
+  }, [defaultValues]);
 
   const handleSubmit = () => {
     if (!categoryName || isEmpty(categoryName.trim())) {

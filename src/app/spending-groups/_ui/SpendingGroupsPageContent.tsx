@@ -44,6 +44,12 @@ export const SpendingGroupsPageContent = ({
     setFalse: handleCloseDeleteSpendingGroupModal,
   } = useBoolean(false);
 
+  const {
+    value: isEditTransactionModalOpen,
+    setTrue: handleOpenEditTransactionModal,
+    setFalse: handleCloseEditTransactionModal,
+  } = useBoolean(false);
+
   const handleAddNewSpendingGroup: ManageSpendingGroupModalProps['handleSubmit'] =
     (newSpendingGroupValues) => {
       const toastId = loadingToast.showLoading(
@@ -96,6 +102,38 @@ export const SpendingGroupsPageContent = ({
       });
   };
 
+  const handleEditTransaction = (transactionValues: {
+    name: string;
+    description?: string | null;
+  }) => {
+    if (!selectedTransaction) {
+      return;
+    }
+
+    const toastId = loadingToast.showLoading('Editing your spending group...');
+
+    return api.spendingGroups
+      .editOne({
+        body: {
+          name: transactionValues.name,
+          description: transactionValues.description,
+        },
+        params: {
+          spendingGroupId: selectedTransaction.id,
+        },
+      })
+      .then(() => {
+        loadingToast.handleSuccess({
+          toastId,
+          message: 'You successfully edited spending group.',
+        });
+        refetchSpendingGroups();
+      })
+      .catch(() => {
+        loadingToast.handleError({ toastId, message: 'Error' });
+      });
+  };
+
   return (
     <div className="flex-grow overflow-y-hidden">
       <div className="flex h-full flex-col">
@@ -132,7 +170,7 @@ export const SpendingGroupsPageContent = ({
                 <button
                   onClick={() => {
                     setSelectedTransaction(spendingGroup);
-                    // handleOpenEditTransactionModal();
+                    handleOpenEditTransactionModal();
                   }}
                 >
                   <PencilIcon className="h-6 w-6 text-main-blue" />
@@ -149,6 +187,24 @@ export const SpendingGroupsPageContent = ({
         handleSubmit={handleAddNewSpendingGroup}
         title="Add new spending group"
         submitButtonLabel="Add"
+        handleDelete={handleDeleteTransaction}
+      />
+
+      <ManageSpendingGroupModal
+        isModalOpen={isEditTransactionModalOpen}
+        handleClose={handleCloseEditTransactionModal}
+        handleSubmit={handleEditTransaction}
+        title={`Edit ${selectedTransaction?.name}`}
+        submitButtonLabel="Edit"
+        defaultValues={
+          selectedTransaction
+            ? {
+                name: selectedTransaction.name,
+                description: selectedTransaction.description,
+              }
+            : undefined
+        }
+        handleDelete={handleDeleteTransaction}
       />
 
       <DeleteConfirmationModal
