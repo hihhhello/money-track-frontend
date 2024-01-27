@@ -9,6 +9,10 @@ import {
 } from '@/shared/ui/ManageSpendingGroupModal';
 import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
 import { SpendingGroup } from '@/shared/types/spendingGroupTypes';
+import { PencilIcon } from '@heroicons/react/24/solid';
+import { TrashIcon } from '@heroicons/react/24/outline';
+import { DeleteConfirmationModal } from '@/shared/ui/DeleteConfirmationModal';
+import { useState } from 'react';
 
 type SpendingGroupsPageContentProps = {
   spendingGroups: SpendingGroup[];
@@ -25,10 +29,19 @@ export const SpendingGroupsPageContent = ({
     queryKey: ['api.spendingGroups.getAll'],
   });
 
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<SpendingGroup | null>(null);
+
   const {
     value: isAddNewSpendingGroupModalOpen,
     setTrue: handleOpenNewSpendingGroupModal,
     setFalse: handleCloseNewSpendingGroupModal,
+  } = useBoolean(false);
+
+  const {
+    value: isDeleteSpendingGroupModalOpen,
+    setTrue: handleOpenDeleteSpendingGroupModal,
+    setFalse: handleCloseDeleteSpendingGroupModal,
   } = useBoolean(false);
 
   const handleAddNewSpendingGroup: ManageSpendingGroupModalProps['handleSubmit'] =
@@ -57,6 +70,32 @@ export const SpendingGroupsPageContent = ({
         });
     };
 
+  const handleDeleteTransaction = () => {
+    if (!selectedTransaction) {
+      return;
+    }
+
+    const toastId = loadingToast.showLoading('Deleting your spending group...');
+
+    return api.spendingGroups
+      .deleteOne({
+        params: {
+          spendingGroupId: selectedTransaction.id,
+        },
+      })
+      .then(() => {
+        loadingToast.handleSuccess({
+          toastId,
+          message: 'You successfully deleted spending group.',
+        });
+        refetchSpendingGroups();
+        handleCloseDeleteSpendingGroupModal();
+      })
+      .catch(() => {
+        loadingToast.handleError({ toastId, message: 'Error' });
+      });
+  };
+
   return (
     <div className="flex-grow overflow-y-hidden">
       <div className="flex h-full flex-col">
@@ -75,7 +114,30 @@ export const SpendingGroupsPageContent = ({
               key={spendingGroup.id}
               className="flex flex-col rounded-lg bg-main-paper px-4 py-1 pr-2 sm:flex-row sm:items-center sm:justify-between"
             >
-              {spendingGroup.name} - {spendingGroup.description}
+              <p>
+                {spendingGroup.name} - {spendingGroup.description}
+              </p>
+
+              <div>
+                <button
+                  onClick={() => {
+                    setSelectedTransaction(spendingGroup);
+                    handleOpenDeleteSpendingGroupModal();
+                  }}
+                  className="mr-2"
+                >
+                  <TrashIcon className="h-6 w-6 text-main-orange" />
+                </button>
+
+                <button
+                  onClick={() => {
+                    setSelectedTransaction(spendingGroup);
+                    // handleOpenEditTransactionModal();
+                  }}
+                >
+                  <PencilIcon className="h-6 w-6 text-main-blue" />
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -87,6 +149,12 @@ export const SpendingGroupsPageContent = ({
         handleSubmit={handleAddNewSpendingGroup}
         title="Add new spending group"
         submitButtonLabel="Add"
+      />
+
+      <DeleteConfirmationModal
+        isModalOpen={isDeleteSpendingGroupModalOpen}
+        handleClose={handleCloseDeleteSpendingGroupModal}
+        handleSubmit={handleDeleteTransaction}
       />
     </div>
   );
