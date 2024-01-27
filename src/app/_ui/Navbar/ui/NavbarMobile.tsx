@@ -94,6 +94,18 @@ export const NavbarMobile = ({
               >
                 <span className="text-xl leading-tight">Recurrent</span>
               </Link>
+
+              <Link
+                href="/spending-groups"
+                onClick={handleCloseMenu}
+                className={twMerge(
+                  'w-full rounded-full bg-main-blue px-4 py-2 text-center text-white',
+                  pathname === '/recurrent-transactions' &&
+                    'bg-main-dark text-white',
+                )}
+              >
+                <span className="text-xl leading-tight">Groups</span>
+              </Link>
             </div>
           </Dialog.Panel>
         </div>
