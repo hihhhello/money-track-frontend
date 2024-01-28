@@ -32,7 +32,7 @@ export const NavbarMobile = ({
   return (
     <div>
       <button onClick={handleOpenMenu}>
-        <BurgerMenuIcon className="text-primary-blue" />
+        <BurgerMenuIcon />
       </button>
 
       <Dialog
@@ -40,7 +40,7 @@ export const NavbarMobile = ({
         onClose={handleCloseMenu}
         className="relative z-50"
       >
-        <div className="fixed inset-0 flex h-screen w-screen items-center justify-center bg-main-paper px-4">
+        <div className="fixed inset-0 flex h-screen w-screen items-center justify-center bg-white px-4">
           <Dialog.Panel className="flex h-full w-full items-center justify-center">
             <div className="absolute top-1">
               <div className="flex items-center">
@@ -100,8 +100,7 @@ export const NavbarMobile = ({
                 onClick={handleCloseMenu}
                 className={twMerge(
                   'w-full rounded-full bg-main-blue px-4 py-2 text-center text-white',
-                  pathname === '/recurrent-transactions' &&
-                    'bg-main-dark text-white',
+                  pathname === '/spending-groups' && 'bg-main-dark text-white',
                 )}
               >
                 <span className="text-xl leading-tight">Groups</span>
