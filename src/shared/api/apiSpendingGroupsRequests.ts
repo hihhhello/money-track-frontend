@@ -37,9 +37,26 @@ const editOne = ({
 const deleteOne = ({ params }: { params: { spendingGroupId: number } }) =>
   axiosInstance.delete(`/spending_groups/${params.spendingGroupId}`);
 
+const inviteUser = ({
+  body,
+  params,
+}: {
+  body: {
+    email: string;
+  };
+  params: {
+    spendingGroupId: number;
+  };
+}) =>
+  axiosInstance.post<SpendingGroup>(
+    `/spending_groups/${params.spendingGroupId}/add_user`,
+    body,
+  );
+
 export const apiSpendingGroupsRequests = {
   createOne,
   getAll,
   deleteOne,
   editOne,
+  inviteUser,
 };

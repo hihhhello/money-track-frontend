@@ -33,6 +33,7 @@ module.exports = {
           white: '#F4F4F8',
           blue: '#4160EA',
           orange: '#CF623C',
+          green: '#3CB371',
           paper: '#F7F7FF',
         },
       },

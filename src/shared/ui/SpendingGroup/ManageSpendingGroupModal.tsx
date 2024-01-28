@@ -4,11 +4,11 @@ import { Fragment, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Dialog, Transition } from '@headlessui/react';
 import { isEmpty } from 'lodash';
-import { DialogOverlay } from './Dialog/DialogOverlay';
-import { DialogContent } from './Dialog/DialogContent';
-import { DialogHeader } from './Dialog/DialogHeader';
-import { Input } from './Input';
-import { DialogActions } from './Dialog/DialogActions';
+import { DialogOverlay } from '../Dialog/DialogOverlay';
+import { DialogContent } from '../Dialog/DialogContent';
+import { DialogHeader } from '../Dialog/DialogHeader';
+import { Input } from '../Input';
+import { DialogActions } from '../Dialog/DialogActions';
 
 export type ManageSpendingGroupModalProps = {
   isModalOpen: boolean;

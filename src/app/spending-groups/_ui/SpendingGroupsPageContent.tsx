@@ -6,13 +6,14 @@ import { api } from '@/shared/api/api';
 import {
   ManageSpendingGroupModal,
   ManageSpendingGroupModalProps,
-} from '@/shared/ui/ManageSpendingGroupModal';
+} from '@/shared/ui/SpendingGroup/ManageSpendingGroupModal';
 import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
 import { SpendingGroup } from '@/shared/types/spendingGroupTypes';
 import { PencilIcon } from '@heroicons/react/24/solid';
-import { TrashIcon } from '@heroicons/react/24/outline';
+import { TrashIcon, UserPlusIcon } from '@heroicons/react/24/outline';
 import { DeleteConfirmationModal } from '@/shared/ui/DeleteConfirmationModal';
 import { useState } from 'react';
+import { InviteSpendingGroupUserModal } from '@/shared/ui/SpendingGroup/InviteSpendingGroupUserModal';
 
 type SpendingGroupsPageContentProps = {
   spendingGroups: SpendingGroup[];
@@ -48,6 +49,12 @@ export const SpendingGroupsPageContent = ({
     value: isEditTransactionModalOpen,
     setTrue: handleOpenEditTransactionModal,
     setFalse: handleCloseEditTransactionModal,
+  } = useBoolean(false);
+
+  const {
+    value: isInviteUserModalModalOpen,
+    setTrue: handleOpenInviteUserModalModal,
+    setFalse: handleCloseInviteUserModalModal,
   } = useBoolean(false);
 
   const handleAddNewSpendingGroup: ManageSpendingGroupModalProps['handleSubmit'] =
@@ -134,6 +141,36 @@ export const SpendingGroupsPageContent = ({
       });
   };
 
+  const handleInviteUser = (transactionValues: { email: string }) => {
+    if (!selectedTransaction) {
+      return;
+    }
+
+    const toastId = loadingToast.showLoading(
+      'Inviting user to your spending group...',
+    );
+
+    return api.spendingGroups
+      .inviteUser({
+        body: {
+          email: transactionValues.email,
+        },
+        params: {
+          spendingGroupId: selectedTransaction.id,
+        },
+      })
+      .then(() => {
+        loadingToast.handleSuccess({
+          toastId,
+          message: 'You successfully invite a user to spending group.',
+        });
+        refetchSpendingGroups();
+      })
+      .catch(() => {
+        loadingToast.handleError({ toastId, message: 'Error' });
+      });
+  };
+
   return (
     <div className="flex-grow overflow-y-hidden">
       <div className="flex h-full flex-col">
@@ -156,13 +193,21 @@ export const SpendingGroupsPageContent = ({
                 {spendingGroup.name} - {spendingGroup.description}
               </p>
 
-              <div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    setSelectedTransaction(spendingGroup);
+                    handleOpenInviteUserModalModal();
+                  }}
+                >
+                  <UserPlusIcon className="text-main-green h-6 w-6" />
+                </button>
+
                 <button
                   onClick={() => {
                     setSelectedTransaction(spendingGroup);
                     handleOpenDeleteSpendingGroupModal();
                   }}
-                  className="mr-2"
                 >
                   <TrashIcon className="h-6 w-6 text-main-orange" />
                 </button>
@@ -211,6 +256,13 @@ export const SpendingGroupsPageContent = ({
         isModalOpen={isDeleteSpendingGroupModalOpen}
         handleClose={handleCloseDeleteSpendingGroupModal}
         handleSubmit={handleDeleteTransaction}
+      />
+
+      <InviteSpendingGroupUserModal
+        isModalOpen={isInviteUserModalModalOpen}
+        handleClose={handleCloseInviteUserModalModal}
+        handleSubmit={handleInviteUser}
+        title={`Invite user to ${selectedTransaction?.name}  group`}
       />
     </div>
   );

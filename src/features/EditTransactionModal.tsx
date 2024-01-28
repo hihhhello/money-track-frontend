@@ -3,11 +3,11 @@
 import { api } from '@/shared/api/api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
-import { ManageTransactionModal } from '@/shared/ui/ManageTransactionModal';
+import { ManageTransactionModal } from '@/shared/ui/Transaction/ManageTransactionModal';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { Transaction } from '@/shared/types/transactionTypes';
 import { useEffect, useState } from 'react';
-import { ManageCategoryModal } from '@/shared/ui/ManageCategoryModal';
+import { ManageCategoryModal } from '@/shared/ui/Category/ManageCategoryModal';
 
 const TRANSACTION_TYPE_TO_LABEL = {
   [FinancialOperationType.DEPOSIT]: {

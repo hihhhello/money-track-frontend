@@ -4,17 +4,17 @@ import { Fragment, ReactNode, useEffect, useState } from 'react';
 import { formatISO } from 'date-fns';
 import { toast } from 'react-toastify';
 import { Dialog, Transition } from '@headlessui/react';
-import { DialogOverlay } from './Dialog/DialogOverlay';
-import { DialogContent } from './Dialog/DialogContent';
-import { CategoryItem } from './Category/CategoryItem';
-import { CategoryList } from './Category/CategoryList';
-import { Input } from './Input';
-import { DialogHeader } from './Dialog/DialogHeader';
-import { DollarInput } from './DollarInput';
+import { DialogOverlay } from '../Dialog/DialogOverlay';
+import { DialogContent } from '../Dialog/DialogContent';
+import { CategoryItem } from '../Category/CategoryItem';
+import { CategoryList } from '../Category/CategoryList';
+import { Input } from '../Input';
+import { DialogHeader } from '../Dialog/DialogHeader';
+import { DollarInput } from '../DollarInput';
 import { isNil } from 'lodash';
-import { DialogActions } from './Dialog/DialogActions';
-import { DialogScrollableContent } from './Dialog/DialogScrollableContent';
-import { CategoryListLoading } from './Category/CategoryListLoading';
+import { DialogActions } from '../Dialog/DialogActions';
+import { DialogScrollableContent } from '../Dialog/DialogScrollableContent';
+import { CategoryListLoading } from '../Category/CategoryListLoading';
 
 type TransactionValues = {
   amount: number | null;
