@@ -13,8 +13,9 @@ import { HomePageContentMobile } from './ui/HomePageContentMobile';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/shared/api/api';
-import { getNetAmount } from '@/shared/utils/helpers';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
+import { HomePageAddNewTransactionActions } from './ui/HomePageAddNewTransactionActions';
+import { HomePageTransactionsTotal } from './ui/HomePageTransactionsTotal';
 
 type HomePageContentProps = {
   transactions: Transaction[];
@@ -82,23 +83,47 @@ export const HomePageContent = ({
 
   if (isDesktop) {
     return (
-      <HomePageContentDesktop
+      <div className="flex flex-1 flex-col">
+        <div className="mb-4 grid w-full grid-cols-1 gap-4 sm:grid-cols-6">
+          <div className="sm:col-span-4">
+            <HomePageTransactionsTotal transactions={transactions} />
+          </div>
+
+          <div className="sm:col-span-2">
+            <HomePageAddNewTransactionActions />
+          </div>
+        </div>
+
+        <HomePageContentDesktop
+          recurrentTransactions={recurrentTransactions}
+          transactions={transactions}
+          filter={transactionsFilter}
+          handleChangeFilter={setTransactionsFilter}
+          transactionsByCategory={transactionsByCategory}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-1 flex-col">
+      <div className="mb-4 grid w-full grid-cols-1 gap-4 sm:grid-cols-6">
+        <div className="sm:col-span-4">
+          <HomePageTransactionsTotal transactions={transactions} />
+        </div>
+
+        <div className="sm:col-span-2">
+          <HomePageAddNewTransactionActions />
+        </div>
+      </div>
+
+      <HomePageContentMobile
         recurrentTransactions={recurrentTransactions}
         transactions={transactions}
         filter={transactionsFilter}
         handleChangeFilter={setTransactionsFilter}
         transactionsByCategory={transactionsByCategory}
       />
-    );
-  }
-
-  return (
-    <HomePageContentMobile
-      recurrentTransactions={recurrentTransactions}
-      transactions={transactions}
-      filter={transactionsFilter}
-      handleChangeFilter={setTransactionsFilter}
-      transactionsByCategory={transactionsByCategory}
-    />
+    </div>
   );
 };

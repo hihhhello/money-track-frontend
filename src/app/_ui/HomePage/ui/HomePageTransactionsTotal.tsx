@@ -1,40 +1,15 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
-
 import { formatUSDDecimal, getNetAmount } from '@/shared/utils/helpers';
-import { api } from '@/shared/api/api';
-import {
-  Transaction,
-  TransactionPeriodFilter,
-} from '@/shared/types/transactionTypes';
-import { useState } from 'react';
-import { TransactionsPeriodFilterSelect } from '@/features/TransactionsPeriodFilterSelect';
+import { Transaction } from '@/shared/types/transactionTypes';
 
 type HomePageTransactionsTotalProps = {
   transactions: Transaction[];
 };
 
 export const HomePageTransactionsTotal = ({
-  transactions: initialTransactions,
+  transactions,
 }: HomePageTransactionsTotalProps) => {
-  const [transactionsFilter, setTransactionsFilter] =
-    useState<TransactionPeriodFilter>('month');
-
-  const { data: transactions } = useQuery({
-    queryFn: ({ queryKey }) => {
-      const filter = queryKey[1] as typeof transactionsFilter;
-
-      return api.transactions.getAll({
-        searchParams: {
-          period: filter === 'all' ? undefined : filter,
-        },
-      });
-    },
-    queryKey: ['api.transactions.getAll', transactionsFilter],
-    initialData: initialTransactions,
-  });
-
   const totalTransactionsAmount = transactions
     ? transactions.reduce(
         (totalExpensesAccumulator, transaction) =>
@@ -53,11 +28,6 @@ export const HomePageTransactionsTotal = ({
         <div>
           <span className="text-xl text-main-white">Expenses</span>
         </div>
-
-        <TransactionsPeriodFilterSelect
-          filter={transactionsFilter}
-          handleChangeFilter={setTransactionsFilter}
-        />
       </div>
 
       <span className="break-words text-3xl leading-relaxed text-white sm:text-6xl">

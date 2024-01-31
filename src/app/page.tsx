@@ -1,7 +1,5 @@
 import { api } from '@/shared/api/api';
 import { HomePageContent } from './_ui/HomePage/HomePageContent';
-import { HomePageTransactionsTotal } from './_ui/HomePage/ui/HomePageTransactionsTotal';
-import { HomePageAddNewTransactionActions } from './_ui/HomePage/ui/HomePageAddNewTransactionActions';
 
 const HomePage = async () => {
   const transactions = await api.transactions.getAll({
@@ -9,25 +7,14 @@ const HomePage = async () => {
       period: 'month',
     },
   });
+
   const recurrentTransactions = await api.recurrentTransactions.getAll();
 
   return (
-    <div className="flex flex-1 flex-col">
-      <div className="mb-4 grid w-full grid-cols-1 gap-4 sm:grid-cols-6">
-        <div className="sm:col-span-4">
-          <HomePageTransactionsTotal transactions={transactions} />
-        </div>
-
-        <div className="sm:col-span-2">
-          <HomePageAddNewTransactionActions />
-        </div>
-      </div>
-
-      <HomePageContent
-        transactions={transactions}
-        recurrentTransactions={recurrentTransactions}
-      />
-    </div>
+    <HomePageContent
+      transactions={transactions}
+      recurrentTransactions={recurrentTransactions}
+    />
   );
 };
 
