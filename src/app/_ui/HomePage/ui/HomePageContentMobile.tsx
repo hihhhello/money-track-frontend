@@ -15,14 +15,12 @@ import React, {
 } from 'react';
 import {
   Transaction,
-  TransactionPeriodFilter,
   TransactionsByCategory,
 } from '@/shared/types/transactionTypes';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { EditTransactionModal } from '@/features/EditTransactionModal';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
 import { twMerge } from 'tailwind-merge';
-import { TransactionsPeriodFilterSelect } from '@/features/TransactionsPeriodFilterSelect';
 import { api } from '@/shared/api/api';
 import { useQueryClient } from '@tanstack/react-query';
 import { TransactionItemMobile } from '@/shared/ui/Transaction/TransactionItemMobile';
