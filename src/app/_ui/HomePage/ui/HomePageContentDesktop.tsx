@@ -10,7 +10,6 @@ import {
 } from '@/shared/types/transactionTypes';
 import { EditTransactionModal } from '@/features/EditTransactionModal';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
-import { TransactionsPeriodFilterSelect } from '@/features/TransactionsPeriodFilterSelect';
 import { api } from '@/shared/api/api';
 import { useQueryClient } from '@tanstack/react-query';
 import { DeleteConfirmationModal } from '@/shared/ui/DeleteConfirmationModal';
@@ -98,11 +97,6 @@ export const HomePageContentDesktop = ({
             </div>
 
             <div className="flex gap-2">
-              <TransactionsPeriodFilterSelect
-                filter={filter}
-                handleChangeFilter={handleChangeFilter}
-              />
-
               <button
                 className="rounded-md bg-main-blue p-1"
                 onClick={() =>

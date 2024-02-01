@@ -16,6 +16,7 @@ import { api } from '@/shared/api/api';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { HomePageAddNewTransactionActions } from './ui/HomePageAddNewTransactionActions';
 import { HomePageTransactionsTotal } from './ui/HomePageTransactionsTotal';
+import { TransactionsPeriodFilterSelect } from '@/features/TransactionsPeriodFilterSelect';
 
 type HomePageContentProps = {
   transactions: Transaction[];
@@ -84,6 +85,13 @@ export const HomePageContent = ({
   if (isDesktop) {
     return (
       <div className="flex flex-1 flex-col">
+        <div className="mb-4">
+          <TransactionsPeriodFilterSelect
+            filter={transactionsFilter}
+            handleChangeFilter={setTransactionsFilter}
+          />
+        </div>
+
         <div className="mb-4 grid w-full grid-cols-1 gap-4 sm:grid-cols-6">
           <div className="sm:col-span-4">
             <HomePageTransactionsTotal transactions={transactions} />
