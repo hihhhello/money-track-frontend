@@ -53,6 +53,7 @@ export const EditRecurrentTransactionModal = ({
       });
     },
     queryKey: ['api.categories.getAll', selectedTransaction?.type],
+    enabled: Boolean(selectedTransaction),
   });
 
   const refetchTransactions = () =>

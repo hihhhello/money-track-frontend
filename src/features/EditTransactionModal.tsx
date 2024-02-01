@@ -72,6 +72,7 @@ export const EditTransactionModal = ({
       });
     },
     queryKey: ['api.categories.getAll', selectedTransaction?.type],
+    enabled: Boolean(selectedTransaction),
   });
 
   const refetchTransactions = () =>
