@@ -18,6 +18,8 @@ import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { HomePageAddNewTransactionActions } from './ui/HomePageAddNewTransactionActions';
 import { HomePageTransactionsTotal } from './ui/HomePageTransactionsTotal';
 import { TransactionsPeriodFilterSelect } from '@/features/TransactionsPeriodFilterSelect';
+import { DATE_KEYWORD_TO_DATE_RANGE } from '@/shared/utils/dateUtils';
+import { formatISO, parseISO } from 'date-fns';
 
 type HomePageContentProps = {
   transactions: Transaction[];
@@ -37,11 +39,23 @@ export const HomePageContent = ({
 
   const { data: transactions } = useQuery({
     queryFn: ({ queryKey }) => {
-      const filter = queryKey[1] as typeof transactionsFilter;
+      const filter = queryKey[1] as TransactionPeriodFilterType;
+
+      const dateRange =
+        filter === TransactionPeriodFilter.ALL
+          ? undefined
+          : DATE_KEYWORD_TO_DATE_RANGE[filter]({ referenceDate: new Date() });
 
       return api.transactions.getAll({
         searchParams: {
-          period: filter === 'all' ? undefined : filter,
+          ...(dateRange && {
+            endDate: dateRange.endDate
+              ? formatISO(dateRange.endDate, { representation: 'date' })
+              : undefined,
+            startDate: formatISO(dateRange.startDate, {
+              representation: 'date',
+            }),
+          }),
         },
       });
     },
