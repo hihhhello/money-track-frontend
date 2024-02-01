@@ -4,8 +4,9 @@ import { Breakpoints, useIsBreakpoint } from '@/shared/utils/hooks';
 import {
   Transaction,
   APITransactionPeriodFilter,
-  TransactionPeriodFilter,
+  TransactionPeriodFilterType,
   TransactionsByCategory,
+  TransactionPeriodFilter,
 } from '@/shared/types/transactionTypes';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
 import { HomePageContentDesktop } from './ui/HomePageContentDesktop';
@@ -30,9 +31,9 @@ export const HomePageContent = ({
   const isDesktop = useIsBreakpoint(Breakpoints.MD);
 
   const [transactionsFilter, setTransactionsFilter] =
-    useState<TransactionPeriodFilter>('month');
+    useState<TransactionPeriodFilterType>(TransactionPeriodFilter.MONTH);
   const [recurrentTransactionsFilter, setRecurrentTransactionsFilter] =
-    useState<TransactionPeriodFilter>('month');
+    useState<TransactionPeriodFilterType>('month');
 
   const { data: transactions } = useQuery({
     queryFn: ({ queryKey }) => {

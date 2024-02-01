@@ -3,15 +3,18 @@
 import { Fragment } from 'react';
 
 import { classNames } from '@/shared/utils/helpers';
-import { TransactionPeriodFilter } from '@/shared/types/transactionTypes';
+import {
+  TransactionPeriodFilter,
+  TransactionPeriodFilterType,
+} from '@/shared/types/transactionTypes';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/20/solid';
 import { upperFirst } from 'lodash';
 import { ChevronDownIcon } from '@/shared/icons/ChevronDownIcon';
 
 type TransactionsPeriodFilterSelectProps = {
-  filter: TransactionPeriodFilter;
-  handleChangeFilter: (newFilter: TransactionPeriodFilter) => void;
+  filter: TransactionPeriodFilterType;
+  handleChangeFilter: (newFilter: TransactionPeriodFilterType) => void;
 };
 
 export const TransactionsPeriodFilterSelect = ({
@@ -49,7 +52,7 @@ export const TransactionsPeriodFilterSelect = ({
               leaveTo="opacity-0"
             >
               <Listbox.Options className="absolute z-50 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                {['all', 'today', 'month', 'year'].map((period) => (
+                {Object.values(TransactionPeriodFilter).map((period) => (
                   <Listbox.Option
                     key={period}
                     className={({ active }) =>
