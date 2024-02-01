@@ -105,8 +105,6 @@ export const HomePageContent = ({
         <HomePageContentDesktop
           recurrentTransactions={recurrentTransactions}
           transactions={transactions}
-          filter={transactionsFilter}
-          handleChangeFilter={setTransactionsFilter}
           transactionsByCategory={transactionsByCategory}
         />
       </div>
@@ -115,6 +113,13 @@ export const HomePageContent = ({
 
   return (
     <div className="flex flex-1 flex-col">
+      <div className="mb-4">
+        <TransactionsPeriodFilterSelect
+          filter={transactionsFilter}
+          handleChangeFilter={setTransactionsFilter}
+        />
+      </div>
+
       <div className="mb-4 grid w-full grid-cols-1 gap-4 sm:grid-cols-6">
         <div className="sm:col-span-4">
           <HomePageTransactionsTotal transactions={transactions} />
@@ -128,8 +133,6 @@ export const HomePageContent = ({
       <HomePageContentMobile
         recurrentTransactions={recurrentTransactions}
         transactions={transactions}
-        filter={transactionsFilter}
-        handleChangeFilter={setTransactionsFilter}
         transactionsByCategory={transactionsByCategory}
       />
     </div>

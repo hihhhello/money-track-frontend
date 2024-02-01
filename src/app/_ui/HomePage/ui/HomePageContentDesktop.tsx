@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
 import {
   Transaction,
-  TransactionPeriodFilter,
   TransactionsByCategory,
 } from '@/shared/types/transactionTypes';
 import { EditTransactionModal } from '@/features/EditTransactionModal';
@@ -25,16 +24,12 @@ import { TransactionByCategoryItemDesktop } from '@/shared/ui/Transaction/Transa
 type HomePageContentDesktopProps = {
   transactions: Transaction[];
   recurrentTransactions: RecurrentTransaction[];
-  filter: TransactionPeriodFilter;
-  handleChangeFilter: (newFilter: TransactionPeriodFilter) => void;
   transactionsByCategory: TransactionsByCategory;
 };
 
 export const HomePageContentDesktop = ({
   recurrentTransactions,
   transactions,
-  filter,
-  handleChangeFilter,
   transactionsByCategory,
 }: HomePageContentDesktopProps) => {
   const queryClient = useQueryClient();

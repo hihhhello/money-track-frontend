@@ -36,16 +36,12 @@ import { ChevronDownIcon } from '@/shared/icons/ChevronDownIcon';
 type HomePageContentMobileProps = {
   transactions: Transaction[];
   recurrentTransactions: RecurrentTransaction[];
-  filter: TransactionPeriodFilter;
-  handleChangeFilter: (newFilter: TransactionPeriodFilter) => void;
   transactionsByCategory: TransactionsByCategory;
 };
 
 export const HomePageContentMobile = ({
   recurrentTransactions,
   transactions,
-  filter,
-  handleChangeFilter,
   transactionsByCategory,
 }: HomePageContentMobileProps) => {
   const queryClient = useQueryClient();
@@ -121,11 +117,6 @@ export const HomePageContentMobile = ({
               Upcoming
             </span>
           </Tabs>
-
-          <TransactionsPeriodFilterSelect
-            filter={filter}
-            handleChangeFilter={handleChangeFilter}
-          />
 
           <button
             className="rounded-md bg-main-blue p-1"
