@@ -52,7 +52,7 @@ export enum Breakpoints {
 }
 
 export const useIsBreakpoint = (breakpoint: Breakpoints | number) => {
-  const [width, setWidth] = useState(window.innerWidth);
+  const [width, setWidth] = useState(0);
   const handleWindowSizeChange = debounce(() => {
     setWidth(window.innerWidth);
   }, 150);
