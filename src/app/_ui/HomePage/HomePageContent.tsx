@@ -12,7 +12,7 @@ import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
 import { HomePageContentDesktop } from './ui/HomePageContentDesktop';
 import { HomePageContentMobile } from './ui/HomePageContentMobile';
 import { useMemo, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { api } from '@/shared/api/api';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { HomePageAddNewTransactionActions } from './ui/HomePageAddNewTransactionActions';
@@ -23,6 +23,7 @@ import {
   DateRange,
 } from '@/shared/utils/dateUtils';
 import { formatISO } from 'date-fns';
+import { TransactionsMonthFilter } from '@/features/TransactionsMonthFilter';
 
 type HomePageContentProps = {
   transactions: Transaction[];
@@ -37,18 +38,31 @@ export const HomePageContent = ({
 
   const [transactionsFilter, setTransactionsFilter] =
     useState<TransactionPeriodFilterType>(TransactionPeriodFilter.MONTH);
+  const [monthFilter, setMonthFilter] = useState<Date>(new Date());
   const [recurrentTransactionsFilter, setRecurrentTransactionsFilter] =
     useState<TransactionPeriodFilterType>('month');
 
-  const transactionsDateRange: DateRange | undefined = useMemo(
-    () =>
-      transactionsFilter === TransactionPeriodFilter.ALL
-        ? undefined
-        : DATE_KEYWORD_TO_DATE_RANGE[transactionsFilter]({
-            referenceDate: new Date(),
-          }),
-    [transactionsFilter],
-  );
+  const transactionsDateRange: DateRange | undefined = useMemo(() => {
+    if (transactionsFilter === TransactionPeriodFilter.ALL) {
+      return undefined;
+    }
+
+    if (transactionsFilter === TransactionPeriodFilter.MONTH) {
+      return DATE_KEYWORD_TO_DATE_RANGE[TransactionPeriodFilter.MONTH]({
+        referenceDate: monthFilter,
+      });
+    }
+
+    if (transactionsFilter === TransactionPeriodFilter.YEAR) {
+      return DATE_KEYWORD_TO_DATE_RANGE[TransactionPeriodFilter.YEAR]({
+        referenceDate: monthFilter,
+      });
+    }
+
+    return DATE_KEYWORD_TO_DATE_RANGE[TransactionPeriodFilter.TODAY]({
+      referenceDate: new Date(),
+    });
+  }, [monthFilter, transactionsFilter]);
 
   const { data: transactions } = useQuery({
     queryFn: ({ queryKey }) => {
@@ -68,7 +82,7 @@ export const HomePageContent = ({
       });
     },
     queryKey: ['api.transactions.getAll', transactionsDateRange],
-    initialData: initialTransactions,
+    placeholderData: keepPreviousData,
   });
 
   const { data: recurrentTransactions } = useQuery({
@@ -79,45 +93,57 @@ export const HomePageContent = ({
 
   const transactionsByCategory = Object.fromEntries(
     Object.entries(
-      transactions.reduce<TransactionsByCategory>((acc, transaction) => {
-        const category = transaction.category.name;
+      (transactions ?? initialTransactions).reduce<TransactionsByCategory>(
+        (acc, transaction) => {
+          const category = transaction.category.name;
 
-        const updatedCategoryTransactions = [
-          ...(acc[category]?.transactions ?? []),
-          transaction,
-        ];
+          const updatedCategoryTransactions = [
+            ...(acc[category]?.transactions ?? []),
+            transaction,
+          ];
 
-        const updatedTotalAmount =
-          (acc[category]?.totalAmount ?? 0) - parseFloat(transaction.amount);
+          const updatedTotalAmount =
+            (acc[category]?.totalAmount ?? 0) - parseFloat(transaction.amount);
 
-        return {
-          ...acc,
-          [category]: {
-            transactions: updatedCategoryTransactions,
-            totalAmount: updatedTotalAmount,
-            type:
-              updatedTotalAmount >= 0
-                ? FinancialOperationType.DEPOSIT
-                : FinancialOperationType.EXPENSE,
-          },
-        };
-      }, {}),
+          return {
+            ...acc,
+            [category]: {
+              transactions: updatedCategoryTransactions,
+              totalAmount: updatedTotalAmount,
+              type:
+                updatedTotalAmount >= 0
+                  ? FinancialOperationType.DEPOSIT
+                  : FinancialOperationType.EXPENSE,
+            },
+          };
+        },
+        {},
+      ),
     ).sort(([, a], [, b]) => a.totalAmount - b.totalAmount),
   );
 
   if (isDesktop) {
     return (
       <div className="flex flex-1 flex-col">
-        <div className="mb-4">
+        <div className="mb-4 flex gap-4">
           <TransactionsPeriodFilterSelect
             filter={transactionsFilter}
             handleChangeFilter={setTransactionsFilter}
           />
+
+          {transactionsFilter === TransactionPeriodFilter.MONTH && (
+            <TransactionsMonthFilter
+              handleChange={setMonthFilter}
+              value={monthFilter}
+            />
+          )}
         </div>
 
         <div className="mb-4 grid w-full grid-cols-1 gap-4 sm:grid-cols-6">
           <div className="sm:col-span-4">
-            <HomePageTransactionsTotal transactions={transactions} />
+            <HomePageTransactionsTotal
+              transactions={transactions ?? initialTransactions}
+            />
           </div>
 
           <div className="sm:col-span-2">
@@ -127,7 +153,7 @@ export const HomePageContent = ({
 
         <HomePageContentDesktop
           recurrentTransactions={recurrentTransactions}
-          transactions={transactions}
+          transactions={transactions ?? initialTransactions}
           transactionsByCategory={transactionsByCategory}
         />
       </div>
@@ -145,7 +171,9 @@ export const HomePageContent = ({
 
       <div className="mb-4 grid w-full grid-cols-1 gap-4 sm:grid-cols-6">
         <div className="sm:col-span-4">
-          <HomePageTransactionsTotal transactions={transactions} />
+          <HomePageTransactionsTotal
+            transactions={transactions ?? initialTransactions}
+          />
         </div>
 
         <div className="sm:col-span-2">
@@ -155,7 +183,7 @@ export const HomePageContent = ({
 
       <HomePageContentMobile
         recurrentTransactions={recurrentTransactions}
-        transactions={transactions}
+        transactions={transactions ?? initialTransactions}
         transactionsByCategory={transactionsByCategory}
       />
     </div>
