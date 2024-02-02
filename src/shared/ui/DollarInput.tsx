@@ -2,7 +2,7 @@
 
 import React, { ChangeEvent, Ref, useEffect, useMemo, useRef } from 'react';
 import { Input } from './Input';
-import { formatUSDDecimal, formatUSDInteger } from '../utils/helpers';
+import { formatUSDDecimal } from 'hihhhello-utils';
 
 type DollarInputProps = Omit<
   JSX.IntrinsicElements['input'],

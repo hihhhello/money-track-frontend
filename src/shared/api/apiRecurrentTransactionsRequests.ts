@@ -1,12 +1,12 @@
 import { QueryFunctionContext } from '@tanstack/react-query';
 import { axiosInstance } from './apiBase';
-import { createUrlWithSearchParams } from '../utils/helpers';
 import { Transaction } from '../types/transactionTypes';
 import { FinancialOperationTypeValue } from '../types/globalTypes';
 import {
   RecurrentTransaction,
   RecurrentTransactionFrequencyValue,
 } from '../types/recurrentTransactionTypes';
+import { createUrlWithSearchParams } from 'hihhhello-utils';
 
 const createOne = ({
   body,
