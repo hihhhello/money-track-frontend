@@ -1,7 +1,7 @@
 import { endOfMonth, endOfYear, startOfMonth, startOfYear } from 'date-fns';
 
 export const DatePeriodKeyword = {
-  TODAY: 'today',
+  DAY: 'day',
   MONTH: 'month',
   YEAR: 'year',
 } as const;
@@ -18,9 +18,9 @@ export const DATE_KEYWORD_TO_DATE_RANGE: Record<
   DateKeywordType,
   ({ referenceDate }: { referenceDate: Date }) => DateRange
 > = {
-  [DatePeriodKeyword.TODAY]: ({ referenceDate }) => ({
+  [DatePeriodKeyword.DAY]: ({ referenceDate }) => ({
     startDate: referenceDate,
-    endDate: undefined,
+    endDate: referenceDate,
   }),
   [DatePeriodKeyword.MONTH]: ({ referenceDate }) => {
     // Get the start of the current month

@@ -11,7 +11,7 @@ import {
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
 import { HomePageContentDesktop } from './ui/HomePageContentDesktop';
 import { HomePageContentMobile } from './ui/HomePageContentMobile';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { api } from '@/shared/api/api';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
@@ -24,6 +24,7 @@ import {
 } from '@/shared/utils/dateUtils';
 import { formatISO } from 'date-fns';
 import { TransactionsMonthFilter } from '@/features/TransactionsMonthFilter';
+import { TransactionsDayFilter } from '@/features/TransactionsDayFilter';
 
 type HomePageContentProps = {
   transactions: Transaction[];
@@ -38,7 +39,7 @@ export const HomePageContent = ({
 
   const [transactionsFilter, setTransactionsFilter] =
     useState<TransactionPeriodFilterType>(TransactionPeriodFilter.MONTH);
-  const [monthFilter, setMonthFilter] = useState<Date>(new Date());
+  const [dateFilter, setDateFilter] = useState<Date>(new Date());
   const [recurrentTransactionsFilter, setRecurrentTransactionsFilter] =
     useState<TransactionPeriodFilterType>('month');
 
@@ -49,20 +50,20 @@ export const HomePageContent = ({
 
     if (transactionsFilter === TransactionPeriodFilter.MONTH) {
       return DATE_KEYWORD_TO_DATE_RANGE[TransactionPeriodFilter.MONTH]({
-        referenceDate: monthFilter,
+        referenceDate: dateFilter,
       });
     }
 
     if (transactionsFilter === TransactionPeriodFilter.YEAR) {
       return DATE_KEYWORD_TO_DATE_RANGE[TransactionPeriodFilter.YEAR]({
-        referenceDate: monthFilter,
+        referenceDate: dateFilter,
       });
     }
 
-    return DATE_KEYWORD_TO_DATE_RANGE[TransactionPeriodFilter.TODAY]({
-      referenceDate: new Date(),
+    return DATE_KEYWORD_TO_DATE_RANGE[TransactionPeriodFilter.DAY]({
+      referenceDate: dateFilter,
     });
-  }, [monthFilter, transactionsFilter]);
+  }, [dateFilter, transactionsFilter]);
 
   const { data: transactions } = useQuery({
     queryFn: ({ queryKey }) => {
@@ -122,19 +123,34 @@ export const HomePageContent = ({
     ).sort(([, a], [, b]) => a.totalAmount - b.totalAmount),
   );
 
+  const handleChangeFilter = useCallback(
+    (newFilter: TransactionPeriodFilterType) => {
+      setTransactionsFilter(newFilter);
+      setDateFilter(new Date());
+    },
+    [],
+  );
+
   if (isDesktop) {
     return (
       <div className="flex flex-1 flex-col">
         <div className="mb-4 flex gap-4">
           <TransactionsPeriodFilterSelect
             filter={transactionsFilter}
-            handleChangeFilter={setTransactionsFilter}
+            handleChangeFilter={handleChangeFilter}
           />
 
           {transactionsFilter === TransactionPeriodFilter.MONTH && (
             <TransactionsMonthFilter
-              handleChange={setMonthFilter}
-              value={monthFilter}
+              handleChange={setDateFilter}
+              value={dateFilter}
+            />
+          )}
+
+          {transactionsFilter === TransactionPeriodFilter.DAY && (
+            <TransactionsDayFilter
+              handleChange={setDateFilter}
+              value={dateFilter}
             />
           )}
         </div>
@@ -170,8 +186,15 @@ export const HomePageContent = ({
 
         {transactionsFilter === TransactionPeriodFilter.MONTH && (
           <TransactionsMonthFilter
-            handleChange={setMonthFilter}
-            value={monthFilter}
+            handleChange={setDateFilter}
+            value={dateFilter}
+          />
+        )}
+
+        {transactionsFilter === TransactionPeriodFilter.DAY && (
+          <TransactionsDayFilter
+            handleChange={setDateFilter}
+            value={dateFilter}
           />
         )}
       </div>
