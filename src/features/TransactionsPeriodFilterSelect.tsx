@@ -2,7 +2,7 @@
 
 import { Fragment } from 'react';
 
-import { classNames } from '@/shared/utils/helpers';
+import { classNames } from 'hihhhello-utils';
 import {
   TransactionPeriodFilter,
   TransactionPeriodFilterType,

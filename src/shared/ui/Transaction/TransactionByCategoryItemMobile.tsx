@@ -2,7 +2,7 @@
 
 import { format, parseISO } from 'date-fns';
 
-import { classNames, formatUSDDecimal } from '@/shared/utils/helpers';
+import { classNames, formatUSDDecimal } from 'hihhhello-utils';
 import React, { useRef } from 'react';
 
 import {

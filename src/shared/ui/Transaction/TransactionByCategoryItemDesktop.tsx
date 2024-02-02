@@ -3,7 +3,7 @@
 import { Fragment } from 'react';
 import { format, parseISO } from 'date-fns';
 
-import { classNames, formatUSDDecimal } from '@/shared/utils/helpers';
+import { classNames, formatUSDDecimal } from 'hihhhello-utils';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { Menu, Transition } from '@headlessui/react';
 import { ThreeDotsVerticalIcon } from '@/shared/icons/ThreeDotsVerticalIcon';

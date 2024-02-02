@@ -1,6 +1,6 @@
 'use client';
 
-import { classNames } from '@/shared/utils/helpers';
+import { classNames } from 'hihhhello-utils';
 import { addMonths, format, subMonths } from 'date-fns';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
 

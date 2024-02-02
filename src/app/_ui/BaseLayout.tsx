@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { getServerSession } from 'next-auth';
 import { NEXT_AUTH_OPTIONS } from '@/shared/utils/nextAuth';
 import { Sidebar } from './Sidebar';
-import { classNames } from '@/shared/utils/helpers';
+import { classNames } from 'hihhhello-utils';
 import { Navbar } from './Navbar/Navbar';
 
 type BaseLayoutProps = {

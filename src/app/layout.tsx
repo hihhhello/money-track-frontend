@@ -6,7 +6,7 @@ import { Kanit } from 'next/font/google';
 
 import { BaseLayout } from '@/app/_ui/BaseLayout';
 import { QueryClientProvider } from '@/providers/QueryClientProvider';
-import { classNames } from '@/shared/utils/helpers';
+import { classNames } from 'hihhhello-utils';
 import { NextAuthProvider } from '@/providers/NextAuthProvider';
 import { ToastContainer } from 'react-toastify';
 import { EnvironmentProvider } from '@/providers/EnvironmentProvider';
