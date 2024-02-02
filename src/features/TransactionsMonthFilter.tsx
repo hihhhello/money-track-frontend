@@ -24,7 +24,7 @@ export const TransactionsMonthFilter = ({
 
       <span className="flex items-center">
         <span className="block truncate text-sm sm:text-base">
-          {format(value, 'MMMM yyyy')}
+          {format(value, 'MMM yyyy')}
         </span>
       </span>
 
