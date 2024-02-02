@@ -4,7 +4,7 @@ import { FormEvent, useState } from 'react';
 
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
-import { useBoolean } from '@/shared/utils/hooks';
+import { useBoolean } from 'hihhhello-utils';
 import { toast } from 'react-toastify';
 
 export const SignInPageContent = () => {

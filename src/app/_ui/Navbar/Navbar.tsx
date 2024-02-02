@@ -5,21 +5,14 @@ import { signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 
 import { NavbarMobile } from './ui/NavbarMobile';
-import { Breakpoints, useIsBreakpoint } from '@/shared/utils/hooks';
 
 export const Navbar = () => {
-  const isDesktop = useIsBreakpoint(Breakpoints.SM);
-
   const handleSignOut = useCallback(() => signOut(), []);
 
   const pathname = usePathname();
 
-  if (isDesktop) {
-    return null;
-  }
-
   return (
-    <div className="mb-3 flex justify-end">
+    <div className="mb-3 flex justify-end sm:hidden">
       <NavbarMobile handleSignOut={handleSignOut} pathname={pathname} />
     </div>
   );

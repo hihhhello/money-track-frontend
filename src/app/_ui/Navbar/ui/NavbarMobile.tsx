@@ -6,7 +6,7 @@ import { BurgerMenuIcon } from '@/shared/icons/BurgerMenuIcon';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { twMerge } from 'tailwind-merge';
 import { SignOutIcon } from '@/shared/icons/SignOutIcon';
-import { useBoolean } from '@/shared/utils/hooks';
+import { useBoolean } from 'hihhhello-utils';
 
 type NavbarMobileProps = {
   handleSignOut: () => void;

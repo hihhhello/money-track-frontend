@@ -9,7 +9,7 @@ import {
 } from '@/shared/types/globalTypes';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
 import { formatUSDDecimal } from '@/shared/utils/helpers';
-import { useBoolean } from '@/shared/utils/hooks';
+import { useBoolean } from 'hihhhello-utils';
 import { useQuery } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
 import { useState } from 'react';

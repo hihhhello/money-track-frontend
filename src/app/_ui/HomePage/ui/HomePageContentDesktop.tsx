@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
+import { useBoolean, useLoadingToast } from 'hihhhello-utils';
 import {
   Transaction,
   TransactionsByCategory,
@@ -81,7 +81,7 @@ export const HomePageContentDesktop = ({
   };
 
   return (
-    <div className="overflow-y-hidden">
+    <div className="hidden overflow-y-hidden sm:block">
       <div className="flex h-full flex-col gap-4 sm:flex-row">
         <div className="flex flex-1 flex-col rounded-3xl bg-main-paper p-4">
           <div className="mb-6 flex items-center justify-between">

@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
 import { api } from '@/shared/api/api';
-import { useLoadingToast } from '@/shared/utils/hooks';
+import { useLoadingToast } from 'hihhhello-utils';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 

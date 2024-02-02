@@ -2,7 +2,7 @@
 
 import { api } from '@/shared/api/api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useLoadingToast } from '@/shared/utils/hooks';
+import { useLoadingToast } from 'hihhhello-utils';
 import {
   FinancialOperationType,
   FinancialOperationTypeValue,

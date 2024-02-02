@@ -1,7 +1,7 @@
 'use client';
 
 import { PlusIcon } from '@/shared/icons/PlusIcon';
-import { useBoolean } from '@/shared/utils/hooks';
+import { useBoolean } from 'hihhhello-utils';
 import { MinusIcon } from '@/shared/icons/MinusIcon';
 import { useState } from 'react';
 import {

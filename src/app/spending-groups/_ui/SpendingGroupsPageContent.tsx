@@ -7,7 +7,7 @@ import {
   ManageSpendingGroupModal,
   ManageSpendingGroupModalProps,
 } from '@/shared/ui/SpendingGroup/ManageSpendingGroupModal';
-import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
+import { useBoolean, useLoadingToast } from 'hihhhello-utils';
 import { SpendingGroup } from '@/shared/types/spendingGroupTypes';
 import { PencilIcon } from '@heroicons/react/24/solid';
 import { TrashIcon, UserPlusIcon } from '@heroicons/react/24/outline';
@@ -200,7 +200,7 @@ export const SpendingGroupsPageContent = ({
                     handleOpenInviteUserModalModal();
                   }}
                 >
-                  <UserPlusIcon className="text-main-green h-6 w-6" />
+                  <UserPlusIcon className="h-6 w-6 text-main-green" />
                 </button>
 
                 <button

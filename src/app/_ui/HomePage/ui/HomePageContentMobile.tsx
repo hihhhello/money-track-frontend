@@ -3,12 +3,12 @@
 import { format, parseISO } from 'date-fns';
 
 import { classNames, formatUSDDecimal } from '@/shared/utils/helpers';
-import { useBoolean, useLoadingToast } from '@/shared/utils/hooks';
+import { useBoolean, useLoadingToast } from 'hihhhello-utils';
 import React, {
   ReactElement,
   ReactNode,
   RefObject,
-  useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -95,7 +95,7 @@ export const HomePageContentMobile = ({
   };
 
   return (
-    <div className="flex flex-grow overflow-hidden">
+    <div className="flex flex-grow overflow-hidden sm:hidden">
       <div className="flex flex-grow flex-col overflow-hidden rounded-3xl bg-main-paper p-3">
         <div className="mb-6 flex items-center justify-between">
           <Tabs value={tab}>
@@ -329,7 +329,7 @@ const Tabs = (props: TabsProps) => {
     });
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!tabs.current || !children) {
       return;
     }

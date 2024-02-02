@@ -1,6 +1,5 @@
 'use client';
 
-import { Breakpoints, useIsBreakpoint } from '@/shared/utils/hooks';
 import {
   Transaction,
   TransactionPeriodFilterType,
@@ -35,8 +34,6 @@ export const HomePageContent = ({
   recurrentTransactions: initialRecurrentTransactions,
   transactions: initialTransactions,
 }: HomePageContentProps) => {
-  const isDesktop = useIsBreakpoint(Breakpoints.MD);
-
   const [transactionsFilter, setTransactionsFilter] =
     useState<TransactionPeriodFilterType>(TransactionPeriodFilter.MONTH);
   const [dateFilter, setDateFilter] = useState<Date>(new Date());
@@ -171,19 +168,17 @@ export const HomePageContent = ({
         </div>
       </div>
 
-      {isDesktop ? (
-        <HomePageContentDesktop
-          recurrentTransactions={recurrentTransactions}
-          transactions={transactions ?? initialTransactions}
-          transactionsByCategory={transactionsByCategory}
-        />
-      ) : (
-        <HomePageContentMobile
-          recurrentTransactions={recurrentTransactions}
-          transactions={transactions ?? initialTransactions}
-          transactionsByCategory={transactionsByCategory}
-        />
-      )}
+      <HomePageContentDesktop
+        recurrentTransactions={recurrentTransactions}
+        transactions={transactions ?? initialTransactions}
+        transactionsByCategory={transactionsByCategory}
+      />
+
+      <HomePageContentMobile
+        recurrentTransactions={recurrentTransactions}
+        transactions={transactions ?? initialTransactions}
+        transactionsByCategory={transactionsByCategory}
+      />
     </div>
   );
 };
