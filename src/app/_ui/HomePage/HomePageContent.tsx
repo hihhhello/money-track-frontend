@@ -129,64 +129,12 @@ export const HomePageContent = ({
     [],
   );
 
-  if (isDesktop) {
-    return (
-      <div className="flex flex-1 flex-col">
-        <div className="mb-4 flex gap-4">
-          <TransactionsPeriodFilterSelect
-            filter={transactionsFilter}
-            handleChangeFilter={handleChangeFilter}
-          />
-
-          {transactionsFilter === TransactionPeriodFilter.MONTH && (
-            <TransactionsMonthFilter
-              handleChange={setDateFilter}
-              value={dateFilter}
-            />
-          )}
-
-          {transactionsFilter === TransactionPeriodFilter.DAY && (
-            <TransactionsDayFilter
-              handleChange={setDateFilter}
-              value={dateFilter}
-            />
-          )}
-
-          {transactionsFilter === TransactionPeriodFilter.YEAR && (
-            <TransactionsYearFilter
-              handleChange={setDateFilter}
-              value={dateFilter}
-            />
-          )}
-        </div>
-
-        <div className="mb-4 grid w-full grid-cols-1 gap-4 sm:grid-cols-6">
-          <div className="sm:col-span-4">
-            <HomePageTransactionsTotal
-              transactions={transactions ?? initialTransactions}
-            />
-          </div>
-
-          <div className="sm:col-span-2">
-            <HomePageAddNewTransactionActions />
-          </div>
-        </div>
-
-        <HomePageContentDesktop
-          recurrentTransactions={recurrentTransactions}
-          transactions={transactions ?? initialTransactions}
-          transactionsByCategory={transactionsByCategory}
-        />
-      </div>
-    );
-  }
-
   return (
     <div className="flex flex-1 flex-col">
       <div className="mb-4 flex gap-4">
         <TransactionsPeriodFilterSelect
           filter={transactionsFilter}
-          handleChangeFilter={setTransactionsFilter}
+          handleChangeFilter={handleChangeFilter}
         />
 
         {transactionsFilter === TransactionPeriodFilter.MONTH && (
@@ -198,6 +146,13 @@ export const HomePageContent = ({
 
         {transactionsFilter === TransactionPeriodFilter.DAY && (
           <TransactionsDayFilter
+            handleChange={setDateFilter}
+            value={dateFilter}
+          />
+        )}
+
+        {transactionsFilter === TransactionPeriodFilter.YEAR && (
+          <TransactionsYearFilter
             handleChange={setDateFilter}
             value={dateFilter}
           />
@@ -216,11 +171,19 @@ export const HomePageContent = ({
         </div>
       </div>
 
-      <HomePageContentMobile
-        recurrentTransactions={recurrentTransactions}
-        transactions={transactions ?? initialTransactions}
-        transactionsByCategory={transactionsByCategory}
-      />
+      {isDesktop ? (
+        <HomePageContentDesktop
+          recurrentTransactions={recurrentTransactions}
+          transactions={transactions ?? initialTransactions}
+          transactionsByCategory={transactionsByCategory}
+        />
+      ) : (
+        <HomePageContentMobile
+          recurrentTransactions={recurrentTransactions}
+          transactions={transactions ?? initialTransactions}
+          transactionsByCategory={transactionsByCategory}
+        />
+      )}
     </div>
   );
 };
