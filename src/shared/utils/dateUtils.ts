@@ -9,12 +9,14 @@ export const DatePeriodKeyword = {
 export type DateKeywordType =
   (typeof DatePeriodKeyword)[keyof typeof DatePeriodKeyword];
 
+export type DateRange = {
+  startDate: Date;
+  endDate: Date | undefined;
+};
+
 export const DATE_KEYWORD_TO_DATE_RANGE: Record<
   DateKeywordType,
-  ({ referenceDate }: { referenceDate: Date }) => {
-    startDate: Date;
-    endDate: Date | undefined;
-  }
+  ({ referenceDate }: { referenceDate: Date }) => DateRange
 > = {
   [DatePeriodKeyword.TODAY]: ({ referenceDate }) => ({
     startDate: referenceDate,

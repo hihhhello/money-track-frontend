@@ -11,15 +11,18 @@ import {
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
 import { HomePageContentDesktop } from './ui/HomePageContentDesktop';
 import { HomePageContentMobile } from './ui/HomePageContentMobile';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/shared/api/api';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { HomePageAddNewTransactionActions } from './ui/HomePageAddNewTransactionActions';
 import { HomePageTransactionsTotal } from './ui/HomePageTransactionsTotal';
 import { TransactionsPeriodFilterSelect } from '@/features/TransactionsPeriodFilterSelect';
-import { DATE_KEYWORD_TO_DATE_RANGE } from '@/shared/utils/dateUtils';
-import { formatISO, parseISO } from 'date-fns';
+import {
+  DATE_KEYWORD_TO_DATE_RANGE,
+  DateRange,
+} from '@/shared/utils/dateUtils';
+import { formatISO } from 'date-fns';
 
 type HomePageContentProps = {
   transactions: Transaction[];
@@ -37,14 +40,19 @@ export const HomePageContent = ({
   const [recurrentTransactionsFilter, setRecurrentTransactionsFilter] =
     useState<TransactionPeriodFilterType>('month');
 
+  const transactionsDateRange: DateRange | undefined = useMemo(
+    () =>
+      transactionsFilter === TransactionPeriodFilter.ALL
+        ? undefined
+        : DATE_KEYWORD_TO_DATE_RANGE[transactionsFilter]({
+            referenceDate: new Date(),
+          }),
+    [transactionsFilter],
+  );
+
   const { data: transactions } = useQuery({
     queryFn: ({ queryKey }) => {
-      const filter = queryKey[1] as TransactionPeriodFilterType;
-
-      const dateRange =
-        filter === TransactionPeriodFilter.ALL
-          ? undefined
-          : DATE_KEYWORD_TO_DATE_RANGE[filter]({ referenceDate: new Date() });
+      const dateRange = queryKey[1] as unknown as DateRange;
 
       return api.transactions.getAll({
         searchParams: {
@@ -59,7 +67,7 @@ export const HomePageContent = ({
         },
       });
     },
-    queryKey: ['api.transactions.getAll', transactionsFilter],
+    queryKey: ['api.transactions.getAll', transactionsDateRange],
     initialData: initialTransactions,
   });
 
