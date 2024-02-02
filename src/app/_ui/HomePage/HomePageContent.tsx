@@ -3,7 +3,6 @@
 import { Breakpoints, useIsBreakpoint } from '@/shared/utils/hooks';
 import {
   Transaction,
-  APITransactionPeriodFilter,
   TransactionPeriodFilterType,
   TransactionsByCategory,
   TransactionPeriodFilter,
@@ -25,6 +24,7 @@ import {
 import { formatISO } from 'date-fns';
 import { TransactionsMonthFilter } from '@/features/TransactionsMonthFilter';
 import { TransactionsDayFilter } from '@/features/TransactionsDayFilter';
+import { TransactionsYearFilter } from '@/features/TransactionsYearFilter';
 
 type HomePageContentProps = {
   transactions: Transaction[];
@@ -40,8 +40,6 @@ export const HomePageContent = ({
   const [transactionsFilter, setTransactionsFilter] =
     useState<TransactionPeriodFilterType>(TransactionPeriodFilter.MONTH);
   const [dateFilter, setDateFilter] = useState<Date>(new Date());
-  const [recurrentTransactionsFilter, setRecurrentTransactionsFilter] =
-    useState<TransactionPeriodFilterType>('month');
 
   const transactionsDateRange: DateRange | undefined = useMemo(() => {
     if (transactionsFilter === TransactionPeriodFilter.ALL) {
@@ -149,6 +147,13 @@ export const HomePageContent = ({
 
           {transactionsFilter === TransactionPeriodFilter.DAY && (
             <TransactionsDayFilter
+              handleChange={setDateFilter}
+              value={dateFilter}
+            />
+          )}
+
+          {transactionsFilter === TransactionPeriodFilter.YEAR && (
+            <TransactionsYearFilter
               handleChange={setDateFilter}
               value={dateFilter}
             />
