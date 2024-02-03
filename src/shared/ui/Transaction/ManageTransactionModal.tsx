@@ -118,6 +118,7 @@ export const ManageTransactionModal = ({
         description: null,
       });
       handleSelectCategoryId(null);
+      handleClearSpendingGroups();
       handleClose();
     });
   };
