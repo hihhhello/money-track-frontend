@@ -21,7 +21,7 @@ const createOne = ({
     frequency: RecurrentTransactionFrequencyValue;
   };
 }) => {
-  return axiosInstance.post('/recurrent_transactions', body);
+  return axiosInstance.post('/recurrent-transactions', body);
 };
 
 const getAll = (
@@ -35,7 +35,7 @@ const getAll = (
   axiosInstance
     .get<RecurrentTransaction[]>(
       createUrlWithSearchParams({
-        url: '/recurrent_transactions',
+        url: '/recurrent-transactions',
         searchParams: input?.searchParams,
       }),
     )
@@ -59,12 +59,12 @@ const editOne = ({
   };
 }) =>
   axiosInstance.patch<Transaction[]>(
-    `/recurrent_transactions/${params.transactionId}`,
+    `/recurrent-transactions/${params.transactionId}`,
     body,
   );
 
 const deleteOne = ({ params }: { params: { transactionId: number } }) =>
-  axiosInstance.delete(`/recurrent_transactions/${params.transactionId}`);
+  axiosInstance.delete(`/recurrent-transactions/${params.transactionId}`);
 
 export const apiRecurrentTransactionsRequests = {
   createOne,

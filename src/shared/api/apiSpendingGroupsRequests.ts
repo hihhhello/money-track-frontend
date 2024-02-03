@@ -9,12 +9,12 @@ const createOne = ({
     description?: string | null;
   };
 }) => {
-  return axiosInstance.post('/spending_groups', body);
+  return axiosInstance.post('/spending-groups', body);
 };
 
 const getAll = () =>
   axiosInstance
-    .get<SpendingGroup[]>('/spending_groups')
+    .get<SpendingGroup[]>('/spending-groups')
     .then(({ data }) => data);
 
 const editOne = ({
@@ -30,12 +30,12 @@ const editOne = ({
   };
 }) =>
   axiosInstance.patch<SpendingGroup>(
-    `/spending_groups/${params.spendingGroupId}`,
+    `/spending-groups/${params.spendingGroupId}`,
     body,
   );
 
 const deleteOne = ({ params }: { params: { spendingGroupId: number } }) =>
-  axiosInstance.delete(`/spending_groups/${params.spendingGroupId}`);
+  axiosInstance.delete(`/spending-groups/${params.spendingGroupId}`);
 
 const inviteUser = ({
   body,
@@ -49,7 +49,7 @@ const inviteUser = ({
   };
 }) =>
   axiosInstance.post<SpendingGroup>(
-    `/spending_groups/${params.spendingGroupId}/add_user`,
+    `/spending-groups/${params.spendingGroupId}/add-user`,
     body,
   );
 
