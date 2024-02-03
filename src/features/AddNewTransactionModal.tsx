@@ -42,6 +42,9 @@ export const AddNewTransactionModal = ({
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null,
   );
+  const [selectedSpendingGroupIds, setSelectedSpendingGroupIds] = useState<
+    number[]
+  >([]);
 
   const {
     value: isAddNewCategoryModalOpen,
@@ -49,11 +52,7 @@ export const AddNewTransactionModal = ({
     setFalse: handleCloseAddNewCategoryModal,
   } = useBoolean(false);
 
-  const {
-    data: categories,
-    refetch: refetchCategories,
-    isLoading: isCategoriesLoading,
-  } = useQuery({
+  const categoriesQuery = useQuery({
     queryFn: () =>
       api.categories.getAll({
         searchParams: {
@@ -61,6 +60,11 @@ export const AddNewTransactionModal = ({
         },
       }),
     queryKey: ['api.categories.getAll', transactionType],
+  });
+
+  const spendingGroupsQuery = useQuery({
+    queryFn: api.spendingGroups.getAll,
+    queryKey: ['api.spendingGroups.getAll'],
   });
 
   const handleAddNewTransaction = (newTransactionValues: {
@@ -115,7 +119,7 @@ export const AddNewTransactionModal = ({
       .then(({ id }) => {
         setSelectedCategoryId(id);
 
-        refetchCategories();
+        categoriesQuery.refetch();
 
         loadingToast.handleSuccess({
           toastId,
@@ -131,9 +135,19 @@ export const AddNewTransactionModal = ({
       });
   };
 
+  const handleSelectSpendingGroupId = (id: number) => {
+    setSelectedSpendingGroupIds((prevIds) => {
+      if (prevIds.includes(id)) {
+        return prevIds.filter((prevId) => prevId !== id);
+      }
+
+      return [...prevIds, id];
+    });
+  };
+
   return (
     <ManageTransactionModal
-      categories={categories}
+      categories={categoriesQuery.data}
       handleSubmit={handleAddNewTransaction}
       handleClose={handleClose}
       isModalOpen={isModalOpen}
@@ -142,7 +156,12 @@ export const AddNewTransactionModal = ({
       handleAddNewCategory={handleOpenAddNewCategoryModal}
       handleSelectCategoryId={setSelectedCategoryId}
       selectedCategoryId={selectedCategoryId}
-      isCategoriesLoading={isCategoriesLoading}
+      isCategoriesLoading={categoriesQuery.isLoading}
+      spendingGroups={spendingGroupsQuery.data}
+      isSpendingGroupsLoading={spendingGroupsQuery.isLoading}
+      selectedSpendingGroupIds={selectedSpendingGroupIds}
+      handleSelectSpendingGroupId={handleSelectSpendingGroupId}
+      handleClearSpendingGroups={() => setSelectedSpendingGroupIds([])}
       nestedModal={
         <ManageCategoryModal
           handleClose={handleCloseAddNewCategoryModal}

@@ -15,6 +15,9 @@ import { isNil } from 'lodash';
 import { DialogActions } from '../Dialog/DialogActions';
 import { DialogScrollableContent } from '../Dialog/DialogScrollableContent';
 import { CategoryListLoading } from '../Category/CategoryListLoading';
+import { useBoolean } from 'hihhhello-utils';
+import { twMerge } from 'tailwind-merge';
+import { Checkbox } from '../Checkbox';
 
 type TransactionValues = {
   amount: number | null;
@@ -45,6 +48,11 @@ type ManageTransactionModalProps = {
   nestedModal?: ReactNode;
   selectedCategoryId: number | null;
   handleSelectCategoryId: (id: number | null) => void;
+  spendingGroups: Array<{ id: number; name: string }> | undefined;
+  isSpendingGroupsLoading?: boolean;
+  selectedSpendingGroupIds: number[];
+  handleSelectSpendingGroupId: (id: number) => void;
+  handleClearSpendingGroups: () => void;
 };
 
 export const ManageTransactionModal = ({
@@ -61,7 +69,14 @@ export const ManageTransactionModal = ({
   handleSelectCategoryId,
   selectedCategoryId,
   isCategoriesLoading,
+  spendingGroups,
+  isSpendingGroupsLoading,
+  selectedSpendingGroupIds,
+  handleSelectSpendingGroupId,
+  handleClearSpendingGroups,
 }: ManageTransactionModalProps) => {
+  const spendingGroupsShownState = useBoolean(false);
+
   const today = formatISO(new Date(), { representation: 'date' });
 
   useEffect(() => {
@@ -169,6 +184,58 @@ export const ManageTransactionModal = ({
                 </CategoryList>
               )}
             </div>
+
+            <div className="mb-4 flex gap-2">
+              <label htmlFor="addToSpendingGroup">Add to spending group</label>
+
+              <div>
+                <Checkbox
+                  name="addToSpendingGroup"
+                  checked={spendingGroupsShownState.value}
+                  onChange={() => {
+                    spendingGroupsShownState.toggle();
+                    handleClearSpendingGroups();
+                  }}
+                />
+              </div>
+            </div>
+
+            {spendingGroupsShownState.value && (
+              <div className="mb-4 flex min-h-[36px] flex-grow flex-col gap-2 overflow-y-hidden">
+                <div className="flex flex-col items-start gap-4 overflow-y-hidden">
+                  <div className="grid h-full w-full grid-cols-3 gap-4 overflow-y-auto sm:grid-cols-9">
+                    {spendingGroups?.map((group) => {
+                      const isSelected = selectedSpendingGroupIds.includes(
+                        group.id,
+                      );
+
+                      return (
+                        <button
+                          onClick={() => handleSelectSpendingGroupId(group.id)}
+                          key={group.id}
+                          type="button"
+                          className={twMerge(
+                            'group flex flex-col items-center gap-2 rounded-2xl bg-white p-2',
+                            !isSelected &&
+                              'group-hover:bg-main-blue group-hover:text-white',
+                            isSelected && 'bg-main-dark text-white',
+                          )}
+                        >
+                          <span
+                            className={twMerge(
+                              'w-20 overflow-hidden text-ellipsis whitespace-nowrap text-sm',
+                              isSelected && 'font-medium',
+                            )}
+                          >
+                            {group.name}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            )}
 
             <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
               <div className="flex flex-1 flex-col gap-2">

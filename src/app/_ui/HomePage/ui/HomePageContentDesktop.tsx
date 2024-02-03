@@ -2,7 +2,12 @@
 
 import { useState } from 'react';
 
-import { useBoolean, useLoadingToast } from 'hihhhello-utils';
+import {
+  useBoolean,
+  useLoadingToast,
+  classNames,
+  formatUSDDecimal,
+} from 'hihhhello-utils';
 import {
   Transaction,
   TransactionsByCategory,
@@ -15,7 +20,6 @@ import { DeleteConfirmationModal } from '@/shared/ui/DeleteConfirmationModal';
 import { TransactionItemDesktop } from '@/shared/ui/Transaction/TransactionItemDesktop';
 import { QueueListIcon } from '@/shared/icons/QueueListIcon';
 import { TagIcon } from '@/shared/icons/TagIcon';
-import { classNames, formatUSDDecimal } from 'hihhhello-utils';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { Disclosure } from '@headlessui/react';
 import { ChevronDownIcon } from '@/shared/icons/ChevronDownIcon';
