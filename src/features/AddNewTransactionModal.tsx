@@ -85,6 +85,7 @@ export const AddNewTransactionModal = ({
           date: newTransactionValues.date,
           type: transactionType,
           description: newTransactionValues.description,
+          spending_group_ids: selectedSpendingGroupIds,
         },
       })
       .then(() => {

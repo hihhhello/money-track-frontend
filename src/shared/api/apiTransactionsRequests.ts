@@ -16,6 +16,7 @@ const createOne = ({
     category_id: number;
     date: string;
     description?: string | null;
+    spending_group_ids?: number[];
   };
 }) => {
   return axiosInstance.post('/transactions', body);
