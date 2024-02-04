@@ -216,7 +216,7 @@ export const ManageTransactionModal = ({
             </div>
 
             {spendingGroupsShownState.value && (
-              <div className="mb-4 flex min-h-[36px] flex-grow flex-col gap-2 overflow-y-hidden">
+              <div className="mb-4 flex min-h-[88px] flex-grow flex-col gap-2 overflow-y-hidden sm:min-h-[36px]">
                 <div className="flex flex-col items-start gap-4 overflow-y-hidden">
                   <div className="grid h-full w-full grid-cols-3 gap-4 overflow-y-auto sm:grid-cols-9">
                     {spendingGroups?.map((group) => {
