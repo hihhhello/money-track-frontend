@@ -40,6 +40,9 @@ export const EditTransactionModal = ({
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     selectedTransaction?.category.id ?? null,
   );
+  const [selectedSpendingGroupIds, setSelectedSpendingGroupIds] = useState<
+    number[]
+  >(selectedTransaction?.spending_groups.map(({ id }) => id) ?? []);
 
   useEffect(() => {
     if (!selectedTransaction) {
@@ -47,6 +50,9 @@ export const EditTransactionModal = ({
     }
 
     setSelectedCategoryId(selectedTransaction.category.id);
+    setSelectedSpendingGroupIds(
+      selectedTransaction?.spending_groups.map(({ id }) => id),
+    );
   }, [selectedTransaction]);
 
   const {
@@ -54,6 +60,11 @@ export const EditTransactionModal = ({
     setTrue: handleOpenAddNewCategoryModal,
     setFalse: handleCloseAddNewCategoryModal,
   } = useBoolean(false);
+
+  const spendingGroupsQuery = useQuery({
+    queryFn: api.spendingGroups.getAll,
+    queryKey: ['api.spendingGroups.getAll'],
+  });
 
   const {
     data: categories,
@@ -99,6 +110,7 @@ export const EditTransactionModal = ({
           category_id: transactionValues.categoryId,
           date: transactionValues.date,
           description: transactionValues.description,
+          // spending_group_ids: selectedSpendingGroupIds,
         },
         params: {
           transactionId: selectedTransaction.id,
@@ -174,6 +186,16 @@ export const EditTransactionModal = ({
       });
   };
 
+  const handleSelectSpendingGroupId = (id: number) => {
+    setSelectedSpendingGroupIds((prevIds) => {
+      if (prevIds.includes(id)) {
+        return prevIds.filter((prevId) => prevId !== id);
+      }
+
+      return [...prevIds, id];
+    });
+  };
+
   return (
     <ManageTransactionModal
       isModalOpen={isModalOpen}
@@ -200,6 +222,10 @@ export const EditTransactionModal = ({
       handleDelete={handleDeleteTransaction}
       handleSelectCategoryId={setSelectedCategoryId}
       selectedCategoryId={selectedCategoryId}
+      handleClearSpendingGroups={() => setSelectedSpendingGroupIds([])}
+      handleSelectSpendingGroupId={handleSelectSpendingGroupId}
+      selectedSpendingGroupIds={selectedSpendingGroupIds}
+      spendingGroups={spendingGroupsQuery.data}
       nestedModal={
         <ManageCategoryModal
           handleClose={handleCloseAddNewCategoryModal}

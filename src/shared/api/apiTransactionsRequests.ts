@@ -49,6 +49,7 @@ const editOne = ({
     category_id: number;
     date: string;
     description: string | null;
+    // spending_group_ids?: number[];
   }>;
   params: {
     transactionId: number;

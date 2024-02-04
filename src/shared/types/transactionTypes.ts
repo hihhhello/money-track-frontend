@@ -7,6 +7,11 @@ export type Transaction = {
     id: number;
     name: string;
   };
+  spending_groups: Array<{
+    id: number;
+    name: string;
+    description: string | null;
+  }>;
   description: string | null;
   date: string;
   id: number;

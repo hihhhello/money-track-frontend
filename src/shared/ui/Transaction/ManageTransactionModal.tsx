@@ -11,7 +11,7 @@ import { CategoryList } from '../Category/CategoryList';
 import { Input } from '../Input';
 import { DialogHeader } from '../Dialog/DialogHeader';
 import { DollarInput } from '../DollarInput';
-import { isNil } from 'lodash';
+import { isEmpty, isNil } from 'lodash';
 import { DialogActions } from '../Dialog/DialogActions';
 import { DialogScrollableContent } from '../Dialog/DialogScrollableContent';
 import { CategoryListLoading } from '../Category/CategoryListLoading';
@@ -194,6 +194,7 @@ export const ManageTransactionModal = ({
                   <input
                     type="checkbox"
                     className="peer sr-only"
+                    defaultChecked={!isEmpty(selectedSpendingGroupIds)}
                     name="addToSpendingGroup"
                     checked={spendingGroupsShownState.value}
                     onChange={() => {
