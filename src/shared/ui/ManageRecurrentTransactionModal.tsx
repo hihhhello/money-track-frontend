@@ -53,6 +53,7 @@ export type ManageRecurrentTransactionModalProps = {
     frequency: RecurrentTransactionFrequencyValue;
     description: string | null;
     start_date: string | null;
+    next_date: string | null;
     end_date: string | null;
     categoryId: number;
   };
@@ -91,9 +92,12 @@ export const ManageRecurrentTransactionModal = ({
       frequency:
         defaultTransactionValues?.frequency ??
         RecurrentTransactionFrequency.MONTHLY,
-      start_date: defaultTransactionValues?.start_date ?? today,
+      start_date:
+        (isPastStartDate
+          ? defaultTransactionValues?.next_date
+          : defaultTransactionValues?.start_date) ?? today,
     });
-  }, [defaultTransactionValues, today]);
+  }, [defaultTransactionValues, isPastStartDate, today]);
 
   const [transactionFormValues, setTransactionFormValues] =
     useState<RecurrentTransactionValues>({
@@ -105,7 +109,10 @@ export const ManageRecurrentTransactionModal = ({
       frequency:
         defaultTransactionValues?.frequency ??
         RecurrentTransactionFrequency.MONTHLY,
-      start_date: defaultTransactionValues?.start_date ?? today,
+      start_date:
+        (isPastStartDate
+          ? defaultTransactionValues?.next_date
+          : defaultTransactionValues?.start_date) ?? today,
     });
 
   const handleSubmit = () => {

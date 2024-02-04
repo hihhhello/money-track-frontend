@@ -139,6 +139,7 @@ export const EditRecurrentTransactionModal = ({
               frequency: selectedTransaction.frequency,
               start_date: selectedTransaction.start_date,
               description: selectedTransaction.description,
+              next_date: selectedTransaction.next_transaction,
             }
           : undefined
       }
