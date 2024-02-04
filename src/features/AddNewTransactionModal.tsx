@@ -2,7 +2,7 @@
 
 import { api } from '@/shared/api/api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useBoolean, useLoadingToast } from 'hihhhello-utils';
+import { useBoolean } from 'hihhhello-utils';
 import { ManageTransactionModal } from '@/shared/ui/Transaction/ManageTransactionModal';
 import {
   FinancialOperationType,
@@ -10,6 +10,7 @@ import {
 } from '@/shared/types/globalTypes';
 import { ManageCategoryModal } from '@/shared/ui/Category/ManageCategoryModal';
 import { useState } from 'react';
+import { useLoadingToast } from '@/shared/utils/hooks';
 
 const TRANSACTION_TYPE_TO_LABEL = {
   [FinancialOperationType.DEPOSIT]: {

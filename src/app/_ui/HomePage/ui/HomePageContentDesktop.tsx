@@ -2,12 +2,7 @@
 
 import { useState } from 'react';
 
-import {
-  useBoolean,
-  useLoadingToast,
-  classNames,
-  formatUSDDecimal,
-} from 'hihhhello-utils';
+import { useBoolean, classNames, formatUSDDecimal } from 'hihhhello-utils';
 import {
   Transaction,
   TransactionsByCategory,
@@ -24,6 +19,7 @@ import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { Disclosure } from '@headlessui/react';
 import { ChevronDownIcon } from '@/shared/icons/ChevronDownIcon';
 import { TransactionByCategoryItemDesktop } from '@/shared/ui/Transaction/TransactionByCategoryItemDesktop';
+import { useLoadingToast } from '@/shared/utils/hooks';
 
 type HomePageContentDesktopProps = {
   transactions: Transaction[];

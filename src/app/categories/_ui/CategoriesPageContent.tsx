@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 
 import { ManageCategoryModal } from '@/shared/ui/Category/ManageCategoryModal';
 import { api } from '@/shared/api/api';
-import { useBoolean, useLoadingToast } from 'hihhhello-utils';
+import { useBoolean } from 'hihhhello-utils';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { Category } from '@/shared/types/categoryTypes';
@@ -14,6 +14,7 @@ import {
 } from '@/shared/types/globalTypes';
 import { CategoryItem } from '@/shared/ui/Category/CategoryItem';
 import { CategoryList } from '@/shared/ui/Category/CategoryList';
+import { useLoadingToast } from '@/shared/utils/hooks';
 
 type CategoriesPageContentProps = {
   categories: Category[];

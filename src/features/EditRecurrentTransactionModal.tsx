@@ -2,15 +2,13 @@
 
 import { api } from '@/shared/api/api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useLoadingToast } from 'hihhhello-utils';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
 import {
   ManageRecurrentTransactionModal,
   ManageRecurrentTransactionModalProps,
 } from '@/shared/ui/ManageRecurrentTransactionModal';
-import { toast } from 'react-toastify';
-import { isAfter, parseISO } from 'date-fns';
+import { useLoadingToast } from '@/shared/utils/hooks';
 
 const TRANSACTION_TYPE_TO_LABEL = {
   [FinancialOperationType.DEPOSIT]: {

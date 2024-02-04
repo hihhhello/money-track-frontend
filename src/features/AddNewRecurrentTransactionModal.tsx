@@ -2,7 +2,6 @@
 
 import { api } from '@/shared/api/api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useLoadingToast } from 'hihhhello-utils';
 import {
   FinancialOperationType,
   FinancialOperationTypeValue,
@@ -11,6 +10,7 @@ import {
   ManageRecurrentTransactionModal,
   ManageRecurrentTransactionModalProps,
 } from '@/shared/ui/ManageRecurrentTransactionModal';
+import { useLoadingToast } from '@/shared/utils/hooks';
 
 const TRANSACTION_TYPE_TO_LABEL = {
   [FinancialOperationType.DEPOSIT]: {

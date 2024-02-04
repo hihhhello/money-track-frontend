@@ -5,9 +5,9 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
 import { api } from '@/shared/api/api';
-import { useLoadingToast } from 'hihhhello-utils';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { useLoadingToast } from '@/shared/utils/hooks';
 
 export const SignUpPageContent = () => {
   const loadingToast = useLoadingToast();

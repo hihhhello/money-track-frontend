@@ -3,7 +3,7 @@
 import { format, parseISO } from 'date-fns';
 
 import { classNames, formatUSDDecimal } from 'hihhhello-utils';
-import { useBoolean, useLoadingToast } from 'hihhhello-utils';
+import { useBoolean } from 'hihhhello-utils';
 import React, {
   ReactElement,
   ReactNode,
@@ -30,6 +30,7 @@ import { TagIcon } from '@/shared/icons/TagIcon';
 import { Disclosure } from '@headlessui/react';
 import { TransactionByCategoryItemMobile } from '@/shared/ui/Transaction/TransactionByCategoryItemMobile';
 import { ChevronDownIcon } from '@/shared/icons/ChevronDownIcon';
+import { useLoadingToast } from '@/shared/utils/hooks';
 
 type HomePageContentMobileProps = {
   transactions: Transaction[];
