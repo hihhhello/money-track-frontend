@@ -190,14 +190,20 @@ export const ManageTransactionModal = ({
               <label htmlFor="addToSpendingGroup">Add to spending group</label>
 
               <div>
-                <Checkbox
-                  name="addToSpendingGroup"
-                  checked={spendingGroupsShownState.value}
-                  onChange={() => {
-                    spendingGroupsShownState.toggle();
-                    handleClearSpendingGroups();
-                  }}
-                />
+                <label className="relative inline-flex cursor-pointer items-center">
+                  <input
+                    type="checkbox"
+                    className="peer sr-only"
+                    name="addToSpendingGroup"
+                    checked={spendingGroupsShownState.value}
+                    onChange={() => {
+                      spendingGroupsShownState.toggle();
+                      handleClearSpendingGroups();
+                    }}
+                  />
+
+                  <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-main-blue peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none rtl:peer-checked:after:-translate-x-full" />
+                </label>
               </div>
             </div>
 
