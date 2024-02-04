@@ -97,7 +97,7 @@ export const HomePageContentMobile = ({
   return (
     <div className="flex flex-grow overflow-hidden sm:hidden">
       <div className="flex flex-grow flex-col overflow-hidden rounded-3xl bg-main-paper p-3">
-        <div className="mb-6 flex items-center justify-between">
+        <div className="flex items-center justify-between">
           <Tabs value={tab}>
             <span
               key="lastPayments"
@@ -130,7 +130,7 @@ export const HomePageContentMobile = ({
           </button>
         </div>
 
-        <div className="flex flex-grow flex-col gap-3 overflow-y-auto">
+        <div className="flex flex-grow flex-col gap-3 overflow-y-auto pt-6">
           {(() => {
             if (tab === 'lastPayments') {
               if (view === 'category') {
@@ -219,6 +219,7 @@ export const HomePageContentMobile = ({
                     handleOpenDeleteTransactionModal();
                   }}
                   recurrentTransactionId={transaction.recurrent_id}
+                  spendingGroups={transaction.spending_groups}
                 />
               ));
             }

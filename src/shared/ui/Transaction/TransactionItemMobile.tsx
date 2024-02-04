@@ -13,6 +13,8 @@ import { PencilIcon } from '@heroicons/react/24/solid';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { twMerge } from 'tailwind-merge';
 import { RecurrentTransactionIcon } from '@/shared/icons/RecurrentTransactionIcon';
+import { SpendingGroup } from '@/shared/types/spendingGroupTypes';
+import { isEmpty } from 'lodash';
 
 type TransactionItemMobileProps = {
   categoryName: string;
@@ -23,6 +25,7 @@ type TransactionItemMobileProps = {
   handleEdit: () => void;
   handleDelete: () => void;
   recurrentTransactionId?: number | null;
+  spendingGroups?: SpendingGroup[];
 } & JSX.IntrinsicElements['div'];
 
 export const TransactionItemMobile = ({
@@ -35,6 +38,7 @@ export const TransactionItemMobile = ({
   type,
   className,
   recurrentTransactionId,
+  spendingGroups,
   ...divProps
 }: TransactionItemMobileProps) => {
   const touchStart = useRef<null | number>(null);
@@ -89,7 +93,10 @@ export const TransactionItemMobile = ({
       )}
     >
       <div
-        className="z-30 flex h-full w-full flex-grow touch-pan-y flex-col rounded-lg bg-white px-2 py-2 transition-transform duration-300"
+        className={twMerge(
+          'z-30 flex h-full w-full flex-grow touch-pan-y flex-col rounded-lg bg-white px-2 py-2 transition-transform duration-300',
+          !isEmpty(spendingGroups) && 'pt-4',
+        )}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
@@ -98,6 +105,17 @@ export const TransactionItemMobile = ({
         }}
         {...divProps}
       >
+        <div className="absolute left-0 top-0 z-40 flex -translate-y-1/2 translate-x-4 gap-1">
+          {spendingGroups?.map((group) => (
+            <span
+              key={group.id}
+              className="rounded-md bg-main-blue px-2 text-sm  text-white"
+            >
+              {group.name}
+            </span>
+          ))}
+        </div>
+
         <div className="flex w-full items-start justify-between">
           <div className="flex max-w-[140px] flex-1 flex-col overflow-hidden">
             <span className="overflow-hidden text-ellipsis text-left">

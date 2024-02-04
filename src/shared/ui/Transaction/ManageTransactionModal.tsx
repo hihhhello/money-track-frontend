@@ -131,6 +131,7 @@ export const ManageTransactionModal = ({
       handleSelectCategoryId(null);
       handleClearSpendingGroups();
       handleClose();
+      spendingGroupsShownState.setFalse();
     });
   };
 
