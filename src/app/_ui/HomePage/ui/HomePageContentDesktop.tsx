@@ -88,7 +88,7 @@ export const HomePageContentDesktop = ({
     <div className="hidden overflow-y-hidden sm:block">
       <div className="flex h-full flex-col gap-4 sm:flex-row">
         <div className="flex flex-1 flex-col rounded-3xl bg-main-paper p-4">
-          <div className="mb-6 flex items-center justify-between">
+          <div className="flex items-center justify-between">
             <div>
               <span className="text-main-dar text-xl leading-10">
                 Last payments
@@ -111,7 +111,7 @@ export const HomePageContentDesktop = ({
             </div>
           </div>
 
-          <div className="flex h-full flex-col gap-4 overflow-y-auto overflow-x-visible">
+          <div className="flex h-full flex-col gap-4 overflow-y-auto overflow-x-visible pt-6">
             {view === 'list'
               ? transactions.map((transaction) => (
                   <TransactionItemDesktop
@@ -130,6 +130,7 @@ export const HomePageContentDesktop = ({
                     description={transaction.description}
                     type={transaction.type}
                     recurrentTransactionId={transaction.recurrent_id}
+                    spendingGroups={transaction.spending_groups}
                   />
                 ))
               : Object.entries(transactionsByCategory).map(

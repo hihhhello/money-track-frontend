@@ -13,6 +13,7 @@ import { TrashIcon } from '@heroicons/react/24/outline';
 import { FinancialOperationTypeValue } from '@/shared/types/globalTypes';
 import { twMerge } from 'tailwind-merge';
 import { RecurrentTransactionIcon } from '@/shared/icons/RecurrentTransactionIcon';
+import { SpendingGroup } from '@/shared/types/spendingGroupTypes';
 
 type TransactionItemDesktopProps = {
   categoryName: string;
@@ -23,6 +24,7 @@ type TransactionItemDesktopProps = {
   handleEdit?: () => void;
   handleDelete?: () => void;
   recurrentTransactionId?: number | null;
+  spendingGroups?: SpendingGroup[];
 } & JSX.IntrinsicElements['div'];
 
 export const TransactionItemDesktop = ({
@@ -35,16 +37,28 @@ export const TransactionItemDesktop = ({
   handleEdit,
   className,
   recurrentTransactionId,
+  spendingGroups,
   ...divProps
 }: TransactionItemDesktopProps) => {
   return (
     <div
       className={twMerge(
-        'flex flex-col rounded-lg bg-white px-4 py-1 pr-2 sm:flex-row sm:items-center sm:justify-between',
+        'relative flex flex-col rounded-lg bg-white px-4 py-1 pr-2 pt-4 sm:flex-row sm:items-center sm:justify-between',
         className,
       )}
       {...divProps}
     >
+      <div className="absolute left-0 top-0 flex -translate-y-1/2 translate-x-4 gap-1">
+        {spendingGroups?.map((group) => (
+          <span
+            key={group.id}
+            className="rounded-md bg-main-blue px-2 text-sm  text-white"
+          >
+            {group.name}
+          </span>
+        ))}
+      </div>
+
       <div className="flex w-full flex-grow items-start justify-between">
         <div>
           <span className="w-full break-words text-left">{categoryName}</span>
