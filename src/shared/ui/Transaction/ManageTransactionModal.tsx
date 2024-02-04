@@ -75,7 +75,18 @@ export const ManageTransactionModal = ({
   handleSelectSpendingGroupId,
   handleClearSpendingGroups,
 }: ManageTransactionModalProps) => {
-  const spendingGroupsShownState = useBoolean(false);
+  const {
+    setTrue: handleSetTrueSpendingGroupsShownState,
+    ...spendingGroupsShownState
+  } = useBoolean(false);
+
+  useEffect(() => {
+    if (isEmpty(selectedSpendingGroupIds)) {
+      return;
+    }
+
+    handleSetTrueSpendingGroupsShownState();
+  }, [handleSetTrueSpendingGroupsShownState, selectedSpendingGroupIds]);
 
   const today = formatISO(new Date(), { representation: 'date' });
 
@@ -194,13 +205,9 @@ export const ManageTransactionModal = ({
                   <input
                     type="checkbox"
                     className="peer sr-only"
-                    defaultChecked={!isEmpty(selectedSpendingGroupIds)}
                     name="addToSpendingGroup"
                     checked={spendingGroupsShownState.value}
-                    onChange={() => {
-                      spendingGroupsShownState.toggle();
-                      handleClearSpendingGroups();
-                    }}
+                    onChange={spendingGroupsShownState.toggle}
                   />
 
                   <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-main-blue peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none rtl:peer-checked:after:-translate-x-full" />
