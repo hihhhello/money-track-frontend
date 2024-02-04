@@ -194,6 +194,7 @@ export const HomePageContentMobile = ({
                               handleOpenDeleteTransactionModal();
                             }}
                             recurrentTransactionId={transaction.recurrent_id}
+                            spendingGroups={transaction.spending_groups}
                           />
                         ))}
                       </Disclosure.Panel>
