@@ -14,6 +14,7 @@ import { FinancialOperationTypeValue } from '@/shared/types/globalTypes';
 import { twMerge } from 'tailwind-merge';
 import { RecurrentTransactionIcon } from '@/shared/icons/RecurrentTransactionIcon';
 import { SpendingGroup } from '@/shared/types/spendingGroupTypes';
+import { isEmpty } from 'lodash';
 
 type TransactionItemDesktopProps = {
   categoryName: string;
@@ -43,7 +44,8 @@ export const TransactionItemDesktop = ({
   return (
     <div
       className={twMerge(
-        'relative flex flex-col rounded-lg bg-white px-4 py-1 pr-2 pt-4 sm:flex-row sm:items-center sm:justify-between',
+        'relative flex flex-col rounded-lg bg-white px-4 py-1 pr-2 sm:flex-row sm:items-center sm:justify-between',
+        !isEmpty(spendingGroups) && 'pt-4',
         className,
       )}
       {...divProps}
