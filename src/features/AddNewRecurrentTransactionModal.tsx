@@ -44,16 +44,6 @@ export const AddNewRecurrentTransactionModal = ({
     null,
   );
 
-  const categoriesQuery = useQuery({
-    queryFn: () =>
-      api.categories.getAll({
-        searchParams: {
-          type: recurrentTransactionType,
-        },
-      }),
-    queryKey: ['api.categories.getAll', recurrentTransactionType],
-  });
-
   const handleAddNewRecurrentTransaction: ManageRecurrentTransactionModalProps['handleSubmit'] =
     (newRecurrentTransactionValues) => {
       const toastId = loadingToast.showLoading(
@@ -100,10 +90,10 @@ export const AddNewRecurrentTransactionModal = ({
       selectedCategoryId={selectedCategoryId}
     >
       <ManageRecurrentTransactionModal.Categories
-        categories={categoriesQuery.data}
         handleSelectCategoryId={setSelectedCategoryId}
-        isLoading={categoriesQuery.isLoading}
         selectedCategoryId={selectedCategoryId}
+        handleAddNewCategory={({ id }) => setSelectedCategoryId(id)}
+        transactionType={recurrentTransactionType}
       />
     </ManageRecurrentTransactionModal>
   );

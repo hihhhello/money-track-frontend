@@ -47,22 +47,6 @@ export const AddNewTransactionModal = ({
   >([]);
   const spendingGroupsState = useBoolean(false);
 
-  const {
-    value: isAddNewCategoryModalOpen,
-    setTrue: handleOpenAddNewCategoryModal,
-    setFalse: handleCloseAddNewCategoryModal,
-  } = useBoolean(false);
-
-  const categoriesQuery = useQuery({
-    queryFn: () =>
-      api.categories.getAll({
-        searchParams: {
-          type: transactionType,
-        },
-      }),
-    queryKey: ['api.categories.getAll', transactionType],
-  });
-
   const spendingGroupsQuery = useQuery({
     queryFn: api.spendingGroups.getAll,
     queryKey: ['api.spendingGroups.getAll'],
@@ -109,39 +93,6 @@ export const AddNewTransactionModal = ({
       });
   };
 
-  const handleAddNewCategory = (categoryName: string) => {
-    if (!transactionType) {
-      return;
-    }
-
-    const toastId = loadingToast.showLoading('Adding your new category...');
-
-    return api.categories
-      .createOne({
-        body: {
-          name: categoryName,
-          type: transactionType,
-        },
-      })
-      .then(({ id }) => {
-        setSelectedCategoryId(id);
-
-        categoriesQuery.refetch();
-
-        loadingToast.handleSuccess({
-          toastId,
-          message: 'You successfully added a new category!',
-        });
-      })
-      .catch(() => {
-        loadingToast.handleError({
-          toastId,
-          message:
-            'Something gone wrong while adding your category. Try again.',
-        });
-      });
-  };
-
   const handleSelectSpendingGroupId = (id: number) => {
     setSelectedSpendingGroupIds((prevIds) => {
       if (prevIds.includes(id)) {
@@ -162,11 +113,10 @@ export const AddNewTransactionModal = ({
       selectedCategoryId={selectedCategoryId}
     >
       <ManageTransactionModal.Categories
-        categories={categoriesQuery.data}
-        handleAddNewCategory={handleOpenAddNewCategoryModal}
         handleSelectCategoryId={setSelectedCategoryId}
-        isLoading={categoriesQuery.isLoading}
         selectedCategoryId={selectedCategoryId}
+        transactionType={transactionType}
+        handleAddNewCategory={({ id }) => setSelectedCategoryId(id)}
       />
 
       <ManageTransactionModal.SpendingGroups
@@ -176,14 +126,6 @@ export const AddNewTransactionModal = ({
         isLoading={spendingGroupsQuery.isLoading}
         handleToggle={spendingGroupsState.toggle}
         isChecked={spendingGroupsState.value}
-      />
-
-      <ManageCategoryModal
-        handleClose={handleCloseAddNewCategoryModal}
-        handleSubmit={handleAddNewCategory}
-        isModalOpen={isAddNewCategoryModalOpen}
-        title="Add new category"
-        submitButtonLabel="Add"
       />
     </ManageTransactionModal>
   );

@@ -33,7 +33,7 @@ type EditRecurrentTransactionModalProps = {
 export const EditRecurrentTransactionModal = ({
   handleClose,
   isModalOpen,
-  selectedRecurrentTransaction: selectedTransaction,
+  selectedRecurrentTransaction,
 }: EditRecurrentTransactionModalProps) => {
   const queryClient = useQueryClient();
   const loadingToast = useLoadingToast();
@@ -43,27 +43,27 @@ export const EditRecurrentTransactionModal = ({
   );
 
   useEffect(() => {
-    if (!selectedTransaction) {
+    if (!selectedRecurrentTransaction) {
       return;
     }
 
-    setSelectedCategoryId(selectedTransaction.category.id);
-  }, [selectedTransaction]);
+    setSelectedCategoryId(selectedRecurrentTransaction.category.id);
+  }, [selectedRecurrentTransaction]);
 
   const categoriesQuery = useQuery({
     queryFn: () => {
-      if (!selectedTransaction) {
+      if (!selectedRecurrentTransaction) {
         return;
       }
 
       return api.categories.getAll({
         searchParams: {
-          type: selectedTransaction.type,
+          type: selectedRecurrentTransaction.type,
         },
       });
     },
-    queryKey: ['api.categories.getAll', selectedTransaction?.type],
-    enabled: Boolean(selectedTransaction),
+    queryKey: ['api.categories.getAll', selectedRecurrentTransaction?.type],
+    enabled: Boolean(selectedRecurrentTransaction),
   });
 
   const refetchTransactions = () =>
@@ -73,7 +73,7 @@ export const EditRecurrentTransactionModal = ({
 
   const handleEditTransaction: ManageRecurrentTransactionModalProps['handleSubmit'] =
     (transactionValues, options) => {
-      if (!selectedTransaction) {
+      if (!selectedRecurrentTransaction) {
         return;
       }
 
@@ -90,7 +90,7 @@ export const EditRecurrentTransactionModal = ({
               : { start_date: transactionValues.start_date }),
           },
           params: {
-            transactionId: selectedTransaction.id,
+            transactionId: selectedRecurrentTransaction.id,
           },
         })
         .then(() => {
@@ -107,7 +107,7 @@ export const EditRecurrentTransactionModal = ({
     };
 
   const handleDeleteTransaction = () => {
-    if (!selectedTransaction) {
+    if (!selectedRecurrentTransaction) {
       return;
     }
 
@@ -116,7 +116,7 @@ export const EditRecurrentTransactionModal = ({
     return api.recurrentTransactions
       .deleteOne({
         params: {
-          transactionId: selectedTransaction.id,
+          transactionId: selectedRecurrentTransaction.id,
         },
       })
       .then(() => {
@@ -138,21 +138,22 @@ export const EditRecurrentTransactionModal = ({
       handleSubmit={handleEditTransaction}
       handleClose={handleClose}
       title={
-        selectedTransaction?.type
-          ? TRANSACTION_TYPE_TO_LABEL[selectedTransaction.type].MODAL_TITLE
+        selectedRecurrentTransaction?.type
+          ? TRANSACTION_TYPE_TO_LABEL[selectedRecurrentTransaction.type]
+              .MODAL_TITLE
           : 'Edit ...'
       }
       submitButtonLabel="Edit"
       defaultValues={
-        selectedTransaction
+        selectedRecurrentTransaction
           ? {
-              amount: selectedTransaction.amount,
-              categoryId: selectedTransaction.category.id,
-              end_date: selectedTransaction.end_date,
-              frequency: selectedTransaction.frequency,
-              start_date: selectedTransaction.start_date,
-              description: selectedTransaction.description,
-              next_date: selectedTransaction.next_transaction,
+              amount: selectedRecurrentTransaction.amount,
+              categoryId: selectedRecurrentTransaction.category.id,
+              end_date: selectedRecurrentTransaction.end_date,
+              frequency: selectedRecurrentTransaction.frequency,
+              start_date: selectedRecurrentTransaction.start_date,
+              description: selectedRecurrentTransaction.description,
+              next_date: selectedRecurrentTransaction.next_transaction,
             }
           : undefined
       }
@@ -160,10 +161,10 @@ export const EditRecurrentTransactionModal = ({
       selectedCategoryId={selectedCategoryId}
     >
       <ManageRecurrentTransactionModal.Categories
-        categories={categoriesQuery.data}
         handleSelectCategoryId={setSelectedCategoryId}
-        isLoading={categoriesQuery.isLoading}
         selectedCategoryId={selectedCategoryId}
+        handleAddNewCategory={({ id }) => setSelectedCategoryId(id)}
+        transactionType={selectedRecurrentTransaction?.type}
       />
     </ManageRecurrentTransactionModal>
   );

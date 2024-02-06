@@ -7,7 +7,6 @@ import { ManageTransactionModal } from '@/features/ManageTransactionModal/Manage
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { Transaction } from '@/shared/types/transactionTypes';
 import { useEffect, useState } from 'react';
-import { ManageCategoryModal } from '@/features/ManageCategoryModal';
 import { useLoadingToast } from '@/shared/utils/hooks';
 import { isEmpty } from 'lodash';
 
@@ -62,31 +61,9 @@ export const EditTransactionModal = ({
     }
   }, [handleOpenSpendingGroups, selectedTransaction]);
 
-  const {
-    value: isAddNewCategoryModalOpen,
-    setTrue: handleOpenAddNewCategoryModal,
-    setFalse: handleCloseAddNewCategoryModal,
-  } = useBoolean(false);
-
   const spendingGroupsQuery = useQuery({
     queryFn: api.spendingGroups.getAll,
     queryKey: ['api.spendingGroups.getAll'],
-  });
-
-  const categoriesQuery = useQuery({
-    queryFn: () => {
-      if (!selectedTransaction) {
-        return;
-      }
-
-      return api.categories.getAll({
-        searchParams: {
-          type: selectedTransaction.type,
-        },
-      });
-    },
-    queryKey: ['api.categories.getAll', selectedTransaction?.type],
-    enabled: Boolean(selectedTransaction),
   });
 
   const refetchTransactions = () =>
@@ -160,39 +137,6 @@ export const EditTransactionModal = ({
       });
   };
 
-  const handleAddNewCategory = (categoryName: string) => {
-    if (!selectedTransaction?.type) {
-      return;
-    }
-
-    const toastId = loadingToast.showLoading('Adding your new category...');
-
-    return api.categories
-      .createOne({
-        body: {
-          name: categoryName,
-          type: selectedTransaction.type,
-        },
-      })
-      .then(({ id }) => {
-        setSelectedCategoryId(id);
-
-        categoriesQuery.refetch();
-
-        loadingToast.handleSuccess({
-          toastId,
-          message: 'You successfully added a new category!',
-        });
-      })
-      .catch(() => {
-        loadingToast.handleError({
-          toastId,
-          message:
-            'Something gone wrong while adding your category. Try again.',
-        });
-      });
-  };
-
   const handleSelectSpendingGroupId = (id: number) => {
     setSelectedSpendingGroupIds((prevIds) => {
       if (prevIds.includes(id)) {
@@ -227,11 +171,10 @@ export const EditTransactionModal = ({
       selectedCategoryId={selectedCategoryId}
     >
       <ManageTransactionModal.Categories
-        categories={categoriesQuery.data}
-        handleAddNewCategory={handleOpenAddNewCategoryModal}
+        handleAddNewCategory={({ id }) => setSelectedCategoryId(id)}
         handleSelectCategoryId={setSelectedCategoryId}
-        isLoading={categoriesQuery.isLoading}
         selectedCategoryId={selectedCategoryId}
+        transactionType={selectedTransaction?.type}
       />
 
       <ManageTransactionModal.SpendingGroups
@@ -241,14 +184,6 @@ export const EditTransactionModal = ({
         isLoading={spendingGroupsQuery.isLoading}
         handleToggle={spendingGroupsState.toggle}
         isChecked={spendingGroupsState.value}
-      />
-
-      <ManageCategoryModal
-        handleClose={handleCloseAddNewCategoryModal}
-        handleSubmit={handleAddNewCategory}
-        isModalOpen={isAddNewCategoryModalOpen}
-        title="Add new category"
-        submitButtonLabel="Add"
       />
     </ManageTransactionModal>
   );
