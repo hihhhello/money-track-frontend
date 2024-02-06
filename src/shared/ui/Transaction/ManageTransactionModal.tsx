@@ -17,7 +17,6 @@ import { DialogScrollableContent } from '../Dialog/DialogScrollableContent';
 import { CategoryListLoading } from '../Category/CategoryListLoading';
 import { useBoolean } from 'hihhhello-utils';
 import { twMerge } from 'tailwind-merge';
-import { Checkbox } from '../Checkbox';
 
 type TransactionValues = {
   amount: number | null;
