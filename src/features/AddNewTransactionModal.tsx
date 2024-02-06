@@ -3,7 +3,7 @@
 import { api } from '@/shared/api/api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useBoolean } from 'hihhhello-utils';
-import { ManageTransactionModal } from '@/shared/ui/Transaction/ManageTransactionModal/ManageTransactionModal';
+import { ManageTransactionModal } from '@/shared/ui/ManageTransactionModal/ManageTransactionModal';
 import {
   FinancialOperationType,
   FinancialOperationTypeValue,
