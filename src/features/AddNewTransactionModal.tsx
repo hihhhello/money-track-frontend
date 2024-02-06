@@ -8,7 +8,6 @@ import {
   FinancialOperationType,
   FinancialOperationTypeValue,
 } from '@/shared/types/globalTypes';
-import { ManageCategoryModal } from '@/features/ManageCategoryModal';
 import { useState } from 'react';
 import { useLoadingToast } from '@/shared/utils/hooks';
 

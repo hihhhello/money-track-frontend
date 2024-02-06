@@ -1,7 +1,7 @@
 'use client';
 
 import { api } from '@/shared/api/api';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
 import {
@@ -49,22 +49,6 @@ export const EditRecurrentTransactionModal = ({
 
     setSelectedCategoryId(selectedRecurrentTransaction.category.id);
   }, [selectedRecurrentTransaction]);
-
-  const categoriesQuery = useQuery({
-    queryFn: () => {
-      if (!selectedRecurrentTransaction) {
-        return;
-      }
-
-      return api.categories.getAll({
-        searchParams: {
-          type: selectedRecurrentTransaction.type,
-        },
-      });
-    },
-    queryKey: ['api.categories.getAll', selectedRecurrentTransaction?.type],
-    enabled: Boolean(selectedRecurrentTransaction),
-  });
 
   const refetchTransactions = () =>
     queryClient.refetchQueries({

@@ -1,7 +1,7 @@
 'use client';
 
 import { api } from '@/shared/api/api';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   FinancialOperationType,
   FinancialOperationTypeValue,
