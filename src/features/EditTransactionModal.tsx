@@ -226,12 +226,13 @@ export const EditTransactionModal = ({
         selectedCategoryId={selectedCategoryId}
       />
 
-      <ManageTransactionModal.SpendingGroups
+      {/* <ManageTransactionModal.SpendingGroups
         spendingGroups={spendingGroupsQuery.data}
-        handleSelectSpendingGroupId={handleSelectSpendingGroupId}
-        selectedSpendingGroupIds={selectedSpendingGroupIds}
+        handleSelect={handleSelectSpendingGroupId}
+        selectedIds={selectedSpendingGroupIds}
         isLoading={spendingGroupsQuery.isLoading}
-      />
+        handleDeselectAll={() => setSelectedSpendingGroupIds([])}
+      /> */}
 
       <ManageCategoryModal
         handleClose={handleCloseAddNewCategoryModal}

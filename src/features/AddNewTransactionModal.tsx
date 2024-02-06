@@ -37,7 +37,6 @@ export const AddNewTransactionModal = ({
   transactionType,
 }: AddNewTransactionModalProps) => {
   const queryClient = useQueryClient();
-
   const loadingToast = useLoadingToast();
 
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
@@ -46,6 +45,7 @@ export const AddNewTransactionModal = ({
   const [selectedSpendingGroupIds, setSelectedSpendingGroupIds] = useState<
     number[]
   >([]);
+  const spendingGroupsState = useBoolean(false);
 
   const {
     value: isAddNewCategoryModalOpen,
@@ -86,7 +86,9 @@ export const AddNewTransactionModal = ({
           date: newTransactionValues.date,
           type: transactionType,
           description: newTransactionValues.description,
-          spending_group_ids: selectedSpendingGroupIds,
+          spending_group_ids: spendingGroupsState.value
+            ? selectedSpendingGroupIds
+            : [],
         },
       })
       .then(() => {
@@ -169,9 +171,11 @@ export const AddNewTransactionModal = ({
 
       <ManageTransactionModal.SpendingGroups
         spendingGroups={spendingGroupsQuery.data}
-        handleSelectSpendingGroupId={handleSelectSpendingGroupId}
-        selectedSpendingGroupIds={selectedSpendingGroupIds}
+        handleSelect={handleSelectSpendingGroupId}
+        selectedIds={selectedSpendingGroupIds}
         isLoading={spendingGroupsQuery.isLoading}
+        handleToggle={spendingGroupsState.toggle}
+        isChecked={spendingGroupsState.value}
       />
 
       <ManageCategoryModal

@@ -1,37 +1,22 @@
-import { useBoolean } from 'hihhhello-utils';
-import { isEmpty } from 'lodash';
-import { useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 type ManageTransactionModalSpendingGroupsProps = {
   isLoading?: boolean;
   spendingGroups: Array<{ id: number; name: string }> | undefined;
-  selectedSpendingGroupIds: number[];
-  handleSelectSpendingGroupId: (id: number) => void;
+  selectedIds: number[];
+  handleSelect: (id: number) => void;
+  handleToggle: () => void;
+  isChecked: boolean;
 };
 
 export const ManageTransactionModalSpendingGroups = ({
   isLoading,
-  selectedSpendingGroupIds,
+  selectedIds,
   spendingGroups,
-  handleSelectSpendingGroupId,
+  handleSelect,
+  handleToggle,
+  isChecked,
 }: ManageTransactionModalSpendingGroupsProps) => {
-  const { setFalse, setTrue, value: isShown, toggle } = useBoolean(false);
-
-  useEffect(() => {
-    if (isEmpty(selectedSpendingGroupIds)) {
-      return;
-    }
-
-    setTrue();
-  }, [selectedSpendingGroupIds, setTrue]);
-
-  useEffect(() => {
-    return () => {
-      isEmpty(selectedSpendingGroupIds) && setFalse();
-    };
-  }, [selectedSpendingGroupIds, setFalse]);
-
   return (
     <>
       <div className="mb-4 flex gap-2">
@@ -43,8 +28,8 @@ export const ManageTransactionModalSpendingGroups = ({
               type="checkbox"
               className="peer sr-only"
               name="addToSpendingGroup"
-              checked={isShown}
-              onChange={toggle}
+              checked={isChecked}
+              onChange={handleToggle}
             />
 
             <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-main-blue peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none rtl:peer-checked:after:-translate-x-full" />
@@ -52,16 +37,16 @@ export const ManageTransactionModalSpendingGroups = ({
         </div>
       </div>
 
-      {isShown && (
+      {isChecked && (
         <div className="mb-4 flex min-h-[88px] flex-grow flex-col gap-2 overflow-y-hidden sm:min-h-[36px]">
           <div className="flex flex-col items-start gap-4 overflow-y-hidden">
             <div className="grid h-full w-full grid-cols-3 gap-4 overflow-y-auto sm:grid-cols-9">
               {spendingGroups?.map((group) => {
-                const isSelected = selectedSpendingGroupIds.includes(group.id);
+                const isSelected = selectedIds.includes(group.id);
 
                 return (
                   <button
-                    onClick={() => handleSelectSpendingGroupId(group.id)}
+                    onClick={() => handleSelect(group.id)}
                     key={group.id}
                     type="button"
                     className={twMerge(
