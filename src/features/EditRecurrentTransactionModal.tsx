@@ -7,7 +7,7 @@ import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
 import {
   ManageRecurrentTransactionModal,
   ManageRecurrentTransactionModalProps,
-} from '@/shared/ui/ManageRecurrentTransactionModal';
+} from '@/features/ManageRecurrentTransactionModal';
 import { useLoadingToast } from '@/shared/utils/hooks';
 import { useEffect, useState } from 'react';
 

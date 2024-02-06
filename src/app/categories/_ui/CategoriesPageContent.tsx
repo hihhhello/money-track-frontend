@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 
-import { ManageCategoryModal } from '@/shared/ui/Category/ManageCategoryModal';
+import { ManageCategoryModal } from '@/features/ManageCategoryModal';
 import { api } from '@/shared/api/api';
 import { useBoolean } from 'hihhhello-utils';
 import { useQuery } from '@tanstack/react-query';

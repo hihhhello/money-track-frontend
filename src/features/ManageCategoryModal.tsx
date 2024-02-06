@@ -4,50 +4,36 @@ import { Fragment, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Dialog, Transition } from '@headlessui/react';
 import { isEmpty } from 'lodash';
-import { DialogOverlay } from '../Dialog/DialogOverlay';
-import { DialogContent } from '../Dialog/DialogContent';
-import { DialogHeader } from '../Dialog/DialogHeader';
-import { Input } from '../Input';
-import { DialogActions } from '../Dialog/DialogActions';
+import { DialogOverlay } from '../shared/ui/Dialog/DialogOverlay';
+import { DialogContent } from '../shared/ui/Dialog/DialogContent';
+import { DialogHeader } from '../shared/ui/Dialog/DialogHeader';
+import { Input } from '../shared/ui/Input';
+import { DialogActions } from '../shared/ui/Dialog/DialogActions';
 
-export type ManageSpendingGroupModalProps = {
+type ManageCategoryModalProps = {
   isModalOpen: boolean;
   handleClose: () => void;
-  handleSubmit: (params: {
-    name: string;
-    description?: string | null;
-  }) => Promise<void> | undefined | void;
+  handleSubmit: (categoryName: string) => Promise<void> | undefined | void;
   submitButtonLabel?: string;
   title: string;
+  defaultCategoryName?: string;
   handleDelete?: () => Promise<void> | undefined | void;
-  defaultValues?: {
-    name: string;
-    description?: string | null;
-  };
 };
 
-export const ManageSpendingGroupModal = ({
+export const ManageCategoryModal = ({
   handleClose,
   isModalOpen,
   handleSubmit: propsHandleSubmit,
   title,
   submitButtonLabel,
+  defaultCategoryName,
   handleDelete,
-  defaultValues,
-}: ManageSpendingGroupModalProps) => {
-  const [categoryName, setCategoryName] = useState(defaultValues?.name ?? '');
-  const [description, setDescription] = useState(
-    defaultValues?.description ?? null,
-  );
+}: ManageCategoryModalProps) => {
+  const [categoryName, setCategoryName] = useState(defaultCategoryName ?? '');
 
   useEffect(() => {
-    if (!defaultValues) {
-      return;
-    }
-
-    setCategoryName(defaultValues.name ?? '');
-    setDescription(defaultValues.description ?? null);
-  }, [defaultValues]);
+    setCategoryName(defaultCategoryName ?? '');
+  }, [defaultCategoryName]);
 
   const handleSubmit = () => {
     if (!categoryName || isEmpty(categoryName.trim())) {
@@ -56,7 +42,7 @@ export const ManageSpendingGroupModal = ({
       );
     }
 
-    propsHandleSubmit({ name: categoryName, description })?.then(() => {
+    propsHandleSubmit(categoryName)?.then(() => {
       setCategoryName('');
       handleClose();
     });
@@ -80,25 +66,12 @@ export const ManageSpendingGroupModal = ({
           <div className="h-full overflow-y-auto p-4">
             <div>
               <div className="mb-4 flex flex-col gap-2">
-                <label htmlFor="name">Name</label>
-
+                <label htmlFor="categoryName">Name</label>
                 <Input
-                  name="name"
+                  name="categoryName"
                   value={categoryName}
                   onChange={(e) => {
                     setCategoryName(e.target.value);
-                  }}
-                />
-              </div>
-
-              <div className="mb-4 flex flex-col gap-2">
-                <label htmlFor="description">Description</label>
-
-                <Input
-                  name="description"
-                  value={description ?? ''}
-                  onChange={(e) => {
-                    setDescription(e.target.value);
                   }}
                 />
               </div>

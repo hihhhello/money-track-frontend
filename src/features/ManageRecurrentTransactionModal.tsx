@@ -8,19 +8,19 @@ import {
   RecurrentTransactionFrequency,
   RecurrentTransactionFrequencyKey,
   RecurrentTransactionFrequencyValue,
-} from '../types/recurrentTransactionTypes';
+} from '../shared/types/recurrentTransactionTypes';
 import { isNil, upperFirst } from 'lodash';
 import { twMerge } from 'tailwind-merge';
-import { DialogOverlay } from './Dialog/DialogOverlay';
-import { DialogContent } from './Dialog/DialogContent';
-import { CategoryItem } from './Category/CategoryItem';
-import { CategoryList } from './Category/CategoryList';
-import { DialogHeader } from './Dialog/DialogHeader';
-import { Input } from './Input';
-import { DialogActions } from './Dialog/DialogActions';
-import { DollarInput } from './DollarInput';
-import { DialogScrollableContent } from './Dialog/DialogScrollableContent';
-import { CategoryListLoading } from './Category/CategoryListLoading';
+import { DialogOverlay } from '../shared/ui/Dialog/DialogOverlay';
+import { DialogContent } from '../shared/ui/Dialog/DialogContent';
+import { CategoryItem } from '../shared/ui/Category/CategoryItem';
+import { CategoryList } from '../shared/ui/Category/CategoryList';
+import { DialogHeader } from '../shared/ui/Dialog/DialogHeader';
+import { Input } from '../shared/ui/Input';
+import { DialogActions } from '../shared/ui/Dialog/DialogActions';
+import { DollarInput } from '../shared/ui/DollarInput';
+import { DialogScrollableContent } from '../shared/ui/Dialog/DialogScrollableContent';
+import { CategoryListLoading } from '../shared/ui/Category/CategoryListLoading';
 import { ManageTransactionModalCategories } from './ManageTransactionModal/components/ManageTransactionModalCategories';
 
 type RecurrentTransactionValues = {

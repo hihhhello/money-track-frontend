@@ -9,7 +9,7 @@ import {
 import {
   ManageRecurrentTransactionModal,
   ManageRecurrentTransactionModalProps,
-} from '@/shared/ui/ManageRecurrentTransactionModal';
+} from '@/features/ManageRecurrentTransactionModal';
 import { useLoadingToast } from '@/shared/utils/hooks';
 import { useState } from 'react';
 

@@ -3,11 +3,11 @@
 import { api } from '@/shared/api/api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useBoolean } from 'hihhhello-utils';
-import { ManageTransactionModal } from '@/shared/ui/ManageTransactionModal/ManageTransactionModal';
+import { ManageTransactionModal } from '@/features/ManageTransactionModal/ManageTransactionModal';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { Transaction } from '@/shared/types/transactionTypes';
 import { useEffect, useState } from 'react';
-import { ManageCategoryModal } from '@/shared/ui/Category/ManageCategoryModal';
+import { ManageCategoryModal } from '@/features/ManageCategoryModal';
 import { useLoadingToast } from '@/shared/utils/hooks';
 import { isEmpty } from 'lodash';
 

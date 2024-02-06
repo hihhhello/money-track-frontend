@@ -6,14 +6,14 @@ import { api } from '@/shared/api/api';
 import {
   ManageSpendingGroupModal,
   ManageSpendingGroupModalProps,
-} from '@/shared/ui/SpendingGroup/ManageSpendingGroupModal';
+} from '@/features/ManageSpendingGroupModal';
 import { useBoolean } from 'hihhhello-utils';
 import { SpendingGroup } from '@/shared/types/spendingGroupTypes';
 import { PencilIcon } from '@heroicons/react/24/solid';
 import { TrashIcon, UserPlusIcon } from '@heroicons/react/24/outline';
 import { DeleteConfirmationModal } from '@/shared/ui/DeleteConfirmationModal';
 import { useState } from 'react';
-import { InviteSpendingGroupUserModal } from '@/shared/ui/SpendingGroup/InviteSpendingGroupUserModal';
+import { InviteSpendingGroupUserModal } from '@/features/InviteSpendingGroupUserModal';
 import { useLoadingToast } from '@/shared/utils/hooks';
 
 type SpendingGroupsPageContentProps = {
