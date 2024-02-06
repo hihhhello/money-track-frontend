@@ -9,6 +9,7 @@ import { Transaction } from '@/shared/types/transactionTypes';
 import { useEffect, useState } from 'react';
 import { ManageCategoryModal } from '@/shared/ui/Category/ManageCategoryModal';
 import { useLoadingToast } from '@/shared/utils/hooks';
+import { isEmpty } from 'lodash';
 
 const TRANSACTION_TYPE_TO_LABEL = {
   [FinancialOperationType.DEPOSIT]: {
@@ -35,7 +36,6 @@ export const EditTransactionModal = ({
   selectedTransaction,
 }: EditTransactionModalProps) => {
   const queryClient = useQueryClient();
-
   const loadingToast = useLoadingToast();
 
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
@@ -44,6 +44,8 @@ export const EditTransactionModal = ({
   const [selectedSpendingGroupIds, setSelectedSpendingGroupIds] = useState<
     number[]
   >(selectedTransaction?.spending_groups.map(({ id }) => id) ?? []);
+  const { setTrue: handleOpenSpendingGroups, ...spendingGroupsState } =
+    useBoolean(false);
 
   useEffect(() => {
     if (!selectedTransaction) {
@@ -51,10 +53,14 @@ export const EditTransactionModal = ({
     }
 
     setSelectedCategoryId(selectedTransaction.category.id);
-    setSelectedSpendingGroupIds(
-      selectedTransaction?.spending_groups.map(({ id }) => id),
-    );
-  }, [selectedTransaction]);
+
+    if (!isEmpty(selectedTransaction.spending_groups)) {
+      setSelectedSpendingGroupIds(
+        selectedTransaction?.spending_groups.map(({ id }) => id),
+      );
+      handleOpenSpendingGroups();
+    }
+  }, [handleOpenSpendingGroups, selectedTransaction]);
 
   const {
     value: isAddNewCategoryModalOpen,
@@ -107,7 +113,9 @@ export const EditTransactionModal = ({
           category_id: transactionValues.categoryId,
           date: transactionValues.date,
           description: transactionValues.description,
-          // spending_group_ids: selectedSpendingGroupIds,
+          // spending_group_ids: spendingGroupsState.value
+          //   ? selectedSpendingGroupIds
+          //   : [],
         },
         params: {
           transactionId: selectedTransaction.id,
@@ -226,13 +234,14 @@ export const EditTransactionModal = ({
         selectedCategoryId={selectedCategoryId}
       />
 
-      {/* <ManageTransactionModal.SpendingGroups
+      <ManageTransactionModal.SpendingGroups
         spendingGroups={spendingGroupsQuery.data}
         handleSelect={handleSelectSpendingGroupId}
         selectedIds={selectedSpendingGroupIds}
         isLoading={spendingGroupsQuery.isLoading}
-        handleDeselectAll={() => setSelectedSpendingGroupIds([])}
-      /> */}
+        handleToggle={spendingGroupsState.toggle}
+        isChecked={spendingGroupsState.value}
+      />
 
       <ManageCategoryModal
         handleClose={handleCloseAddNewCategoryModal}
