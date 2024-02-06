@@ -94,7 +94,8 @@ export const AddNewTransactionModal = ({
           queryKey: ['api.transactions.getAll'],
         });
 
-        // handleSelectCategoryId(null);
+        setSelectedCategoryId(null);
+        setSelectedSpendingGroupIds([]);
 
         loadingToast.handleSuccess({
           message: TRANSACTION_TYPE_TO_LABEL[transactionType].ADD_SUCCESS,
@@ -157,11 +158,6 @@ export const AddNewTransactionModal = ({
       submitButtonLabel="Add"
       title={TRANSACTION_TYPE_TO_LABEL[transactionType].MODAL_TITLE}
       selectedCategoryId={selectedCategoryId}
-      spendingGroups={spendingGroupsQuery.data}
-      isSpendingGroupsLoading={spendingGroupsQuery.isLoading}
-      selectedSpendingGroupIds={selectedSpendingGroupIds}
-      handleSelectSpendingGroupId={handleSelectSpendingGroupId}
-      handleClearSpendingGroups={() => setSelectedSpendingGroupIds([])}
     >
       <ManageTransactionModal.Categories
         categories={categoriesQuery.data}
@@ -169,6 +165,13 @@ export const AddNewTransactionModal = ({
         handleSelectCategoryId={setSelectedCategoryId}
         isLoading={categoriesQuery.isLoading}
         selectedCategoryId={selectedCategoryId}
+      />
+
+      <ManageTransactionModal.SpendingGroups
+        spendingGroups={spendingGroupsQuery.data}
+        handleSelectSpendingGroupId={handleSelectSpendingGroupId}
+        selectedSpendingGroupIds={selectedSpendingGroupIds}
+        isLoading={spendingGroupsQuery.isLoading}
       />
 
       <ManageCategoryModal

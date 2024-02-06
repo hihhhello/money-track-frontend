@@ -119,6 +119,7 @@ export const EditTransactionModal = ({
           message: 'You successfully edited transaction.',
         });
         refetchTransactions();
+        setSelectedSpendingGroupIds([]);
       })
       .catch(() => {
         loadingToast.handleError({ toastId, message: 'Error' });
@@ -144,6 +145,7 @@ export const EditTransactionModal = ({
           message: 'You successfully deleted transaction.',
         });
         refetchTransactions();
+        setSelectedCategoryId(null);
       })
       .catch(() => {
         loadingToast.handleError({ toastId, message: 'Error' });
@@ -198,6 +200,7 @@ export const EditTransactionModal = ({
       isModalOpen={isModalOpen}
       handleSubmit={handleEditTransaction}
       handleClose={handleClose}
+      handleDelete={handleDeleteTransaction}
       title={
         selectedTransaction?.type
           ? TRANSACTION_TYPE_TO_LABEL[selectedTransaction.type].MODAL_TITLE
@@ -213,12 +216,7 @@ export const EditTransactionModal = ({
             }
           : undefined
       }
-      handleDelete={handleDeleteTransaction}
       selectedCategoryId={selectedCategoryId}
-      handleClearSpendingGroups={() => setSelectedSpendingGroupIds([])}
-      handleSelectSpendingGroupId={handleSelectSpendingGroupId}
-      selectedSpendingGroupIds={selectedSpendingGroupIds}
-      spendingGroups={spendingGroupsQuery.data}
     >
       <ManageTransactionModal.Categories
         categories={categoriesQuery.data}
@@ -226,6 +224,13 @@ export const EditTransactionModal = ({
         handleSelectCategoryId={setSelectedCategoryId}
         isLoading={categoriesQuery.isLoading}
         selectedCategoryId={selectedCategoryId}
+      />
+
+      <ManageTransactionModal.SpendingGroups
+        spendingGroups={spendingGroupsQuery.data}
+        handleSelectSpendingGroupId={handleSelectSpendingGroupId}
+        selectedSpendingGroupIds={selectedSpendingGroupIds}
+        isLoading={spendingGroupsQuery.isLoading}
       />
 
       <ManageCategoryModal
