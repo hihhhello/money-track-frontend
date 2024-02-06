@@ -11,6 +11,7 @@ import {
   ManageRecurrentTransactionModalProps,
 } from '@/shared/ui/ManageRecurrentTransactionModal';
 import { useLoadingToast } from '@/shared/utils/hooks';
+import { useState } from 'react';
 
 const TRANSACTION_TYPE_TO_LABEL = {
   [FinancialOperationType.DEPOSIT]: {
@@ -37,10 +38,13 @@ export const AddNewRecurrentTransactionModal = ({
   recurrentTransactionType,
 }: AddNewRecurrentTransactionModalProps) => {
   const queryClient = useQueryClient();
-
   const loadingToast = useLoadingToast();
 
-  const { data: categories } = useQuery({
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+    null,
+  );
+
+  const categoriesQuery = useQuery({
     queryFn: () =>
       api.categories.getAll({
         searchParams: {
@@ -78,6 +82,8 @@ export const AddNewRecurrentTransactionModal = ({
               TRANSACTION_TYPE_TO_LABEL[recurrentTransactionType].ADD_SUCCESS,
             toastId,
           });
+
+          setSelectedCategoryId(null);
         })
         .catch(() => {
           loadingToast.handleError({ toastId, message: 'Error' });
@@ -86,12 +92,19 @@ export const AddNewRecurrentTransactionModal = ({
 
   return (
     <ManageRecurrentTransactionModal
-      categories={categories}
       handleSubmit={handleAddNewRecurrentTransaction}
       handleClose={handleClose}
       isModalOpen={isModalOpen}
       submitButtonLabel="Add"
       title={TRANSACTION_TYPE_TO_LABEL[recurrentTransactionType].MODAL_TITLE}
-    />
+      selectedCategoryId={selectedCategoryId}
+    >
+      <ManageRecurrentTransactionModal.Categories
+        categories={categoriesQuery.data}
+        handleSelectCategoryId={setSelectedCategoryId}
+        isLoading={categoriesQuery.isLoading}
+        selectedCategoryId={selectedCategoryId}
+      />
+    </ManageRecurrentTransactionModal>
   );
 };

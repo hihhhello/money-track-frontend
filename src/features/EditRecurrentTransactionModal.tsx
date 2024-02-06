@@ -9,6 +9,7 @@ import {
   ManageRecurrentTransactionModalProps,
 } from '@/shared/ui/ManageRecurrentTransactionModal';
 import { useLoadingToast } from '@/shared/utils/hooks';
+import { useEffect, useState } from 'react';
 
 const TRANSACTION_TYPE_TO_LABEL = {
   [FinancialOperationType.DEPOSIT]: {
@@ -35,10 +36,21 @@ export const EditRecurrentTransactionModal = ({
   selectedRecurrentTransaction: selectedTransaction,
 }: EditRecurrentTransactionModalProps) => {
   const queryClient = useQueryClient();
-
   const loadingToast = useLoadingToast();
 
-  const { data: categories } = useQuery({
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+    null,
+  );
+
+  useEffect(() => {
+    if (!selectedTransaction) {
+      return;
+    }
+
+    setSelectedCategoryId(selectedTransaction.category.id);
+  }, [selectedTransaction]);
+
+  const categoriesQuery = useQuery({
     queryFn: () => {
       if (!selectedTransaction) {
         return;
@@ -87,6 +99,7 @@ export const EditRecurrentTransactionModal = ({
             message: 'You successfully edited transaction.',
           });
           refetchTransactions();
+          setSelectedCategoryId(null);
         })
         .catch(() => {
           loadingToast.handleError({ toastId, message: 'Error' });
@@ -112,6 +125,7 @@ export const EditRecurrentTransactionModal = ({
           message: 'You successfully deleted transaction.',
         });
         refetchTransactions();
+        setSelectedCategoryId(null);
       })
       .catch(() => {
         loadingToast.handleError({ toastId, message: 'Error' });
@@ -122,7 +136,6 @@ export const EditRecurrentTransactionModal = ({
     <ManageRecurrentTransactionModal
       isModalOpen={isModalOpen}
       handleSubmit={handleEditTransaction}
-      categories={categories}
       handleClose={handleClose}
       title={
         selectedTransaction?.type
@@ -144,6 +157,14 @@ export const EditRecurrentTransactionModal = ({
           : undefined
       }
       handleDelete={handleDeleteTransaction}
-    />
+      selectedCategoryId={selectedCategoryId}
+    >
+      <ManageRecurrentTransactionModal.Categories
+        categories={categoriesQuery.data}
+        handleSelectCategoryId={setSelectedCategoryId}
+        isLoading={categoriesQuery.isLoading}
+        selectedCategoryId={selectedCategoryId}
+      />
+    </ManageRecurrentTransactionModal>
   );
 };

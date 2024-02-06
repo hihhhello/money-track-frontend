@@ -55,6 +55,13 @@ export const ManageTransactionModal = ({
 }: ManageTransactionModalProps) => {
   const today = formatISO(new Date(), { representation: 'date' });
 
+  const [transactionFormValues, setTransactionFormValues] =
+    useState<TransactionValues>({
+      date: defaultValues?.date ?? today,
+      amount: defaultValues?.amount ? parseFloat(defaultValues?.amount) : null,
+      description: defaultValues?.description ?? null,
+    });
+
   useEffect(() => {
     setTransactionFormValues({
       date: defaultValues?.date ?? today,
@@ -62,13 +69,6 @@ export const ManageTransactionModal = ({
       description: defaultValues?.description ?? null,
     });
   }, [defaultValues, today]);
-
-  const [transactionFormValues, setTransactionFormValues] =
-    useState<TransactionValues>({
-      date: defaultValues?.date ?? today,
-      amount: defaultValues?.amount ? parseFloat(defaultValues?.amount) : null,
-      description: defaultValues?.description ?? null,
-    });
 
   const handleSubmit = () => {
     if (isNil(transactionFormValues.amount)) {

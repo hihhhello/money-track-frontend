@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, ReactNode, useEffect, useState } from 'react';
 import { formatISO, isAfter, parseISO } from 'date-fns';
 import { toast } from 'react-toastify';
 import { Dialog, Transition } from '@headlessui/react';
@@ -21,6 +21,7 @@ import { DialogActions } from './Dialog/DialogActions';
 import { DollarInput } from './DollarInput';
 import { DialogScrollableContent } from './Dialog/DialogScrollableContent';
 import { CategoryListLoading } from './Category/CategoryListLoading';
+import { ManageTransactionModalCategories } from './ManageTransactionModal/components/ManageTransactionModalCategories';
 
 type RecurrentTransactionValues = {
   amount: number | null;
@@ -33,8 +34,6 @@ type RecurrentTransactionValues = {
 export type ManageRecurrentTransactionModalProps = {
   isModalOpen: boolean;
   handleClose: () => void;
-  categories: Array<{ id: number; name: string }> | undefined;
-  isCategoriesLoading?: boolean;
   handleSubmit: (
     transactionValues: {
       categoryId: number;
@@ -58,23 +57,21 @@ export type ManageRecurrentTransactionModalProps = {
     categoryId: number;
   };
   handleDelete?: () => Promise<void> | undefined | void;
+  children?: ReactNode;
+  selectedCategoryId: number | null;
 };
 
 export const ManageRecurrentTransactionModal = ({
   handleClose,
   isModalOpen,
-  categories,
   handleSubmit: handleSubmitTransactionValues,
   submitButtonLabel,
   title,
   defaultValues: defaultTransactionValues,
   handleDelete,
-  isCategoriesLoading,
+  children,
+  selectedCategoryId,
 }: ManageRecurrentTransactionModalProps) => {
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
-    defaultTransactionValues?.categoryId ?? null,
-  );
-
   const today = formatISO(new Date(), { representation: 'date' });
 
   const isPastStartDate = defaultTransactionValues?.start_date
@@ -82,7 +79,6 @@ export const ManageRecurrentTransactionModal = ({
     : false;
 
   useEffect(() => {
-    setSelectedCategoryId(defaultTransactionValues?.categoryId ?? null);
     setTransactionFormValues({
       amount: defaultTransactionValues?.amount
         ? parseFloat(defaultTransactionValues?.amount)
@@ -143,14 +139,12 @@ export const ManageRecurrentTransactionModal = ({
         start_date: today,
         frequency: RecurrentTransactionFrequency.MONTHLY,
       });
-      setSelectedCategoryId(null);
       handleClose();
     });
   };
 
   const handleDeleteTransaction = () => {
     handleDelete?.()?.then(() => {
-      setSelectedCategoryId(null);
       setTransactionFormValues({
         amount: null,
         description: null,
@@ -187,28 +181,7 @@ export const ManageRecurrentTransactionModal = ({
               />
             </div>
 
-            <div className="mb-4 flex min-h-[430px] flex-grow flex-col gap-2 overflow-y-hidden sm:min-h-[200px]">
-              <span>Category</span>
-
-              {isCategoriesLoading ? (
-                <CategoryListLoading />
-              ) : (
-                <CategoryList
-                  className="mb-2 p-2"
-                  wrapperClassName="overflow-y-hidden"
-                >
-                  {categories?.map((category) => (
-                    <CategoryItem
-                      key={category.id}
-                      onClick={() => setSelectedCategoryId(category.id)}
-                      isSelected={selectedCategoryId === category.id}
-                    >
-                      {category.name}
-                    </CategoryItem>
-                  ))}
-                </CategoryList>
-              )}
-            </div>
+            {children}
 
             <div className="flex flex-col gap-2 sm:flex-row">
               <div className="mb-4 flex w-full flex-col gap-2">
@@ -317,3 +290,5 @@ export const ManageRecurrentTransactionModal = ({
     </Transition>
   );
 };
+
+ManageRecurrentTransactionModal.Categories = ManageTransactionModalCategories;
