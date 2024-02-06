@@ -15,15 +15,15 @@ import { api } from '@/shared/api/api';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { HomePageAddNewTransactionActions } from './ui/HomePageAddNewTransactionActions';
 import { HomePageTransactionsTotal } from './ui/HomePageTransactionsTotal';
-import { TransactionsPeriodFilterSelect } from '@/features/TransactionsPeriodFilterSelect';
+import { TransactionsPeriodFilterSelect } from '@/shared/ui/Transaction/TransactionsPeriodFilterSelect';
 import {
   DATE_KEYWORD_TO_DATE_RANGE,
   DateRange,
 } from '@/shared/utils/dateUtils';
 import { formatISO } from 'date-fns';
-import { TransactionsMonthFilter } from '@/features/TransactionsMonthFilter';
-import { TransactionsDayFilter } from '@/features/TransactionsDayFilter';
-import { TransactionsYearFilter } from '@/features/TransactionsYearFilter';
+import { TransactionsMonthFilter } from '@/shared/ui/Transaction/TransactionsMonthFilter';
+import { TransactionsDayFilter } from '@/shared/ui/Transaction/TransactionsDayFilter';
+import { TransactionsYearFilter } from '@/shared/ui/Transaction/TransactionsYearFilter';
 
 type HomePageContentProps = {
   transactions: Transaction[];
