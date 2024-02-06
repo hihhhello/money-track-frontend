@@ -3,7 +3,7 @@
 import { api } from '@/shared/api/api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useBoolean } from 'hihhhello-utils';
-import { ManageTransactionModal } from '@/shared/ui/Transaction/ManageTransactionModal';
+import { ManageTransactionModal } from '@/shared/ui/Transaction/ManageTransactionModal/ManageTransactionModal';
 import {
   FinancialOperationType,
   FinancialOperationTypeValue,
@@ -94,6 +94,8 @@ export const AddNewTransactionModal = ({
           queryKey: ['api.transactions.getAll'],
         });
 
+        // handleSelectCategoryId(null);
+
         loadingToast.handleSuccess({
           message: TRANSACTION_TYPE_TO_LABEL[transactionType].ADD_SUCCESS,
           toastId,
@@ -149,30 +151,33 @@ export const AddNewTransactionModal = ({
 
   return (
     <ManageTransactionModal
-      categories={categoriesQuery.data}
       handleSubmit={handleAddNewTransaction}
       handleClose={handleClose}
       isModalOpen={isModalOpen}
       submitButtonLabel="Add"
       title={TRANSACTION_TYPE_TO_LABEL[transactionType].MODAL_TITLE}
-      handleAddNewCategory={handleOpenAddNewCategoryModal}
-      handleSelectCategoryId={setSelectedCategoryId}
       selectedCategoryId={selectedCategoryId}
-      isCategoriesLoading={categoriesQuery.isLoading}
       spendingGroups={spendingGroupsQuery.data}
       isSpendingGroupsLoading={spendingGroupsQuery.isLoading}
       selectedSpendingGroupIds={selectedSpendingGroupIds}
       handleSelectSpendingGroupId={handleSelectSpendingGroupId}
       handleClearSpendingGroups={() => setSelectedSpendingGroupIds([])}
-      nestedModal={
-        <ManageCategoryModal
-          handleClose={handleCloseAddNewCategoryModal}
-          handleSubmit={handleAddNewCategory}
-          isModalOpen={isAddNewCategoryModalOpen}
-          title="Add new category"
-          submitButtonLabel="Add"
-        />
-      }
-    />
+    >
+      <ManageTransactionModal.Categories
+        categories={categoriesQuery.data}
+        handleAddNewCategory={handleOpenAddNewCategoryModal}
+        handleSelectCategoryId={setSelectedCategoryId}
+        isLoading={categoriesQuery.isLoading}
+        selectedCategoryId={selectedCategoryId}
+      />
+
+      <ManageCategoryModal
+        handleClose={handleCloseAddNewCategoryModal}
+        handleSubmit={handleAddNewCategory}
+        isModalOpen={isAddNewCategoryModalOpen}
+        title="Add new category"
+        submitButtonLabel="Add"
+      />
+    </ManageTransactionModal>
   );
 };

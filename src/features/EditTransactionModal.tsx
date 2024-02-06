@@ -3,7 +3,7 @@
 import { api } from '@/shared/api/api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useBoolean } from 'hihhhello-utils';
-import { ManageTransactionModal } from '@/shared/ui/Transaction/ManageTransactionModal';
+import { ManageTransactionModal } from '@/shared/ui/Transaction/ManageTransactionModal/ManageTransactionModal';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { Transaction } from '@/shared/types/transactionTypes';
 import { useEffect, useState } from 'react';
@@ -67,11 +67,7 @@ export const EditTransactionModal = ({
     queryKey: ['api.spendingGroups.getAll'],
   });
 
-  const {
-    data: categories,
-    refetch: refetchCategories,
-    isLoading: isCategoriesLoading,
-  } = useQuery({
+  const categoriesQuery = useQuery({
     queryFn: () => {
       if (!selectedTransaction) {
         return;
@@ -171,7 +167,7 @@ export const EditTransactionModal = ({
       .then(({ id }) => {
         setSelectedCategoryId(id);
 
-        refetchCategories();
+        categoriesQuery.refetch();
 
         loadingToast.handleSuccess({
           toastId,
@@ -201,10 +197,7 @@ export const EditTransactionModal = ({
     <ManageTransactionModal
       isModalOpen={isModalOpen}
       handleSubmit={handleEditTransaction}
-      categories={categories}
       handleClose={handleClose}
-      handleAddNewCategory={handleOpenAddNewCategoryModal}
-      isCategoriesLoading={isCategoriesLoading}
       title={
         selectedTransaction?.type
           ? TRANSACTION_TYPE_TO_LABEL[selectedTransaction.type].MODAL_TITLE
@@ -221,21 +214,27 @@ export const EditTransactionModal = ({
           : undefined
       }
       handleDelete={handleDeleteTransaction}
-      handleSelectCategoryId={setSelectedCategoryId}
       selectedCategoryId={selectedCategoryId}
       handleClearSpendingGroups={() => setSelectedSpendingGroupIds([])}
       handleSelectSpendingGroupId={handleSelectSpendingGroupId}
       selectedSpendingGroupIds={selectedSpendingGroupIds}
       spendingGroups={spendingGroupsQuery.data}
-      nestedModal={
-        <ManageCategoryModal
-          handleClose={handleCloseAddNewCategoryModal}
-          handleSubmit={handleAddNewCategory}
-          isModalOpen={isAddNewCategoryModalOpen}
-          title="Add new category"
-          submitButtonLabel="Add"
-        />
-      }
-    />
+    >
+      <ManageTransactionModal.Categories
+        categories={categoriesQuery.data}
+        handleAddNewCategory={handleOpenAddNewCategoryModal}
+        handleSelectCategoryId={setSelectedCategoryId}
+        isLoading={categoriesQuery.isLoading}
+        selectedCategoryId={selectedCategoryId}
+      />
+
+      <ManageCategoryModal
+        handleClose={handleCloseAddNewCategoryModal}
+        handleSubmit={handleAddNewCategory}
+        isModalOpen={isAddNewCategoryModalOpen}
+        title="Add new category"
+        submitButtonLabel="Add"
+      />
+    </ManageTransactionModal>
   );
 };

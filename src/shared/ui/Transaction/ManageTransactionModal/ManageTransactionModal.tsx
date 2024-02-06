@@ -4,19 +4,20 @@ import { Fragment, ReactNode, useEffect, useState } from 'react';
 import { formatISO } from 'date-fns';
 import { toast } from 'react-toastify';
 import { Dialog, Transition } from '@headlessui/react';
-import { DialogOverlay } from '../Dialog/DialogOverlay';
-import { DialogContent } from '../Dialog/DialogContent';
-import { CategoryItem } from '../Category/CategoryItem';
-import { CategoryList } from '../Category/CategoryList';
-import { Input } from '../Input';
-import { DialogHeader } from '../Dialog/DialogHeader';
-import { DollarInput } from '../DollarInput';
+import { DialogOverlay } from '../../Dialog/DialogOverlay';
+import { DialogContent } from '../../Dialog/DialogContent';
+import { CategoryItem } from '../../Category/CategoryItem';
+import { CategoryList } from '../../Category/CategoryList';
+import { Input } from '../../Input';
+import { DialogHeader } from '../../Dialog/DialogHeader';
+import { DollarInput } from '../../DollarInput';
 import { isEmpty, isNil } from 'lodash';
-import { DialogActions } from '../Dialog/DialogActions';
-import { DialogScrollableContent } from '../Dialog/DialogScrollableContent';
-import { CategoryListLoading } from '../Category/CategoryListLoading';
+import { DialogActions } from '../../Dialog/DialogActions';
+import { DialogScrollableContent } from '../../Dialog/DialogScrollableContent';
+import { CategoryListLoading } from '../../Category/CategoryListLoading';
 import { useBoolean } from 'hihhhello-utils';
 import { twMerge } from 'tailwind-merge';
+import { ManageTransactionModalCategories } from './components/ManageTransactionModalCategories';
 
 type TransactionValues = {
   amount: number | null;
@@ -27,8 +28,6 @@ type TransactionValues = {
 type ManageTransactionModalProps = {
   isModalOpen: boolean;
   handleClose: () => void;
-  categories: Array<{ id: number; name: string }> | undefined;
-  isCategoriesLoading?: boolean;
   handleSubmit: (transactionValues: {
     amount: string;
     date: string;
@@ -43,36 +42,30 @@ type ManageTransactionModalProps = {
     description: string | null;
   };
   handleDelete?: () => Promise<void> | undefined | void;
-  handleAddNewCategory?: () => void;
-  nestedModal?: ReactNode;
   selectedCategoryId: number | null;
-  handleSelectCategoryId: (id: number | null) => void;
   spendingGroups: Array<{ id: number; name: string }> | undefined;
   isSpendingGroupsLoading?: boolean;
   selectedSpendingGroupIds: number[];
   handleSelectSpendingGroupId: (id: number) => void;
   handleClearSpendingGroups: () => void;
+  children?: ReactNode;
 };
 
 export const ManageTransactionModal = ({
   handleClose,
   isModalOpen,
-  categories,
   handleSubmit: propsHandleSubmit,
   submitButtonLabel,
   title,
   defaultValues: defaultValues,
   handleDelete,
-  handleAddNewCategory,
-  nestedModal,
-  handleSelectCategoryId,
   selectedCategoryId,
-  isCategoriesLoading,
   spendingGroups,
   isSpendingGroupsLoading,
   selectedSpendingGroupIds,
   handleSelectSpendingGroupId,
   handleClearSpendingGroups,
+  children,
 }: ManageTransactionModalProps) => {
   const {
     setTrue: handleSetTrueSpendingGroupsShownState,
@@ -127,7 +120,7 @@ export const ManageTransactionModal = ({
         date: today,
         description: null,
       });
-      handleSelectCategoryId(null);
+      // handleSelectCategoryId(null);
       handleClearSpendingGroups();
       handleClose();
       spendingGroupsShownState.setFalse();
@@ -136,7 +129,7 @@ export const ManageTransactionModal = ({
 
   const handleDeleteTransaction = () => {
     handleDelete?.()?.then(() => {
-      handleSelectCategoryId(null);
+      // handleSelectCategoryId(null);
       setTransactionFormValues({
         date: today,
         amount: null,
@@ -171,31 +164,7 @@ export const ManageTransactionModal = ({
               />
             </div>
 
-            <div className="mb-4 flex min-h-[430px] flex-grow flex-col gap-2 overflow-y-hidden sm:min-h-[200px]">
-              <span>Category</span>
-
-              {isCategoriesLoading ? (
-                <CategoryListLoading
-                  handleAddNewCategory={handleAddNewCategory}
-                />
-              ) : (
-                <CategoryList
-                  className="mb-2 p-2"
-                  wrapperClassName="overflow-y-hidden"
-                  handleAddNewCategory={handleAddNewCategory}
-                >
-                  {categories?.map((category) => (
-                    <CategoryItem
-                      key={category.id}
-                      onClick={() => handleSelectCategoryId(category.id)}
-                      isSelected={selectedCategoryId === category.id}
-                    >
-                      {category.name}
-                    </CategoryItem>
-                  ))}
-                </CategoryList>
-              )}
-            </div>
+            {children}
 
             <div className="mb-4 flex gap-2">
               <label htmlFor="addToSpendingGroup">Add to spending group</label>
@@ -302,9 +271,9 @@ export const ManageTransactionModal = ({
             )}
           </DialogActions>
         </DialogContent>
-
-        {nestedModal}
       </Dialog>
     </Transition>
   );
 };
+
+ManageTransactionModal.Categories = ManageTransactionModalCategories;
