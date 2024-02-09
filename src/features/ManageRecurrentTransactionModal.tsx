@@ -6,21 +6,17 @@ import { toast } from 'react-toastify';
 import { Dialog, Transition } from '@headlessui/react';
 import {
   RecurrentTransactionFrequency,
-  RecurrentTransactionFrequencyKey,
   RecurrentTransactionFrequencyValue,
 } from '../shared/types/recurrentTransactionTypes';
 import { isNil, upperFirst } from 'lodash';
 import { twMerge } from 'tailwind-merge';
 import { DialogOverlay } from '../shared/ui/Dialog/DialogOverlay';
 import { DialogContent } from '../shared/ui/Dialog/DialogContent';
-import { CategoryItem } from '../shared/ui/Category/CategoryItem';
-import { CategoryList } from '../shared/ui/Category/CategoryList';
 import { DialogHeader } from '../shared/ui/Dialog/DialogHeader';
 import { Input } from '../shared/ui/Input';
 import { DialogActions } from '../shared/ui/Dialog/DialogActions';
 import { DollarInput } from '../shared/ui/DollarInput';
 import { DialogScrollableContent } from '../shared/ui/Dialog/DialogScrollableContent';
-import { CategoryListLoading } from '../shared/ui/Category/CategoryListLoading';
 import { ManageTransactionModalCategories } from './ManageTransactionModal/components/ManageTransactionModalCategories';
 
 type RecurrentTransactionValues = {
@@ -222,30 +218,25 @@ export const ManageRecurrentTransactionModal = ({
               <span>Frequency</span>
 
               <div className="mb-2 flex flex-wrap gap-4">
-                {Object.keys(RecurrentTransactionFrequency).map(
-                  (frequencyKey) => {
-                    const frequency =
-                      RecurrentTransactionFrequency[
-                        frequencyKey as RecurrentTransactionFrequencyKey
-                      ];
-
+                {Object.values(RecurrentTransactionFrequency).map(
+                  (frequencyValue) => {
                     return (
                       <button
-                        key={frequencyKey}
+                        key={frequencyValue}
                         type="button"
                         onClick={() =>
                           setTransactionFormValues((prevValues) => ({
                             ...prevValues,
-                            frequency,
+                            frequency: frequencyValue,
                           }))
                         }
                         className={twMerge(
                           'h-full rounded-2xl bg-white px-4 py-2 shadow-sm transition-colors hover:bg-main-dark hover:text-white',
-                          transactionFormValues.frequency === frequency &&
+                          transactionFormValues.frequency === frequencyValue &&
                             'bg-main-blue text-white',
                         )}
                       >
-                        {upperFirst(frequency)}
+                        {upperFirst(frequencyValue)}
                       </button>
                     );
                   },

@@ -21,8 +21,5 @@ export const RecurrentTransactionFrequency = {
   WEEKLY: 'weekly',
 } as const;
 
-export type RecurrentTransactionFrequencyKey =
-  keyof typeof RecurrentTransactionFrequency;
-
 export type RecurrentTransactionFrequencyValue =
-  (typeof RecurrentTransactionFrequency)[RecurrentTransactionFrequencyKey];
+  (typeof RecurrentTransactionFrequency)[keyof typeof RecurrentTransactionFrequency];
