@@ -8,6 +8,7 @@ import { CategoryListLoading } from '@/shared/ui/Category/CategoryListLoading';
 import { useLoadingToast } from '@/shared/utils/hooks';
 import { useQuery } from '@tanstack/react-query';
 import { useBoolean } from 'hihhhello-utils';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 
 type ManageTransactionModalCategoriesProps = {
   handleSelectCategoryId: (id: number | null) => void;
@@ -23,6 +24,8 @@ export const ManageTransactionModalCategories = ({
   transactionType,
 }: ManageTransactionModalCategoriesProps) => {
   const loadingToast = useLoadingToast();
+
+  const selectedCategoryRef = useRef<HTMLButtonElement>(null);
 
   const categoriesQuery = useQuery({
     queryFn: () => {
@@ -78,6 +81,21 @@ export const ManageTransactionModalCategories = ({
       });
   };
 
+  useEffect(() => {
+    if (
+      !selectedCategoryId ||
+      !selectedCategoryRef.current ||
+      categoriesQuery.isLoading
+    ) {
+      return;
+    }
+
+    selectedCategoryRef.current.scrollIntoView({
+      block: 'nearest',
+      inline: 'nearest',
+    });
+  }, [categoriesQuery.isLoading, selectedCategoryId]);
+
   return (
     <>
       <div className="mb-4 flex min-h-[430px] flex-grow flex-col gap-2 overflow-y-hidden sm:min-h-[200px]">
@@ -98,6 +116,11 @@ export const ManageTransactionModalCategories = ({
                 key={category.id}
                 onClick={() => handleSelectCategoryId(category.id)}
                 isSelected={selectedCategoryId === category.id}
+                ref={
+                  selectedCategoryId === category.id
+                    ? selectedCategoryRef
+                    : null
+                }
               >
                 {category.name}
               </CategoryItem>
