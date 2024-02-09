@@ -17,6 +17,7 @@ import { Menu, Transition } from '@headlessui/react';
 import { ThreeDotsVerticalIcon } from '@/shared/icons/ThreeDotsVerticalIcon';
 import { TrashIcon } from '@/shared/icons/TrashIcon';
 import { PencilIcon } from '@heroicons/react/24/solid';
+import { upperFirst } from 'lodash';
 
 type RecurrentTransactionsPageContentProps = {
   recurrentTransactions: RecurrentTransaction[];
@@ -157,7 +158,7 @@ export const RecurrentTransactionsPageContent = ({
                     )}
                   >
                     <td className="text-text-regular whitespace-nowrap py-2 pl-6 pr-3 text-sm">
-                      {transaction.type}
+                      {upperFirst(transaction.type)}
                     </td>
 
                     <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
@@ -190,7 +191,7 @@ export const RecurrentTransactionsPageContent = ({
                     </td>
 
                     <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
-                      {transaction.frequency}
+                      {upperFirst(transaction.frequency)}
                     </td>
 
                     <td className="text-text-regular whitespace-nowrap rounded-r-md px-3 py-2 pr-4 text-sm">
