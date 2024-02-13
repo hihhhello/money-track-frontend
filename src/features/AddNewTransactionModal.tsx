@@ -81,6 +81,7 @@ export const AddNewTransactionModal = ({
 
         setSelectedCategoryId(null);
         setSelectedSpendingGroupIds([]);
+        spendingGroupsState.setFalse();
 
         loadingToast.handleSuccess({
           message: TRANSACTION_TYPE_TO_LABEL[transactionType].ADD_SUCCESS,
