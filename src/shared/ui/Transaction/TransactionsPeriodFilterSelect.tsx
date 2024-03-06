@@ -26,7 +26,7 @@ export const TransactionsPeriodFilterSelect = ({
       {({ open }) => (
         <>
           <div className="relative">
-            <Listbox.Button className="relative min-w-[110px] cursor-pointer rounded-full border border-main-blue bg-main-blue py-1.5 pl-4 pr-4 text-left text-white sm:min-w-[144px]">
+            <Listbox.Button className="relative min-w-[110px] cursor-pointer rounded-full border border-main-blue bg-main-blue px-4 py-1.5 text-left text-white sm:min-w-[144px]">
               <span className="flex items-center">
                 <span className="block truncate text-sm sm:text-base">
                   {upperFirst(filter)}
