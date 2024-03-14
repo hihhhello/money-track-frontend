@@ -1,3 +1,7 @@
+import { useQuery } from '@tanstack/react-query';
+import { useBoolean } from 'hihhhello-utils';
+import { useEffect, useLayoutEffect, useRef } from 'react';
+
 import { ManageCategoryModal } from '@/features/ManageCategoryModal';
 import { api } from '@/shared/api/api';
 import { Category } from '@/shared/types/categoryTypes';
@@ -6,9 +10,6 @@ import { CategoryItem } from '@/shared/ui/Category/CategoryItem';
 import { CategoryList } from '@/shared/ui/Category/CategoryList';
 import { CategoryListLoading } from '@/shared/ui/Category/CategoryListLoading';
 import { useLoadingToast } from '@/shared/utils/hooks';
-import { useQuery } from '@tanstack/react-query';
-import { useBoolean } from 'hihhhello-utils';
-import { useEffect, useLayoutEffect, useRef } from 'react';
 
 type ManageTransactionModalCategoriesProps = {
   handleSelectCategoryId: (id: number | null) => void;

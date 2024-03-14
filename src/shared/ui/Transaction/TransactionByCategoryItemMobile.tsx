@@ -1,11 +1,5 @@
 'use client';
 
-import { RecurrentTransactionIcon } from '@/shared/icons/RecurrentTransactionIcon';
-import {
-  FinancialOperationType,
-  FinancialOperationTypeValue,
-} from '@/shared/types/globalTypes';
-import { SpendingGroup } from '@/shared/types/spendingGroupTypes';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { PencilIcon } from '@heroicons/react/24/solid';
 import { format, parseISO } from 'date-fns';
@@ -13,6 +7,13 @@ import { classNames, formatUSDDecimal } from 'hihhhello-utils';
 import { isEmpty } from 'lodash';
 import React, { useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
+
+import { RecurrentTransactionIcon } from '@/shared/icons/RecurrentTransactionIcon';
+import {
+  FinancialOperationType,
+  FinancialOperationTypeValue,
+} from '@/shared/types/globalTypes';
+import { SpendingGroup } from '@/shared/types/spendingGroupTypes';
 
 type TransactionByCategoryItemMobileProps = {
   description: string | null;

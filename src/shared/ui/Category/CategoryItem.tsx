@@ -1,6 +1,7 @@
-import { SquaresPlusIcon } from '@/shared/icons/SquaresPlusIcon';
 import { ReactNode, forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';
+
+import { SquaresPlusIcon } from '@/shared/icons/SquaresPlusIcon';
 
 type CategoryItemProps = {
   children: ReactNode;

@@ -1,6 +1,7 @@
-import { NEXT_AUTH_OPTIONS } from '@/shared/utils/nextAuth';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
+
+import { NEXT_AUTH_OPTIONS } from '@/shared/utils/nextAuth';
 
 import { SignUpPageContent } from './_ui/SignUpPageContent';
 

@@ -1,12 +1,13 @@
-import { BaseLayout } from '@/app/_ui/BaseLayout';
-import { EnvironmentProvider } from '@/providers/EnvironmentProvider';
-import { NextAuthProvider } from '@/providers/NextAuthProvider';
-import { QueryClientProvider } from '@/providers/QueryClientProvider';
 import { classNames } from 'hihhhello-utils';
 import type { Metadata, Viewport } from 'next';
 import { Kanit } from 'next/font/google';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import { BaseLayout } from '@/app/_ui/BaseLayout';
+import { EnvironmentProvider } from '@/providers/EnvironmentProvider';
+import { NextAuthProvider } from '@/providers/NextAuthProvider';
+import { QueryClientProvider } from '@/providers/QueryClientProvider';
 
 import './globals.css';
 

@@ -1,5 +1,14 @@
 'use client';
 
+import { Menu, Transition } from '@headlessui/react';
+import { PencilIcon } from '@heroicons/react/24/solid';
+import { useQuery } from '@tanstack/react-query';
+import { format, parseISO } from 'date-fns';
+import { classNames, formatUSDDecimal } from 'hihhhello-utils';
+import { useBoolean } from 'hihhhello-utils';
+import { upperFirst } from 'lodash';
+import { Fragment, useState } from 'react';
+
 import { AddNewRecurrentTransactionModal } from '@/features/AddNewRecurrentTransactionModal';
 import { EditRecurrentTransactionModal } from '@/features/EditRecurrentTransactionModal';
 import { api } from '@/shared/api/api';
@@ -10,14 +19,6 @@ import {
   FinancialOperationTypeValue,
 } from '@/shared/types/globalTypes';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
-import { Menu, Transition } from '@headlessui/react';
-import { PencilIcon } from '@heroicons/react/24/solid';
-import { useQuery } from '@tanstack/react-query';
-import { format, parseISO } from 'date-fns';
-import { classNames, formatUSDDecimal } from 'hihhhello-utils';
-import { useBoolean } from 'hihhhello-utils';
-import { upperFirst } from 'lodash';
-import { Fragment, useState } from 'react';
 
 type RecurrentTransactionsPageContentProps = {
   recurrentTransactions: RecurrentTransaction[];

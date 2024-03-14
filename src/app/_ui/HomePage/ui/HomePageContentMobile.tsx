@@ -1,20 +1,5 @@
 'use client';
 
-import { EditTransactionModal } from '@/features/EditTransactionModal';
-import { api } from '@/shared/api/api';
-import { ChevronDownIcon } from '@/shared/icons/ChevronDownIcon';
-import { QueueListIcon } from '@/shared/icons/QueueListIcon';
-import { TagIcon } from '@/shared/icons/TagIcon';
-import { FinancialOperationType } from '@/shared/types/globalTypes';
-import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
-import {
-  Transaction,
-  TransactionsByCategory,
-} from '@/shared/types/transactionTypes';
-import { DeleteConfirmationModal } from '@/shared/ui/DeleteConfirmationModal';
-import { TransactionByCategoryItemMobile } from '@/shared/ui/Transaction/TransactionByCategoryItemMobile';
-import { TransactionItemMobile } from '@/shared/ui/Transaction/TransactionItemMobile';
-import { useLoadingToast } from '@/shared/utils/hooks';
 import { Disclosure } from '@headlessui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
@@ -30,6 +15,22 @@ import React, {
   useState,
 } from 'react';
 import { twMerge } from 'tailwind-merge';
+
+import { EditTransactionModal } from '@/features/EditTransactionModal';
+import { api } from '@/shared/api/api';
+import { ChevronDownIcon } from '@/shared/icons/ChevronDownIcon';
+import { QueueListIcon } from '@/shared/icons/QueueListIcon';
+import { TagIcon } from '@/shared/icons/TagIcon';
+import { FinancialOperationType } from '@/shared/types/globalTypes';
+import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
+import {
+  Transaction,
+  TransactionsByCategory,
+} from '@/shared/types/transactionTypes';
+import { DeleteConfirmationModal } from '@/shared/ui/DeleteConfirmationModal';
+import { TransactionByCategoryItemMobile } from '@/shared/ui/Transaction/TransactionByCategoryItemMobile';
+import { TransactionItemMobile } from '@/shared/ui/Transaction/TransactionItemMobile';
+import { useLoadingToast } from '@/shared/utils/hooks';
 
 type HomePageContentMobileProps = {
   transactions: Transaction[];

@@ -1,5 +1,10 @@
 'use client';
 
+import { Disclosure } from '@headlessui/react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useBoolean, classNames, formatUSDDecimal } from 'hihhhello-utils';
+import { useState } from 'react';
+
 import { EditTransactionModal } from '@/features/EditTransactionModal';
 import { api } from '@/shared/api/api';
 import { ChevronDownIcon } from '@/shared/icons/ChevronDownIcon';
@@ -15,10 +20,6 @@ import { DeleteConfirmationModal } from '@/shared/ui/DeleteConfirmationModal';
 import { TransactionByCategoryItemDesktop } from '@/shared/ui/Transaction/TransactionByCategoryItemDesktop';
 import { TransactionItemDesktop } from '@/shared/ui/Transaction/TransactionItemDesktop';
 import { useLoadingToast } from '@/shared/utils/hooks';
-import { Disclosure } from '@headlessui/react';
-import { useQueryClient } from '@tanstack/react-query';
-import { useBoolean, classNames, formatUSDDecimal } from 'hihhhello-utils';
-import { useState } from 'react';
 
 type HomePageContentDesktopProps = {
   transactions: Transaction[];

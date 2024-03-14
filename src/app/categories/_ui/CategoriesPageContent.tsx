@@ -1,5 +1,10 @@
 'use client';
 
+import { useQuery } from '@tanstack/react-query';
+import { useBoolean } from 'hihhhello-utils';
+import { useMemo, useState } from 'react';
+import { toast } from 'react-toastify';
+
 import { ManageCategoryModal } from '@/features/ManageCategoryModal';
 import { api } from '@/shared/api/api';
 import { Category } from '@/shared/types/categoryTypes';
@@ -10,10 +15,6 @@ import {
 import { CategoryItem } from '@/shared/ui/Category/CategoryItem';
 import { CategoryList } from '@/shared/ui/Category/CategoryList';
 import { useLoadingToast } from '@/shared/utils/hooks';
-import { useQuery } from '@tanstack/react-query';
-import { useBoolean } from 'hihhhello-utils';
-import { useMemo, useState } from 'react';
-import { toast } from 'react-toastify';
 
 type CategoriesPageContentProps = {
   categories: Category[];

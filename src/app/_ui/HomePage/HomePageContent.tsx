@@ -1,5 +1,9 @@
 'use client';
 
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
+import { formatISO } from 'date-fns';
+import { useCallback, useMemo, useState } from 'react';
+
 import { api } from '@/shared/api/api';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
@@ -17,9 +21,6 @@ import {
   DATE_KEYWORD_TO_DATE_RANGE,
   DateRange,
 } from '@/shared/utils/dateUtils';
-import { useQuery, keepPreviousData } from '@tanstack/react-query';
-import { formatISO } from 'date-fns';
-import { useCallback, useMemo, useState } from 'react';
 
 import { HomePageAddNewTransactionActions } from './ui/HomePageAddNewTransactionActions';
 import { HomePageContentDesktop } from './ui/HomePageContentDesktop';

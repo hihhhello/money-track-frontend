@@ -1,10 +1,5 @@
 'use client';
 
-import { RecurrentTransactionIcon } from '@/shared/icons/RecurrentTransactionIcon';
-import { ThreeDotsVerticalIcon } from '@/shared/icons/ThreeDotsVerticalIcon';
-import { FinancialOperationType } from '@/shared/types/globalTypes';
-import { FinancialOperationTypeValue } from '@/shared/types/globalTypes';
-import { SpendingGroup } from '@/shared/types/spendingGroupTypes';
 import { Menu, Transition } from '@headlessui/react';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { PencilIcon } from '@heroicons/react/24/solid';
@@ -13,6 +8,12 @@ import { classNames, formatUSDDecimal } from 'hihhhello-utils';
 import { isEmpty } from 'lodash';
 import { Fragment } from 'react';
 import { twMerge } from 'tailwind-merge';
+
+import { RecurrentTransactionIcon } from '@/shared/icons/RecurrentTransactionIcon';
+import { ThreeDotsVerticalIcon } from '@/shared/icons/ThreeDotsVerticalIcon';
+import { FinancialOperationType } from '@/shared/types/globalTypes';
+import { FinancialOperationTypeValue } from '@/shared/types/globalTypes';
+import { SpendingGroup } from '@/shared/types/spendingGroupTypes';
 
 type TransactionItemDesktopProps = {
   categoryName: string;

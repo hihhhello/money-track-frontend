@@ -1,11 +1,12 @@
-import { BurgerMenuIcon } from '@/shared/icons/BurgerMenuIcon';
-import { SignOutIcon } from '@/shared/icons/SignOutIcon';
 import { Dialog } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { useBoolean } from 'hihhhello-utils';
 import Link from 'next/link';
 import { useCallback } from 'react';
 import { twMerge } from 'tailwind-merge';
+
+import { BurgerMenuIcon } from '@/shared/icons/BurgerMenuIcon';
+import { SignOutIcon } from '@/shared/icons/SignOutIcon';
 
 type NavbarMobileProps = {
   handleSignOut: () => void;

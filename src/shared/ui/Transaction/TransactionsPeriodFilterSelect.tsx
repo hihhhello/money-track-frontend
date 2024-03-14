@@ -1,15 +1,16 @@
 'use client';
 
-import { ChevronDownIcon } from '@/shared/icons/ChevronDownIcon';
-import {
-  TransactionPeriodFilter,
-  TransactionPeriodFilterType,
-} from '@/shared/types/transactionTypes';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/20/solid';
 import { classNames } from 'hihhhello-utils';
 import { upperFirst } from 'lodash';
 import { Fragment } from 'react';
+
+import { ChevronDownIcon } from '@/shared/icons/ChevronDownIcon';
+import {
+  TransactionPeriodFilter,
+  TransactionPeriodFilterType,
+} from '@/shared/types/transactionTypes';
 
 type TransactionsPeriodFilterSelectProps = {
   filter: TransactionPeriodFilterType;

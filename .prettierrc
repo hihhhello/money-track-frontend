@@ -10,6 +10,6 @@
     "prettier-plugin-tailwindcss",
     "@trivago/prettier-plugin-sort-imports"
   ],
-  "importOrder": ["^@shared/(.*)$", "^[./]"],
+  "importOrder": ["^@/(.*)$", "^[./]"],
   "importOrderSeparation": true
 }

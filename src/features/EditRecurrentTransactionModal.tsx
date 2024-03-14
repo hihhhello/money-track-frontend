@@ -1,5 +1,8 @@
 'use client';
 
+import { useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+
 import {
   ManageRecurrentTransactionModal,
   ManageRecurrentTransactionModalProps,
@@ -8,8 +11,6 @@ import { api } from '@/shared/api/api';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
 import { useLoadingToast } from '@/shared/utils/hooks';
-import { useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
 
 const TRANSACTION_TYPE_TO_LABEL = {
   [FinancialOperationType.DEPOSIT]: {

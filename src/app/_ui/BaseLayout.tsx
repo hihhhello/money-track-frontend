@@ -1,7 +1,8 @@
-import { NEXT_AUTH_OPTIONS } from '@/shared/utils/nextAuth';
 import { classNames } from 'hihhhello-utils';
 import { getServerSession } from 'next-auth';
 import { ReactNode } from 'react';
+
+import { NEXT_AUTH_OPTIONS } from '@/shared/utils/nextAuth';
 
 import { Navbar } from './Navbar/Navbar';
 import { Sidebar } from './Sidebar';

@@ -1,5 +1,9 @@
 'use client';
 
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useBoolean } from 'hihhhello-utils';
+import { useState } from 'react';
+
 import { ManageTransactionModal } from '@/features/ManageTransactionModal/ManageTransactionModal';
 import { api } from '@/shared/api/api';
 import {
@@ -7,9 +11,6 @@ import {
   FinancialOperationTypeValue,
 } from '@/shared/types/globalTypes';
 import { useLoadingToast } from '@/shared/utils/hooks';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useBoolean } from 'hihhhello-utils';
-import { useState } from 'react';
 
 const TRANSACTION_TYPE_TO_LABEL = {
   [FinancialOperationType.DEPOSIT]: {

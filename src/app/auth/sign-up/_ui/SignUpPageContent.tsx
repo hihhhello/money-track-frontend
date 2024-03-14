@@ -1,12 +1,13 @@
 'use client';
 
-import { api } from '@/shared/api/api';
-import { useLoadingToast } from '@/shared/utils/hooks';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
+
+import { api } from '@/shared/api/api';
+import { useLoadingToast } from '@/shared/utils/hooks';
 
 export const SignUpPageContent = () => {
   const loadingToast = useLoadingToast();

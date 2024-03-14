@@ -1,5 +1,6 @@
-import { PlusIcon } from '@/shared/icons/PlusIcon';
 import { twMerge } from 'tailwind-merge';
+
+import { PlusIcon } from '@/shared/icons/PlusIcon';
 
 type CategoryListProps = {
   handleAddNewCategory?: () => void;

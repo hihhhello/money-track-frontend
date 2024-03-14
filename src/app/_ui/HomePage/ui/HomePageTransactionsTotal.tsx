@@ -1,8 +1,9 @@
 'use client';
 
+import { formatUSDDecimal } from 'hihhhello-utils';
+
 import { Transaction } from '@/shared/types/transactionTypes';
 import { getNetAmount } from '@/shared/utils/helpers';
-import { formatUSDDecimal } from 'hihhhello-utils';
 
 type HomePageTransactionsTotalProps = {
   transactions: Transaction[];
