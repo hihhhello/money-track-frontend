@@ -42,8 +42,6 @@ export const CategoryList = ({
       setCanScrollTop(false);
     }
 
-    console.log(e.currentTarget.scrollTop);
-
     if (e.currentTarget.scrollTop > 120) {
       setCanScrollBottom(false);
     } else {
