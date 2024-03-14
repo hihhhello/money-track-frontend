@@ -115,6 +115,7 @@ export const EditTransactionModal = ({
         });
         refetchTransactions();
         setSelectedSpendingGroupIds([]);
+        setCurrentStep(TransactionCreationStep.SELECT_CATEGORY);
       })
       .catch(() => {
         loadingToast.handleError({ toastId, message: 'Error' });
