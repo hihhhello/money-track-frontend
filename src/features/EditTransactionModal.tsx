@@ -1,14 +1,14 @@
 'use client';
 
-import { api } from '@/shared/api/api';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useBoolean } from 'hihhhello-utils';
 import { ManageTransactionModal } from '@/features/ManageTransactionModal/ManageTransactionModal';
+import { api } from '@/shared/api/api';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { Transaction } from '@/shared/types/transactionTypes';
-import { useEffect, useState } from 'react';
 import { useLoadingToast } from '@/shared/utils/hooks';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useBoolean } from 'hihhhello-utils';
 import { isEmpty } from 'lodash';
+import { useEffect, useState } from 'react';
 
 const TRANSACTION_TYPE_TO_LABEL = {
   [FinancialOperationType.DEPOSIT]: {

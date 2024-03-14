@@ -1,14 +1,14 @@
 'use client';
 
-import { PlusIcon } from '@/shared/icons/PlusIcon';
-import { useBoolean } from 'hihhhello-utils';
+import { AddNewTransactionModal } from '@/features/AddNewTransactionModal';
 import { MinusIcon } from '@/shared/icons/MinusIcon';
-import { useState } from 'react';
+import { PlusIcon } from '@/shared/icons/PlusIcon';
 import {
   FinancialOperationType,
   FinancialOperationTypeValue,
 } from '@/shared/types/globalTypes';
-import { AddNewTransactionModal } from '@/features/AddNewTransactionModal';
+import { useBoolean } from 'hihhhello-utils';
+import { useState } from 'react';
 
 export const HomePageAddNewTransactionActions = () => {
   const {

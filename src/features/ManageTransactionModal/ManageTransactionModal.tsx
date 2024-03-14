@@ -1,17 +1,18 @@
 'use client';
 
-import { Fragment, ReactNode, useEffect, useState } from 'react';
-import { formatISO } from 'date-fns';
-import { toast } from 'react-toastify';
 import { Dialog, Transition } from '@headlessui/react';
-import { DialogOverlay } from '../../shared/ui/Dialog/DialogOverlay';
-import { DialogContent } from '../../shared/ui/Dialog/DialogContent';
-import { Input } from '../../shared/ui/Input';
-import { DialogHeader } from '../../shared/ui/Dialog/DialogHeader';
-import { DollarInput } from '../../shared/ui/DollarInput';
+import { formatISO } from 'date-fns';
 import { isNil } from 'lodash';
+import { Fragment, ReactNode, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+
 import { DialogActions } from '../../shared/ui/Dialog/DialogActions';
+import { DialogContent } from '../../shared/ui/Dialog/DialogContent';
+import { DialogHeader } from '../../shared/ui/Dialog/DialogHeader';
+import { DialogOverlay } from '../../shared/ui/Dialog/DialogOverlay';
 import { DialogScrollableContent } from '../../shared/ui/Dialog/DialogScrollableContent';
+import { DollarInput } from '../../shared/ui/DollarInput';
+import { Input } from '../../shared/ui/Input';
 import { ManageTransactionModalCategories } from './components/ManageTransactionModalCategories';
 import { ManageTransactionModalSpendingGroups } from './components/ManageTransactionModalSpendingGroups';
 

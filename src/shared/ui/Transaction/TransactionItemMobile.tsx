@@ -1,20 +1,18 @@
 'use client';
 
-import { format, parseISO } from 'date-fns';
-
-import { classNames, formatUSDDecimal } from 'hihhhello-utils';
-import React, { useRef } from 'react';
-
+import { RecurrentTransactionIcon } from '@/shared/icons/RecurrentTransactionIcon';
 import {
   FinancialOperationType,
   FinancialOperationTypeValue,
 } from '@/shared/types/globalTypes';
-import { PencilIcon } from '@heroicons/react/24/solid';
-import { TrashIcon } from '@heroicons/react/24/outline';
-import { twMerge } from 'tailwind-merge';
-import { RecurrentTransactionIcon } from '@/shared/icons/RecurrentTransactionIcon';
 import { SpendingGroup } from '@/shared/types/spendingGroupTypes';
+import { TrashIcon } from '@heroicons/react/24/outline';
+import { PencilIcon } from '@heroicons/react/24/solid';
+import { format, parseISO } from 'date-fns';
+import { classNames, formatUSDDecimal } from 'hihhhello-utils';
 import { isEmpty } from 'lodash';
+import React, { useRef } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 type TransactionItemMobileProps = {
   categoryName: string;

@@ -1,7 +1,8 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { DialogContent } from './Dialog/DialogContent';
-import { DialogActions } from './Dialog/DialogActions';
 import { Fragment } from 'react';
+
+import { DialogActions } from './Dialog/DialogActions';
+import { DialogContent } from './Dialog/DialogContent';
 import { DialogHeader } from './Dialog/DialogHeader';
 import { DialogOverlay } from './Dialog/DialogOverlay';
 import { DialogScrollableContent } from './Dialog/DialogScrollableContent';

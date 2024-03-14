@@ -1,8 +1,8 @@
 'use client';
 
-import { classNames } from 'hihhhello-utils';
-import { addDays, format, subDays } from 'date-fns';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
+import { addDays, format, subDays } from 'date-fns';
+import { classNames } from 'hihhhello-utils';
 
 type TransactionsDayFilterProps = {
   value: Date;

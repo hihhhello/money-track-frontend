@@ -1,8 +1,8 @@
 'use client';
 
-import { classNames } from 'hihhhello-utils';
-import { addMonths, format, subMonths } from 'date-fns';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
+import { addMonths, format, subMonths } from 'date-fns';
+import { classNames } from 'hihhhello-utils';
 
 type TransactionsMonthFilterProps = {
   value: Date;

@@ -1,29 +1,30 @@
 'use client';
 
+import { api } from '@/shared/api/api';
+import { FinancialOperationType } from '@/shared/types/globalTypes';
+import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
 import {
   Transaction,
   TransactionPeriodFilterType,
   TransactionsByCategory,
   TransactionPeriodFilter,
 } from '@/shared/types/transactionTypes';
-import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
-import { HomePageContentDesktop } from './ui/HomePageContentDesktop';
-import { HomePageContentMobile } from './ui/HomePageContentMobile';
-import { useCallback, useMemo, useState } from 'react';
-import { useQuery, keepPreviousData } from '@tanstack/react-query';
-import { api } from '@/shared/api/api';
-import { FinancialOperationType } from '@/shared/types/globalTypes';
-import { HomePageAddNewTransactionActions } from './ui/HomePageAddNewTransactionActions';
-import { HomePageTransactionsTotal } from './ui/HomePageTransactionsTotal';
+import { TransactionsDayFilter } from '@/shared/ui/Transaction/TransactionsDayFilter';
+import { TransactionsMonthFilter } from '@/shared/ui/Transaction/TransactionsMonthFilter';
 import { TransactionsPeriodFilterSelect } from '@/shared/ui/Transaction/TransactionsPeriodFilterSelect';
+import { TransactionsYearFilter } from '@/shared/ui/Transaction/TransactionsYearFilter';
 import {
   DATE_KEYWORD_TO_DATE_RANGE,
   DateRange,
 } from '@/shared/utils/dateUtils';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { formatISO } from 'date-fns';
-import { TransactionsMonthFilter } from '@/shared/ui/Transaction/TransactionsMonthFilter';
-import { TransactionsDayFilter } from '@/shared/ui/Transaction/TransactionsDayFilter';
-import { TransactionsYearFilter } from '@/shared/ui/Transaction/TransactionsYearFilter';
+import { useCallback, useMemo, useState } from 'react';
+
+import { HomePageAddNewTransactionActions } from './ui/HomePageAddNewTransactionActions';
+import { HomePageContentDesktop } from './ui/HomePageContentDesktop';
+import { HomePageContentMobile } from './ui/HomePageContentMobile';
+import { HomePageTransactionsTotal } from './ui/HomePageTransactionsTotal';
 
 type HomePageContentProps = {
   transactions: Transaction[];

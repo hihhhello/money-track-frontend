@@ -1,8 +1,8 @@
 'use client';
 
-import { classNames } from 'hihhhello-utils';
-import { addYears, format, subYears } from 'date-fns';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
+import { addYears, format, subYears } from 'date-fns';
+import { classNames } from 'hihhhello-utils';
 
 type TransactionsYearFilterProps = {
   value: Date;

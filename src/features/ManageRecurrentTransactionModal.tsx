@@ -1,22 +1,23 @@
 'use client';
 
-import { Fragment, ReactNode, useEffect, useState } from 'react';
-import { formatISO, isAfter, parseISO } from 'date-fns';
-import { toast } from 'react-toastify';
 import { Dialog, Transition } from '@headlessui/react';
+import { formatISO, isAfter, parseISO } from 'date-fns';
+import { isNil, upperFirst } from 'lodash';
+import { Fragment, ReactNode, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { twMerge } from 'tailwind-merge';
+
 import {
   RecurrentTransactionFrequency,
   RecurrentTransactionFrequencyValue,
 } from '../shared/types/recurrentTransactionTypes';
-import { isNil, upperFirst } from 'lodash';
-import { twMerge } from 'tailwind-merge';
-import { DialogOverlay } from '../shared/ui/Dialog/DialogOverlay';
+import { DialogActions } from '../shared/ui/Dialog/DialogActions';
 import { DialogContent } from '../shared/ui/Dialog/DialogContent';
 import { DialogHeader } from '../shared/ui/Dialog/DialogHeader';
-import { Input } from '../shared/ui/Input';
-import { DialogActions } from '../shared/ui/Dialog/DialogActions';
-import { DollarInput } from '../shared/ui/DollarInput';
+import { DialogOverlay } from '../shared/ui/Dialog/DialogOverlay';
 import { DialogScrollableContent } from '../shared/ui/Dialog/DialogScrollableContent';
+import { DollarInput } from '../shared/ui/DollarInput';
+import { Input } from '../shared/ui/Input';
 import { ManageTransactionModalCategories } from './ManageTransactionModal/components/ManageTransactionModalCategories';
 
 type RecurrentTransactionValues = {

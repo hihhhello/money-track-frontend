@@ -1,15 +1,14 @@
-import './globals.css';
-import 'react-toastify/dist/ReactToastify.css';
-
-import type { Metadata, Viewport } from 'next';
-import { Kanit } from 'next/font/google';
-
 import { BaseLayout } from '@/app/_ui/BaseLayout';
+import { EnvironmentProvider } from '@/providers/EnvironmentProvider';
+import { NextAuthProvider } from '@/providers/NextAuthProvider';
 import { QueryClientProvider } from '@/providers/QueryClientProvider';
 import { classNames } from 'hihhhello-utils';
-import { NextAuthProvider } from '@/providers/NextAuthProvider';
+import type { Metadata, Viewport } from 'next';
+import { Kanit } from 'next/font/google';
 import { ToastContainer } from 'react-toastify';
-import { EnvironmentProvider } from '@/providers/EnvironmentProvider';
+import 'react-toastify/dist/ReactToastify.css';
+
+import './globals.css';
 
 const kanit = Kanit({
   subsets: ['latin'],

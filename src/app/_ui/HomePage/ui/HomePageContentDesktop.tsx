@@ -1,25 +1,24 @@
 'use client';
 
-import { useState } from 'react';
-
-import { useBoolean, classNames, formatUSDDecimal } from 'hihhhello-utils';
+import { EditTransactionModal } from '@/features/EditTransactionModal';
+import { api } from '@/shared/api/api';
+import { ChevronDownIcon } from '@/shared/icons/ChevronDownIcon';
+import { QueueListIcon } from '@/shared/icons/QueueListIcon';
+import { TagIcon } from '@/shared/icons/TagIcon';
+import { FinancialOperationType } from '@/shared/types/globalTypes';
+import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
 import {
   Transaction,
   TransactionsByCategory,
 } from '@/shared/types/transactionTypes';
-import { EditTransactionModal } from '@/features/EditTransactionModal';
-import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
-import { api } from '@/shared/api/api';
-import { useQueryClient } from '@tanstack/react-query';
 import { DeleteConfirmationModal } from '@/shared/ui/DeleteConfirmationModal';
-import { TransactionItemDesktop } from '@/shared/ui/Transaction/TransactionItemDesktop';
-import { QueueListIcon } from '@/shared/icons/QueueListIcon';
-import { TagIcon } from '@/shared/icons/TagIcon';
-import { FinancialOperationType } from '@/shared/types/globalTypes';
-import { Disclosure } from '@headlessui/react';
-import { ChevronDownIcon } from '@/shared/icons/ChevronDownIcon';
 import { TransactionByCategoryItemDesktop } from '@/shared/ui/Transaction/TransactionByCategoryItemDesktop';
+import { TransactionItemDesktop } from '@/shared/ui/Transaction/TransactionItemDesktop';
 import { useLoadingToast } from '@/shared/utils/hooks';
+import { Disclosure } from '@headlessui/react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useBoolean, classNames, formatUSDDecimal } from 'hihhhello-utils';
+import { useState } from 'react';
 
 type HomePageContentDesktopProps = {
   transactions: Transaction[];

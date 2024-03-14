@@ -1,7 +1,6 @@
-import { twMerge } from 'tailwind-merge';
-
 import { PlusIcon } from '@/shared/icons/PlusIcon';
 import { range } from 'lodash';
+import { twMerge } from 'tailwind-merge';
 
 type CategoryListProps = {
   handleAddNewCategory?: () => void;

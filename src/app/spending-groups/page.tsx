@@ -1,4 +1,5 @@
 import { api } from '@/shared/api/api';
+
 import { SpendingGroupsPageContent } from './_ui/SpendingGroupsPageContent';
 
 const SpendingGroupsPage = async () => {

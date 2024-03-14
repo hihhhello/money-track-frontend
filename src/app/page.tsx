@@ -1,4 +1,5 @@
 import { api } from '@/shared/api/api';
+
 import { HomePageContent } from './_ui/HomePage/HomePageContent';
 
 const HomePage = async () => {

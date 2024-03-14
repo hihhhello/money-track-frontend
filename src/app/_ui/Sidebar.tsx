@@ -1,15 +1,15 @@
 'use client';
 
 import { useEnvironment } from '@/providers/EnvironmentProvider';
+import { PieChartIcon } from '@/shared/icons/PieChartIcon';
+import { RecurrentTransactionIcon } from '@/shared/icons/RecurrentTransactionIcon';
+import { SignOutIcon } from '@/shared/icons/SignOutIcon';
 import { SquaresPlusIcon } from '@/shared/icons/SquaresPlusIcon';
+import { UserGroupIcon } from '@/shared/icons/UserGroupIcon';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
-import { RecurrentTransactionIcon } from '@/shared/icons/RecurrentTransactionIcon';
-import { PieChartIcon } from '@/shared/icons/PieChartIcon';
-import { SignOutIcon } from '@/shared/icons/SignOutIcon';
-import { twMerge } from 'tailwind-merge';
 import { usePathname } from 'next/navigation';
-import { UserGroupIcon } from '@/shared/icons/UserGroupIcon';
+import { twMerge } from 'tailwind-merge';
 
 export const Sidebar = () => {
   const pathname = usePathname();

@@ -1,16 +1,16 @@
 'use client';
 
-import { api } from '@/shared/api/api';
-import { useQueryClient } from '@tanstack/react-query';
-import {
-  FinancialOperationType,
-  FinancialOperationTypeValue,
-} from '@/shared/types/globalTypes';
 import {
   ManageRecurrentTransactionModal,
   ManageRecurrentTransactionModalProps,
 } from '@/features/ManageRecurrentTransactionModal';
+import { api } from '@/shared/api/api';
+import {
+  FinancialOperationType,
+  FinancialOperationTypeValue,
+} from '@/shared/types/globalTypes';
 import { useLoadingToast } from '@/shared/utils/hooks';
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
 const TRANSACTION_TYPE_TO_LABEL = {

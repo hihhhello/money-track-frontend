@@ -1,9 +1,10 @@
-import { ReactNode } from 'react';
-import { getServerSession } from 'next-auth';
 import { NEXT_AUTH_OPTIONS } from '@/shared/utils/nextAuth';
-import { Sidebar } from './Sidebar';
 import { classNames } from 'hihhhello-utils';
+import { getServerSession } from 'next-auth';
+import { ReactNode } from 'react';
+
 import { Navbar } from './Navbar/Navbar';
+import { Sidebar } from './Sidebar';
 
 type BaseLayoutProps = {
   children: ReactNode;

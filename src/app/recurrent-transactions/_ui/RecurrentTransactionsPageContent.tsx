@@ -3,21 +3,21 @@
 import { AddNewRecurrentTransactionModal } from '@/features/AddNewRecurrentTransactionModal';
 import { EditRecurrentTransactionModal } from '@/features/EditRecurrentTransactionModal';
 import { api } from '@/shared/api/api';
+import { ThreeDotsVerticalIcon } from '@/shared/icons/ThreeDotsVerticalIcon';
+import { TrashIcon } from '@/shared/icons/TrashIcon';
 import {
   FinancialOperationType,
   FinancialOperationTypeValue,
 } from '@/shared/types/globalTypes';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
-import { classNames, formatUSDDecimal } from 'hihhhello-utils';
-import { useBoolean } from 'hihhhello-utils';
+import { Menu, Transition } from '@headlessui/react';
+import { PencilIcon } from '@heroicons/react/24/solid';
 import { useQuery } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
-import { Fragment, useState } from 'react';
-import { Menu, Transition } from '@headlessui/react';
-import { ThreeDotsVerticalIcon } from '@/shared/icons/ThreeDotsVerticalIcon';
-import { TrashIcon } from '@/shared/icons/TrashIcon';
-import { PencilIcon } from '@heroicons/react/24/solid';
+import { classNames, formatUSDDecimal } from 'hihhhello-utils';
+import { useBoolean } from 'hihhhello-utils';
 import { upperFirst } from 'lodash';
+import { Fragment, useState } from 'react';
 
 type RecurrentTransactionsPageContentProps = {
   recurrentTransactions: RecurrentTransaction[];

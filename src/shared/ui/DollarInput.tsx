@@ -1,8 +1,9 @@
 'use client';
 
-import React, { ChangeEvent, Ref, useEffect, useMemo, useRef } from 'react';
-import { Input } from './Input';
 import { formatUSDDecimal } from 'hihhhello-utils';
+import React, { ChangeEvent, Ref, useEffect, useMemo, useRef } from 'react';
+
+import { Input } from './Input';
 
 type DollarInputProps = Omit<
   JSX.IntrinsicElements['input'],

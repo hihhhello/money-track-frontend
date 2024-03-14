@@ -1,12 +1,7 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-
 import { ManageCategoryModal } from '@/features/ManageCategoryModal';
 import { api } from '@/shared/api/api';
-import { useBoolean } from 'hihhhello-utils';
-import { useQuery } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
 import { Category } from '@/shared/types/categoryTypes';
 import {
   FinancialOperationType,
@@ -15,6 +10,10 @@ import {
 import { CategoryItem } from '@/shared/ui/Category/CategoryItem';
 import { CategoryList } from '@/shared/ui/Category/CategoryList';
 import { useLoadingToast } from '@/shared/utils/hooks';
+import { useQuery } from '@tanstack/react-query';
+import { useBoolean } from 'hihhhello-utils';
+import { useMemo, useState } from 'react';
+import { toast } from 'react-toastify';
 
 type CategoriesPageContentProps = {
   categories: Category[];

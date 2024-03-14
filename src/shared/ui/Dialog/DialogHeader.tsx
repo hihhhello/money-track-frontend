@@ -1,5 +1,5 @@
-import { Dialog } from '@headlessui/react';
 import { XMarkIcon } from '@/shared/icons/XMarkIcon';
+import { Dialog } from '@headlessui/react';
 
 type DialogHeaderProps = {
   title: string;

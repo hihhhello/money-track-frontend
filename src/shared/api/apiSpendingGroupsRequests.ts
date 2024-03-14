@@ -1,5 +1,5 @@
-import { axiosInstance } from './apiBase';
 import { SpendingGroup } from '../types/spendingGroupTypes';
+import { axiosInstance } from './apiBase';
 
 const createOne = ({
   body,

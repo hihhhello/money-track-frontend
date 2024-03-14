@@ -1,8 +1,8 @@
 'use client';
 
-import { useCallback } from 'react';
 import { signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
+import { useCallback } from 'react';
 
 import { NavbarMobile } from './ui/NavbarMobile';
 
