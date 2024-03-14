@@ -120,14 +120,14 @@ export const AddNewTransactionModal = ({
         handleAddNewCategory={({ id }) => setSelectedCategoryId(id)}
       />
 
-      <ManageTransactionModal.SpendingGroups
+      {/* <ManageTransactionModal.SpendingGroups
         spendingGroups={spendingGroupsQuery.data}
         handleSelect={handleSelectSpendingGroupId}
         selectedIds={selectedSpendingGroupIds}
         isLoading={spendingGroupsQuery.isLoading}
         handleToggle={spendingGroupsState.toggle}
         isChecked={spendingGroupsState.value}
-      />
+      /> */}
     </ManageTransactionModal>
   );
 };
