@@ -149,7 +149,7 @@ export const ManageTransactionModal = ({
               />
             </div>
 
-            <div className="flex flex-1 mb-4 flex-col gap-2">
+            <div className="flex mb-4 flex-col">
               <label htmlFor="description">Description</label>
               <Input
                 onChange={(e) => {
@@ -162,6 +162,8 @@ export const ManageTransactionModal = ({
                 name="description"
               />
             </div>
+
+            <hr className="mb-4" />
 
             {children}
           </DialogScrollableContent>
