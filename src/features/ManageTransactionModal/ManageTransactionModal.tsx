@@ -149,23 +149,21 @@ export const ManageTransactionModal = ({
               />
             </div>
 
-            {children}
-
-            <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
-              <div className="flex flex-1 flex-col gap-2">
-                <label htmlFor="description">Description</label>
-                <Input
-                  onChange={(e) => {
-                    setTransactionFormValues((prevValues) => ({
-                      ...prevValues,
-                      description: e.target.value,
-                    }));
-                  }}
-                  value={transactionFormValues.description ?? ''}
-                  name="description"
-                />
-              </div>
+            <div className="flex flex-1 mb-4 flex-col gap-2">
+              <label htmlFor="description">Description</label>
+              <Input
+                onChange={(e) => {
+                  setTransactionFormValues((prevValues) => ({
+                    ...prevValues,
+                    description: e.target.value,
+                  }));
+                }}
+                value={transactionFormValues.description ?? ''}
+                name="description"
+              />
             </div>
+
+            {children}
           </DialogScrollableContent>
 
           <DialogActions>
