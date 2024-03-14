@@ -23,7 +23,7 @@ export const DialogContent = ({
     >
       <Dialog.Panel
         className={twMerge(
-          'relative flex h-full w-full flex-col bg-main-paper sm:max-h-[550px] sm:max-w-5xl sm:rounded-3xl',
+          'relative flex h-full w-full flex-col bg-main-paper sm:max-h-[700px] sm:max-w-5xl sm:rounded-3xl',
           panelClassName,
         )}
       >
