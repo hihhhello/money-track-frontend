@@ -114,7 +114,7 @@ export const ManageTransactionModal = ({
       <Dialog onClose={handleClose} as="div" className="relative z-50">
         <DialogOverlay />
 
-        <DialogContent>
+        <DialogContent panelClassName="sm:h-full">
           <DialogHeader handleClose={handleClose} title={title} />
 
           <DialogScrollableContent>
