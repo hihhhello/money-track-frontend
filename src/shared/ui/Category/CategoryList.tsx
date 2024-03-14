@@ -1,5 +1,5 @@
 import { compact } from 'lodash';
-import { useEffect, useRef, useState, UIEvent } from 'react';
+import { useRef, useState, UIEvent } from 'react';
 import { useMount } from 'react-use';
 import { twMerge } from 'tailwind-merge';
 
