@@ -1,7 +1,7 @@
 'use client';
 
 import { Dialog, Transition } from '@headlessui/react';
-import { formatISO } from 'date-fns';
+import { format, formatISO, parseISO } from 'date-fns';
 import { isNil } from 'lodash';
 import { Fragment, ReactNode, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -118,6 +118,21 @@ export const ManageTransactionModal = ({
           <DialogHeader handleClose={handleClose} title={title} />
 
           <DialogScrollableContent>
+            <div className="flex justify-center items-center">
+              <Input
+                name="date"
+                type="date"
+                value={transactionFormValues.date}
+                onChange={(e) => {
+                  setTransactionFormValues((prevValues) => ({
+                    ...prevValues,
+                    date: e.target.value,
+                  }));
+                }}
+                className="w-auto"
+              />
+            </div>
+
             <div className="mb-4 flex flex-col">
               <label htmlFor="amount">Amount</label>
 
@@ -137,21 +152,6 @@ export const ManageTransactionModal = ({
             {children}
 
             <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
-              <div className="flex flex-1 flex-col gap-2">
-                <label htmlFor="date">Date</label>
-                <Input
-                  name="date"
-                  type="date"
-                  value={transactionFormValues.date}
-                  onChange={(e) => {
-                    setTransactionFormValues((prevValues) => ({
-                      ...prevValues,
-                      date: e.target.value,
-                    }));
-                  }}
-                />
-              </div>
-
               <div className="flex flex-1 flex-col gap-2">
                 <label htmlFor="description">Description</label>
                 <Input
