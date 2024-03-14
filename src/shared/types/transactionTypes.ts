@@ -38,3 +38,11 @@ export type TransactionsByCategory = {
     type: FinancialOperationTypeValue;
   };
 };
+
+export const TransactionCreationStep = {
+  SELECT_CATEGORY: 'SELECT_CATEGORY',
+  SELECT_GROUP: 'SELECT_GROUP',
+} as const;
+
+export type TransactionCreationStepType =
+  (typeof TransactionCreationStep)[keyof typeof TransactionCreationStep];

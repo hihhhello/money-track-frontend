@@ -1,14 +1,19 @@
 'use client';
 
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/20/solid';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useBoolean } from 'hihhhello-utils';
+import { classNames, useBoolean } from 'hihhhello-utils';
 import { isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
 
 import { ManageTransactionModal } from '@/features/ManageTransactionModal/ManageTransactionModal';
 import { api } from '@/shared/api/api';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
-import { Transaction } from '@/shared/types/transactionTypes';
+import {
+  Transaction,
+  TransactionCreationStep,
+  TransactionCreationStepType,
+} from '@/shared/types/transactionTypes';
 import { useLoadingToast } from '@/shared/utils/hooks';
 
 const TRANSACTION_TYPE_TO_LABEL = {
@@ -37,6 +42,10 @@ export const EditTransactionModal = ({
 }: EditTransactionModalProps) => {
   const queryClient = useQueryClient();
   const loadingToast = useLoadingToast();
+
+  const [currentStep, setCurrentStep] = useState<TransactionCreationStepType>(
+    TransactionCreationStep.SELECT_CATEGORY,
+  );
 
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     selectedTransaction?.category.id ?? null,
@@ -171,21 +180,59 @@ export const EditTransactionModal = ({
       }
       selectedCategoryId={selectedCategoryId}
     >
-      <ManageTransactionModal.Categories
-        handleAddNewCategory={({ id }) => setSelectedCategoryId(id)}
-        handleSelectCategoryId={setSelectedCategoryId}
-        selectedCategoryId={selectedCategoryId}
-        transactionType={selectedTransaction?.type}
-      />
+      <div
+        className={classNames(
+          'flex mb-2',
+          currentStep === TransactionCreationStep.SELECT_CATEGORY
+            ? 'justify-end'
+            : 'justify-start',
+        )}
+      >
+        {currentStep === TransactionCreationStep.SELECT_GROUP && (
+          <button
+            className="flex items-center gap-1 text-main-blue"
+            onClick={() =>
+              setCurrentStep(TransactionCreationStep.SELECT_CATEGORY)
+            }
+          >
+            <ArrowLeftIcon className="h-5 w-5" />
+            Back to categories
+          </button>
+        )}
 
-      <ManageTransactionModal.SpendingGroups
-        spendingGroups={spendingGroupsQuery.data}
-        handleSelect={handleSelectSpendingGroupId}
-        selectedIds={selectedSpendingGroupIds}
-        isLoading={spendingGroupsQuery.isLoading}
-        handleToggle={spendingGroupsState.toggle}
-        isChecked={spendingGroupsState.value}
-      />
+        {currentStep === TransactionCreationStep.SELECT_CATEGORY && (
+          <button
+            className="flex items-center gap-1 text-main-blue"
+            onClick={() => setCurrentStep(TransactionCreationStep.SELECT_GROUP)}
+          >
+            Select group
+            <ArrowRightIcon className="h-5 w-5" />
+          </button>
+        )}
+      </div>
+
+      {currentStep === TransactionCreationStep.SELECT_CATEGORY && (
+        <ManageTransactionModal.Categories
+          handleAddNewCategory={({ id }) => setSelectedCategoryId(id)}
+          handleSelectCategoryId={(categoryId) => {
+            setSelectedCategoryId(categoryId);
+            setCurrentStep(TransactionCreationStep.SELECT_GROUP);
+          }}
+          selectedCategoryId={selectedCategoryId}
+          transactionType={selectedTransaction?.type}
+        />
+      )}
+
+      {currentStep === TransactionCreationStep.SELECT_GROUP && (
+        <ManageTransactionModal.SpendingGroups
+          spendingGroups={spendingGroupsQuery.data}
+          handleSelect={handleSelectSpendingGroupId}
+          selectedIds={selectedSpendingGroupIds}
+          isLoading={spendingGroupsQuery.isLoading}
+          handleToggle={spendingGroupsState.toggle}
+          isChecked={spendingGroupsState.value}
+        />
+      )}
     </ManageTransactionModal>
   );
 };

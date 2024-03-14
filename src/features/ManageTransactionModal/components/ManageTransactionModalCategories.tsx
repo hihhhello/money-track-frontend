@@ -100,8 +100,6 @@ export const ManageTransactionModalCategories = ({
   return (
     <>
       <div className="mb-4 flex flex-grow flex-col gap-2 overflow-y-hidden">
-        <span>Category</span>
-
         {categoriesQuery.isLoading ? (
           <CategoryListLoading
             handleAddNewCategory={handleOpenAddNewCategoryModal}
