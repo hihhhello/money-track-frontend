@@ -14,6 +14,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { useMount } from 'react-use';
 import { twMerge } from 'tailwind-merge';
 
 import { EditTransactionModal } from '@/features/EditTransactionModal';
@@ -295,6 +296,12 @@ type TabsProps = {
 };
 
 const Tabs = (props: TabsProps) => {
+  const [isMounted, setIsMounted] = React.useState(false);
+
+  useMount(() => {
+    setIsMounted(true);
+  });
+
   const [indicatorWidth, setIndicatorWidth] = useState(0);
   const [leftOffset, setLeftOffset] = useState(0);
   const tabs = useRef<HTMLDivElement>(null);
@@ -327,7 +334,9 @@ const Tabs = (props: TabsProps) => {
       ref: childrenRef.current[index],
       className: twMerge(
         child.props.className,
-        isCurrentTab && 'text-white transition-colors duration-300',
+        isCurrentTab &&
+          isMounted &&
+          'text-white transition-colors duration-300',
       ),
     });
   });
@@ -358,12 +367,14 @@ const Tabs = (props: TabsProps) => {
         {children}
       </div>
 
-      <div
-        className="absolute top-0 z-10 h-full rounded-full bg-main-dark transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
-        style={{ width: indicatorWidth, left: leftOffset }}
-      >
-        <span className="sr-only">indicator</span>
-      </div>
+      {isMounted && (
+        <div
+          className="absolute top-0 z-10 h-full rounded-full bg-main-dark transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
+          style={{ width: indicatorWidth, left: leftOffset }}
+        >
+          <span className="sr-only">indicator</span>
+        </div>
+      )}
     </div>
   );
 };
