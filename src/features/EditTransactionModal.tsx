@@ -8,14 +8,14 @@ import { useEffect, useState } from 'react';
 import { ManageTransactionModal } from '@/features/ManageTransactionModal/ManageTransactionModal';
 import { api } from '@/shared/api/api';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
-import {
-  Transaction,
-  TransactionCreationStep,
-  TransactionCreationStepType,
-} from '@/shared/types/transactionTypes';
+import { Transaction } from '@/shared/types/transactionTypes';
 import { useLoadingToast } from '@/shared/utils/hooks';
 
-import { ManageTransactionModalStepsNavigation } from './ManageTransactionModal/components/ManageTransactionModalStepsNavigation';
+import { ManageTransactionModalStepsNavigation } from './ManageTransactionModal/components/ManageTransactionModalTabsNavigation';
+import {
+  ManageTransactionModalTab,
+  ManageTransactionModalTabType,
+} from './ManageTransactionModal/utils/manageTransactionModalTypes';
 
 const TRANSACTION_TYPE_TO_LABEL = {
   [FinancialOperationType.DEPOSIT]: {
@@ -44,8 +44,8 @@ export const EditTransactionModal = ({
   const queryClient = useQueryClient();
   const loadingToast = useLoadingToast();
 
-  const [currentStep, setCurrentStep] = useState<TransactionCreationStepType>(
-    TransactionCreationStep.SELECT_CATEGORY,
+  const [currentTab, setCurrentTab] = useState<ManageTransactionModalTabType>(
+    ManageTransactionModalTab.CATEGORIES,
   );
 
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
@@ -116,7 +116,7 @@ export const EditTransactionModal = ({
         });
         refetchTransactions();
         setSelectedSpendingGroupIds([]);
-        setCurrentStep(TransactionCreationStep.SELECT_CATEGORY);
+        setCurrentTab(ManageTransactionModalTab.CATEGORIES);
       })
       .catch(() => {
         loadingToast.handleError({ toastId, message: 'Error' });
@@ -183,23 +183,23 @@ export const EditTransactionModal = ({
       selectedCategoryId={selectedCategoryId}
     >
       <ManageTransactionModalStepsNavigation
-        currentStep={currentStep}
-        setCurrentStep={setCurrentStep}
+        currentTab={currentTab}
+        setCurrentTab={setCurrentTab}
       />
 
-      {currentStep === TransactionCreationStep.SELECT_CATEGORY && (
+      {currentTab === ManageTransactionModalTab.CATEGORIES && (
         <ManageTransactionModal.Categories
           handleAddNewCategory={({ id }) => setSelectedCategoryId(id)}
           handleSelectCategoryId={(categoryId) => {
             setSelectedCategoryId(categoryId);
-            setCurrentStep(TransactionCreationStep.SELECT_GROUP);
+            setCurrentTab(ManageTransactionModalTab.GROUPS);
           }}
           selectedCategoryId={selectedCategoryId}
           transactionType={selectedTransaction?.type}
         />
       )}
 
-      {currentStep === TransactionCreationStep.SELECT_GROUP && (
+      {currentTab === ManageTransactionModalTab.GROUPS && (
         <ManageTransactionModal.SpendingGroups
           spendingGroups={spendingGroupsQuery.data}
           handleSelect={handleSelectSpendingGroupId}

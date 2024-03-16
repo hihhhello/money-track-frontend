@@ -10,13 +10,14 @@ import {
   FinancialOperationType,
   FinancialOperationTypeValue,
 } from '@/shared/types/globalTypes';
-import {
-  TransactionCreationStep,
-  TransactionCreationStepType,
-} from '@/shared/types/transactionTypes';
+import '@/shared/types/transactionTypes';
 import { useLoadingToast } from '@/shared/utils/hooks';
 
-import { ManageTransactionModalStepsNavigation } from './ManageTransactionModal/components/ManageTransactionModalStepsNavigation';
+import { ManageTransactionModalStepsNavigation } from './ManageTransactionModal/components/ManageTransactionModalTabsNavigation';
+import {
+  ManageTransactionModalTab,
+  ManageTransactionModalTabType,
+} from './ManageTransactionModal/utils/manageTransactionModalTypes';
 
 const TRANSACTION_TYPE_TO_LABEL = {
   [FinancialOperationType.DEPOSIT]: {
@@ -45,8 +46,8 @@ export const AddNewTransactionModal = ({
   const queryClient = useQueryClient();
   const loadingToast = useLoadingToast();
 
-  const [currentStep, setCurrentStep] = useState<TransactionCreationStepType>(
-    TransactionCreationStep.SELECT_CATEGORY,
+  const [currentTab, setCurrentTab] = useState<ManageTransactionModalTabType>(
+    ManageTransactionModalTab.CATEGORIES,
   );
 
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
@@ -93,7 +94,7 @@ export const AddNewTransactionModal = ({
         setSelectedCategoryId(null);
         setSelectedSpendingGroupIds([]);
         spendingGroupsState.setFalse();
-        setCurrentStep(TransactionCreationStep.SELECT_CATEGORY);
+        setCurrentTab(ManageTransactionModalTab.CATEGORIES);
 
         loadingToast.handleSuccess({
           message: TRANSACTION_TYPE_TO_LABEL[transactionType].ADD_SUCCESS,
@@ -125,15 +126,15 @@ export const AddNewTransactionModal = ({
       selectedCategoryId={selectedCategoryId}
     >
       <ManageTransactionModalStepsNavigation
-        currentStep={currentStep}
-        setCurrentStep={setCurrentStep}
+        currentTab={currentTab}
+        setCurrentTab={setCurrentTab}
       />
 
-      {currentStep === TransactionCreationStep.SELECT_CATEGORY && (
+      {currentTab === ManageTransactionModalTab.CATEGORIES && (
         <ManageTransactionModal.Categories
           handleSelectCategoryId={(categoryId) => {
             setSelectedCategoryId(categoryId);
-            setCurrentStep(TransactionCreationStep.SELECT_GROUP);
+            setCurrentTab(ManageTransactionModalTab.GROUPS);
           }}
           selectedCategoryId={selectedCategoryId}
           transactionType={transactionType}
@@ -141,7 +142,7 @@ export const AddNewTransactionModal = ({
         />
       )}
 
-      {currentStep === TransactionCreationStep.SELECT_GROUP && (
+      {currentTab === ManageTransactionModalTab.GROUPS && (
         <ManageTransactionModal.SpendingGroups
           spendingGroups={spendingGroupsQuery.data}
           handleSelect={handleSelectSpendingGroupId}
