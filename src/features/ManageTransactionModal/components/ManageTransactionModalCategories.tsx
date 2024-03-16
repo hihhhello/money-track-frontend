@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useBoolean } from 'hihhhello-utils';
-import { useEffect, useLayoutEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ManageCategoryModal } from '@/features/ManageCategoryModal';
 import { api } from '@/shared/api/api';
@@ -26,7 +26,8 @@ export const ManageTransactionModalCategories = ({
 }: ManageTransactionModalCategoriesProps) => {
   const loadingToast = useLoadingToast();
 
-  const selectedCategoryRef = useRef<HTMLButtonElement>(null);
+  const [selectedCategoryRef, setSelectedCategoryRef] =
+    useState<HTMLButtonElement | null>(null);
 
   const categoriesQuery = useQuery({
     queryFn: () => {
@@ -85,17 +86,17 @@ export const ManageTransactionModalCategories = ({
   useEffect(() => {
     if (
       !selectedCategoryId ||
-      !selectedCategoryRef.current ||
+      !selectedCategoryRef ||
       categoriesQuery.isLoading
     ) {
       return;
     }
 
-    selectedCategoryRef.current.scrollIntoView({
+    selectedCategoryRef.scrollIntoView({
       block: 'nearest',
       inline: 'nearest',
     });
-  }, [categoriesQuery.isLoading, selectedCategoryId]);
+  }, [categoriesQuery.isLoading, selectedCategoryId, selectedCategoryRef]);
 
   return (
     <>
@@ -115,11 +116,13 @@ export const ManageTransactionModalCategories = ({
                 key={category.id}
                 onClick={() => handleSelectCategoryId(category.id)}
                 isSelected={selectedCategoryId === category.id}
-                ref={
-                  selectedCategoryId === category.id
-                    ? selectedCategoryRef
-                    : null
-                }
+                ref={(ref) => {
+                  if (selectedCategoryId !== category.id) {
+                    return;
+                  }
+
+                  setSelectedCategoryRef(ref);
+                }}
               >
                 {category.name}
               </CategoryItem>
