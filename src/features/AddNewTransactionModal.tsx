@@ -1,8 +1,7 @@
 'use client';
 
-import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/20/solid';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { classNames, useBoolean } from 'hihhhello-utils';
+import { useBoolean } from 'hihhhello-utils';
 import { useState } from 'react';
 
 import { ManageTransactionModal } from '@/features/ManageTransactionModal/ManageTransactionModal';
@@ -16,6 +15,8 @@ import {
   TransactionCreationStepType,
 } from '@/shared/types/transactionTypes';
 import { useLoadingToast } from '@/shared/utils/hooks';
+
+import { ManageTransactionModalStepsNavigation } from './ManageTransactionModal/components/ManageTransactionModalStepsNavigation';
 
 const TRANSACTION_TYPE_TO_LABEL = {
   [FinancialOperationType.DEPOSIT]: {
@@ -123,36 +124,10 @@ export const AddNewTransactionModal = ({
       title={TRANSACTION_TYPE_TO_LABEL[transactionType].MODAL_TITLE}
       selectedCategoryId={selectedCategoryId}
     >
-      <div
-        className={classNames(
-          'flex mb-2',
-          currentStep === TransactionCreationStep.SELECT_CATEGORY
-            ? 'justify-end'
-            : 'justify-start',
-        )}
-      >
-        {currentStep === TransactionCreationStep.SELECT_GROUP && (
-          <button
-            className="flex items-center gap-1 text-main-blue"
-            onClick={() =>
-              setCurrentStep(TransactionCreationStep.SELECT_CATEGORY)
-            }
-          >
-            <ArrowLeftIcon className="h-5 w-5" />
-            Back to categories
-          </button>
-        )}
-
-        {currentStep === TransactionCreationStep.SELECT_CATEGORY && (
-          <button
-            className="flex items-center gap-1 text-main-blue"
-            onClick={() => setCurrentStep(TransactionCreationStep.SELECT_GROUP)}
-          >
-            Select group
-            <ArrowRightIcon className="h-5 w-5" />
-          </button>
-        )}
-      </div>
+      <ManageTransactionModalStepsNavigation
+        currentStep={currentStep}
+        setCurrentStep={setCurrentStep}
+      />
 
       {currentStep === TransactionCreationStep.SELECT_CATEGORY && (
         <ManageTransactionModal.Categories
