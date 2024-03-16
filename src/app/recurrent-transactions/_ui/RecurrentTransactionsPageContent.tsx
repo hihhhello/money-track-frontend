@@ -77,7 +77,7 @@ export const RecurrentTransactionsPageContent = ({
         </div>
 
         <div className="relative overflow-auto rounded-3xl">
-          <table className="relative min-w-full  rounded-3xl bg-main-paper">
+          <table className="relative min-w-full rounded-3xl bg-main-paper">
             <thead className="sticky top-0 z-10 bg-main-paper">
               <tr>
                 <th
