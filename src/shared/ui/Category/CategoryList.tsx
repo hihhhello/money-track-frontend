@@ -56,13 +56,18 @@ export const CategoryList = ({
       <div
         className={twMerge(
           'grid h-full w-full grid-cols-3 gap-4 overflow-y-auto sm:grid-cols-9',
-          (canScrollBottom || canScrollTop) &&
-            `shadow-[${compact([canScrollBottom ? 'inset_0px_-1em_1em_-1em_#00000024' : '', canScrollTop ? 'inset_0px_1em_1em_-1em_#00000024' : '']).join(',')}]`,
-
           className,
         )}
         ref={scrollableContainerRef}
         onScroll={handleScroll}
+        style={{
+          ...((canScrollBottom || canScrollTop) && {
+            boxShadow: compact([
+              canScrollBottom ? 'inset 0px -1em 1em -1em #00000024' : '',
+              canScrollTop ? 'inset 0px 1em 1em -1em #00000024' : '',
+            ]).join(','),
+          }),
+        }}
         {...props}
       >
         {children}
