@@ -69,6 +69,8 @@ export const EditRecurrentTransactionModal = ({
           body: {
             amount: transactionValues.amount,
             category_id: transactionValues.categoryId,
+            end_date: transactionValues.end_date,
+            frequency: transactionValues.frequency,
             description: transactionValues.description,
             ...(options?.isPastStartDate
               ? { next_transaction: transactionValues.start_date }

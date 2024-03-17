@@ -121,6 +121,8 @@ export const ManageRecurrentTransactionModal = ({
       return toast.warn('Select category.');
     }
 
+    console.log('transactionFormValues', transactionFormValues);
+
     handleSubmitTransactionValues(
       {
         ...transactionFormValues,
