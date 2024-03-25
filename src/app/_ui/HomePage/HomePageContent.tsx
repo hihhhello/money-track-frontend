@@ -42,6 +42,10 @@ export const HomePageContent = ({
     useState<TransactionPeriodFilterType>(TransactionPeriodFilter.MONTH);
   const [dateFilter, setDateFilter] = useState<Date>(new Date());
 
+  const [selectedSpendingGroups, setSelectedSpendingGroups] = useState<
+    SpendingGroup[]
+  >([]);
+
   const transactionsDateRange: DateRange | undefined = useMemo(() => {
     if (transactionsFilter === TransactionPeriodFilter.ALL) {
       return undefined;
@@ -77,11 +81,16 @@ export const HomePageContent = ({
             startDate: formatISO(dateRange.startDate, {
               representation: 'date',
             }),
+            spendingGroupIds: selectedSpendingGroups.map(({ id }) => id),
           }),
         },
       });
     },
-    queryKey: ['api.transactions.getAll', transactionsDateRange],
+    queryKey: [
+      'api.transactions.getAll',
+      transactionsDateRange,
+      selectedSpendingGroups,
+    ],
     placeholderData: keepPreviousData,
   });
 
@@ -122,6 +131,11 @@ export const HomePageContent = ({
     ).sort(([, a], [, b]) => a.totalAmount - b.totalAmount),
   );
 
+  const spendingGroupsQuery = useQuery({
+    queryFn: api.spendingGroups.getAll,
+    queryKey: ['api.spendingGroups.getAll'],
+  });
+
   const handleChangeFilter = useCallback(
     (newFilter: TransactionPeriodFilterType) => {
       setTransactionsFilter(newFilter);
@@ -129,18 +143,6 @@ export const HomePageContent = ({
     },
     [],
   );
-
-  /**
-   * TODO: move state to the top
-   */
-  const spendingGroupsQuery = useQuery({
-    queryFn: api.spendingGroups.getAll,
-    queryKey: ['api.spendingGroups.getAll'],
-  });
-
-  const [selectedSpendingGroups, setSelectedSpendingGroups] = useState<
-    SpendingGroup[]
-  >([]);
 
   return (
     <div className="flex flex-1 flex-col">
