@@ -146,7 +146,7 @@ export const HomePageContent = ({
 
   return (
     <div className="flex flex-1 flex-col">
-      <div className="mb-4 flex gap-16">
+      <div className="mb-4 flex flex-col sm:flex-row gap-x-16 gap-y-4">
         <div className="flex gap-4">
           <TransactionsPeriodFilterSelect
             filter={transactionsFilter}
