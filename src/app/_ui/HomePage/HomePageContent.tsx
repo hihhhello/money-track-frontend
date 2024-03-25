@@ -7,12 +7,14 @@ import { useCallback, useMemo, useState } from 'react';
 import { api } from '@/shared/api/api';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
+import { SpendingGroup } from '@/shared/types/spendingGroupTypes';
 import {
   Transaction,
   TransactionPeriodFilterType,
   TransactionsByCategory,
   TransactionPeriodFilter,
 } from '@/shared/types/transactionTypes';
+import { Multiselect } from '@/shared/ui/Multiselect';
 import { TransactionsDayFilter } from '@/shared/ui/Transaction/TransactionsDayFilter';
 import { TransactionsMonthFilter } from '@/shared/ui/Transaction/TransactionsMonthFilter';
 import { TransactionsPeriodFilterSelect } from '@/shared/ui/Transaction/TransactionsPeriodFilterSelect';
@@ -128,34 +130,56 @@ export const HomePageContent = ({
     [],
   );
 
+  /**
+   * TODO: move state to the top
+   */
+  const spendingGroupsQuery = useQuery({
+    queryFn: api.spendingGroups.getAll,
+    queryKey: ['api.spendingGroups.getAll'],
+  });
+
+  const [selectedSpendingGroups, setSelectedSpendingGroups] = useState<
+    SpendingGroup[]
+  >([]);
+
   return (
     <div className="flex flex-1 flex-col">
-      <div className="mb-4 flex gap-4">
-        <TransactionsPeriodFilterSelect
-          filter={transactionsFilter}
-          handleChangeFilter={handleChangeFilter}
+      <div className="mb-4 flex gap-16">
+        <div className="flex gap-4">
+          <TransactionsPeriodFilterSelect
+            filter={transactionsFilter}
+            handleChangeFilter={handleChangeFilter}
+          />
+
+          {transactionsFilter === TransactionPeriodFilter.MONTH && (
+            <TransactionsMonthFilter
+              handleChange={setDateFilter}
+              value={dateFilter}
+            />
+          )}
+
+          {transactionsFilter === TransactionPeriodFilter.DAY && (
+            <TransactionsDayFilter
+              handleChange={setDateFilter}
+              value={dateFilter}
+            />
+          )}
+
+          {transactionsFilter === TransactionPeriodFilter.YEAR && (
+            <TransactionsYearFilter
+              handleChange={setDateFilter}
+              value={dateFilter}
+            />
+          )}
+        </div>
+
+        <Multiselect
+          options={spendingGroupsQuery.data ?? []}
+          value={selectedSpendingGroups}
+          getOptionKey={(option) => option.id}
+          getOptionLabel={(option) => option.name}
+          handleChangeValue={setSelectedSpendingGroups}
         />
-
-        {transactionsFilter === TransactionPeriodFilter.MONTH && (
-          <TransactionsMonthFilter
-            handleChange={setDateFilter}
-            value={dateFilter}
-          />
-        )}
-
-        {transactionsFilter === TransactionPeriodFilter.DAY && (
-          <TransactionsDayFilter
-            handleChange={setDateFilter}
-            value={dateFilter}
-          />
-        )}
-
-        {transactionsFilter === TransactionPeriodFilter.YEAR && (
-          <TransactionsYearFilter
-            handleChange={setDateFilter}
-            value={dateFilter}
-          />
-        )}
       </div>
 
       <div className="mb-4 grid w-full grid-cols-1 gap-4 sm:grid-cols-6">
