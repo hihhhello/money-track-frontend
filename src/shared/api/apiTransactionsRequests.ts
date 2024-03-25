@@ -1,5 +1,6 @@
 import { QueryFunctionContext } from '@tanstack/react-query';
 import { createUrlWithSearchParams } from 'hihhhello-utils';
+import { omit } from 'lodash';
 
 import { FinancialOperationTypeValue } from '../types/globalTypes';
 import {
@@ -29,6 +30,7 @@ const getAll = (
       startDate?: string;
       endDate?: string;
       period?: APITransactionPeriodFilter;
+      spendingGroupIds?: number[];
     };
   } & Partial<QueryFunctionContext>,
 ) =>
@@ -36,7 +38,10 @@ const getAll = (
     .get<Transaction[]>(
       createUrlWithSearchParams({
         url: '/transactions',
-        searchParams: input?.searchParams,
+        searchParams: {
+          ...omit(input?.searchParams, 'spendingGroupIds'),
+          sgid: input?.searchParams?.spendingGroupIds,
+        },
       }),
     )
     .then(({ data }) => data);
