@@ -73,8 +73,6 @@ export const RecurrentTransactionsPageContent = ({
       );
     }, [recurrentTransactions]);
 
-  console.log(recurrentExpenses);
-
   return (
     <div className="flex-grow overflow-y-hidden">
       <div className="flex h-full flex-col">
