@@ -96,13 +96,13 @@ export const RecurrentTransactionsPageContent = ({
           </button>
         </div>
 
-        <div className="mb-4 flex gap-4">
+        <div className="mb-4 flex gap-4 flex-col sm:flex-row">
           <div className="flex flex-col p-6 text-center bg-main-paper rounded-md">
-            <dt className="order-2 mt-2 text-lg leading-6 font-medium">
+            <dt className="order-2 mt-2 leading-6 sm:text-lg font-medium">
               Monthly recurrent expenses
             </dt>
 
-            <dd className="order-1 text-5xl font-bold">
+            <dd className="order-1 text-3xl sm:text-5xl font-bold">
               {formatUSDCompact(Math.abs(recurrentExpenses.monthly))}
             </dd>
           </div>
