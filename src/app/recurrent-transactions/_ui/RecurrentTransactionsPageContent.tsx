@@ -16,7 +16,6 @@ import {
   RecurrentTransactionFrequency,
   RecurrentTransactionFrequencyValue,
 } from '@/shared/types/recurrentTransactionTypes';
-import { getNetAmount } from '@/shared/utils/helpers';
 
 import { RecurrentTransactionsTable } from './RecurrentTransactionsTable';
 
