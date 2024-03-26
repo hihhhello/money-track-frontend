@@ -30,7 +30,7 @@ export const RecurrentTransactionsTable = ({
 
           <th
             scope="col"
-            className="focus-primary-green text-text-dark cursor-pointer px-3 py-3.5 text-left text-sm font-semibold"
+            className="focus-primary-green text-main-dark cursor-pointer px-3 py-3.5 text-left text-sm font-semibold"
             tabIndex={0}
           >
             Amount
@@ -38,7 +38,7 @@ export const RecurrentTransactionsTable = ({
 
           <th
             scope="col"
-            className="focus-primary-green text-text-dark cursor-pointer px-3 py-3.5 text-left text-sm font-semibold"
+            className="focus-primary-green text-main-dark cursor-pointer px-3 py-3.5 text-left text-sm font-semibold"
             tabIndex={0}
           >
             Category
@@ -46,7 +46,7 @@ export const RecurrentTransactionsTable = ({
 
           <th
             scope="col"
-            className="focus-primary-green text-text-dark cursor-pointer px-3 py-3.5 text-left text-sm font-semibold"
+            className="focus-primary-green text-main-dark cursor-pointer px-3 py-3.5 text-left text-sm font-semibold"
             tabIndex={0}
           >
             Description
@@ -54,28 +54,28 @@ export const RecurrentTransactionsTable = ({
 
           <th
             scope="col"
-            className="text-text-dark px-3 py-3.5 text-left text-sm font-semibold"
+            className="text-main-dark px-3 py-3.5 text-left text-sm font-semibold"
           >
             Next Transaction
           </th>
 
           <th
             scope="col"
-            className="text-text-dark px-3 py-3.5 text-left text-sm font-semibold"
+            className="text-main-dark px-3 py-3.5 text-left text-sm font-semibold"
           >
             Start Date
           </th>
 
           <th
             scope="col"
-            className="text-text-dark px-3 py-3.5 text-left text-sm font-semibold"
+            className="text-main-dark px-3 py-3.5 text-left text-sm font-semibold"
           >
             End Date
           </th>
 
           <th
             scope="col"
-            className="text-text-dark px-3 py-3.5 text-left text-sm font-semibold"
+            className="text-main-dark px-3 py-3.5 text-left text-sm font-semibold"
           >
             Frequency
           </th>
@@ -90,41 +90,41 @@ export const RecurrentTransactionsTable = ({
         {recurrentTransactions.map((transaction) => {
           return (
             <tr key={transaction.id}>
-              <td className="text-text-regular whitespace-nowrap py-2 pl-6 pr-3 text-sm">
+              <td className="whitespace-nowrap py-2 pl-6 pr-3 text-sm">
                 {upperFirst(transaction.type)}
               </td>
 
-              <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
+              <td className="whitespace-nowrap px-3 py-2 text-sm">
                 {formatUSDDecimal(parseFloat(transaction.amount))}
               </td>
 
-              <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
+              <td className="whitespace-nowrap px-3 py-2 text-sm">
                 {transaction.category.name}
               </td>
 
-              <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
+              <td className="whitespace-nowrap px-3 py-2 text-sm">
                 {transaction.description}
               </td>
 
-              <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
+              <td className="whitespace-nowrap px-3 py-2 text-sm">
                 {format(parseISO(transaction.next_transaction), 'EEE, dd MMM')}
               </td>
 
-              <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
+              <td className="whitespace-nowrap px-3 py-2 text-sm">
                 {format(parseISO(transaction.start_date), 'dd MMM yyyy')}
               </td>
 
-              <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
+              <td className="whitespace-nowrap px-3 py-2 text-sm">
                 {transaction.end_date
                   ? format(parseISO(transaction.end_date), 'dd MMM yyyy')
                   : 'None'}
               </td>
 
-              <td className="text-text-regular whitespace-nowrap px-3 py-2 text-sm">
+              <td className="whitespace-nowrap px-3 py-2 text-sm">
                 {upperFirst(transaction.frequency)}
               </td>
 
-              <td className="text-text-regular whitespace-nowrap rounded-r-md px-3 py-2 pr-4 text-sm">
+              <td className="whitespace-nowrap rounded-r-md px-3 py-2 pr-4 text-sm">
                 <Menu as="div" className="relative ml-3">
                   {({ open }) => (
                     <>
