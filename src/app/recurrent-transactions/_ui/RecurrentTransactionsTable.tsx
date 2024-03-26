@@ -17,7 +17,7 @@ export const RecurrentTransactionsTable = ({
   recurrentTransactions,
   handleEditTransaction,
 }: RecurrentTransactionsTableProps) => (
-  <div className="relative rounded-3xl">
+  <div className="relative overflow-auto rounded-3xl">
     <table className="relative min-w-full rounded-3xl bg-main-paper">
       <thead className="sticky top-0 z-10 bg-main-paper overflow-auto">
         <tr>
