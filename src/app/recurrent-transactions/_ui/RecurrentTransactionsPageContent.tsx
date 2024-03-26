@@ -1,8 +1,8 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { useBoolean } from 'hihhhello-utils';
-import { useState } from 'react';
+import { formatUSDCompact, useBoolean } from 'hihhhello-utils';
+import { useMemo, useState } from 'react';
 
 import { AddNewRecurrentTransactionModal } from '@/features/AddNewRecurrentTransactionModal';
 import { EditRecurrentTransactionModal } from '@/features/EditRecurrentTransactionModal';
@@ -11,7 +11,12 @@ import {
   FinancialOperationType,
   FinancialOperationTypeValue,
 } from '@/shared/types/globalTypes';
-import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
+import {
+  RecurrentTransaction,
+  RecurrentTransactionFrequency,
+  RecurrentTransactionFrequencyValue,
+} from '@/shared/types/recurrentTransactionTypes';
+import { getNetAmount } from '@/shared/utils/helpers';
 
 import { RecurrentTransactionsTable } from './RecurrentTransactionsTable';
 
@@ -46,6 +51,26 @@ export const RecurrentTransactionsPageContent = ({
     initialData: initialRecurrentTransactions,
   });
 
+  const recurrentExpenses: Record<RecurrentTransactionFrequencyValue, number> =
+    useMemo(() => {
+      return recurrentTransactions?.reduce(
+        (recurrentExpensesAccumulator, recurrentTransaction) => {
+          const netAmount = getNetAmount(recurrentTransaction);
+
+          return {
+            ...recurrentExpensesAccumulator,
+            [recurrentTransaction.frequency]:
+              recurrentExpensesAccumulator[recurrentTransaction.frequency] +
+              netAmount,
+          };
+        },
+        {
+          [RecurrentTransactionFrequency.MONTHLY]: 0,
+          [RecurrentTransactionFrequency.WEEKLY]: 0,
+        },
+      );
+    }, [recurrentTransactions]);
+
   return (
     <div className="flex-grow overflow-y-hidden">
       <div className="flex h-full flex-col">
@@ -69,6 +94,18 @@ export const RecurrentTransactionsPageContent = ({
           >
             Add recurrent expense
           </button>
+        </div>
+
+        <div className="mb-4 flex gap-4">
+          <div className="flex flex-col p-6 text-center bg-main-paper rounded-md">
+            <dt className="order-2 mt-2 text-lg leading-6 font-medium">
+              Monthly recurrent expenses
+            </dt>
+
+            <dd className="order-1 text-5xl font-bold">
+              {formatUSDCompact(Math.abs(recurrentExpenses.monthly))}
+            </dd>
+          </div>
         </div>
 
         <RecurrentTransactionsTable
