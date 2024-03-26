@@ -86,9 +86,7 @@ export const HomePageContentDesktop = ({
         <div className="flex flex-1 flex-col rounded-3xl bg-main-paper p-4">
           <div className="flex items-center justify-between">
             <div>
-              <span className="text-main-dar text-xl leading-10">
-                Last payments
-              </span>
+              <span className="text-xl leading-10">Last payments</span>
             </div>
 
             <div className="flex gap-2">
@@ -202,9 +200,7 @@ export const HomePageContentDesktop = ({
         <div className="flex flex-1 flex-col rounded-3xl bg-main-paper p-4">
           <div className="mb-6">
             <div>
-              <span className="text-xl leading-10 text-main-dark">
-                Upcoming payments
-              </span>
+              <span className="text-xl leading-10">Upcoming payments</span>
             </div>
           </div>
 
