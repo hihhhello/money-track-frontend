@@ -17,13 +17,13 @@ export const RecurrentTransactionsTable = ({
   recurrentTransactions,
   handleEditTransaction,
 }: RecurrentTransactionsTableProps) => (
-  <div className="relative overflow-auto rounded-3xl">
+  <div className="relative rounded-3xl">
     <table className="relative min-w-full rounded-3xl bg-main-paper">
-      <thead className="sticky top-0 z-10 bg-main-paper">
+      <thead className="sticky top-0 z-10 bg-main-paper overflow-auto">
         <tr>
           <th
             scope="col"
-            className="text-text-dark py-3.5 pl-6 pr-3 text-left text-sm font-semibold"
+            className="text-text-dark py-3.5 pl-6 pr-3 text-left text-sm font-semibold rounded-tl-3xl"
           >
             Type
           </th>
@@ -75,12 +75,12 @@ export const RecurrentTransactionsTable = ({
 
           <th
             scope="col"
-            className="text-main-dark px-3 py-3.5 text-left text-sm font-semibold"
+            className="text-main-dark px-3 py-3.5 text-left text-sm font-semibold rounded-tr-3xl"
           >
             Frequency
           </th>
 
-          <th scope="col" className="py-3.5 pl-3 pr-4">
+          <th scope="col" className="py-3.5 pl-3 pr-4 rounded-tr-3xl">
             <span className="sr-only">Actions</span>
           </th>
         </tr>
