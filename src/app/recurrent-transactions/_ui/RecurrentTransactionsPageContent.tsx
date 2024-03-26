@@ -55,13 +55,15 @@ export const RecurrentTransactionsPageContent = ({
     useMemo(() => {
       return recurrentTransactions?.reduce(
         (recurrentExpensesAccumulator, recurrentTransaction) => {
-          const netAmount = getNetAmount(recurrentTransaction);
+          if (recurrentTransaction.type === FinancialOperationType.DEPOSIT) {
+            return recurrentExpensesAccumulator;
+          }
 
           return {
             ...recurrentExpensesAccumulator,
             [recurrentTransaction.frequency]:
               recurrentExpensesAccumulator[recurrentTransaction.frequency] +
-              netAmount,
+              parseFloat(recurrentTransaction.amount),
           };
         },
         {
@@ -70,6 +72,8 @@ export const RecurrentTransactionsPageContent = ({
         },
       );
     }, [recurrentTransactions]);
+
+  console.log(recurrentExpenses);
 
   return (
     <div className="flex-grow overflow-y-hidden">
@@ -103,7 +107,7 @@ export const RecurrentTransactionsPageContent = ({
             </dt>
 
             <dd className="order-1 text-3xl sm:text-5xl font-bold">
-              {formatUSDCompact(Math.abs(recurrentExpenses.monthly))}
+              {formatUSDCompact(recurrentExpenses.monthly)}
             </dd>
           </div>
         </div>
