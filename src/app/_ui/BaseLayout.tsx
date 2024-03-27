@@ -27,11 +27,13 @@ export const BaseLayout = async ({ children }: BaseLayoutProps) => {
             isSignedInUser && 'sm:pl-[112px]',
           )}
         >
-          <div className="flex flex-1 flex-col p-6">
+          <div className="flex flex-1 flex-col p-6 overflow-hidden">
             {isSignedInUser && <Navbar />}
 
-            <main className="container mx-auto flex flex-grow overflow-y-hidden bg-white sm:rounded-[40px]">
-              <div className="flex flex-1 sm:p-10">{children}</div>
+            <main className="container mx-auto flex flex-grow overflow-hidden bg-white sm:rounded-[40px]">
+              <div className="flex overflow-hidden flex-1 sm:p-10">
+                {children}
+              </div>
             </main>
           </div>
         </div>

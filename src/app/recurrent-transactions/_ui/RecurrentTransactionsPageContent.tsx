@@ -109,7 +109,6 @@ export const RecurrentTransactionsPageContent = ({
           </div>
         </div>
 
-        {/* TODO: fix overflow behavior on mobile. Notes: if you reduce amount of columns so the table fits into view -- overflow works properly. */}
         <RecurrentTransactionsTable
           recurrentTransactions={recurrentTransactions ?? []}
           handleEditTransaction={(transaction) => {
