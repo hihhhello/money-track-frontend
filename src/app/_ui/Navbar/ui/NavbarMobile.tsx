@@ -69,7 +69,7 @@ export const NavbarMobile = ({
                   pathname === '/' && 'bg-main-dark text-white',
                 )}
               >
-                <span className="text-xl leading-tight">Dashboard</span>
+                <span className="text-xl leading-tight">Home</span>
               </Link>
 
               <Link
