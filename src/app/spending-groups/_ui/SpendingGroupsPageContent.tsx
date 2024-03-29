@@ -191,7 +191,8 @@ export const SpendingGroupsPageContent = ({
               className="flex flex-col rounded-lg bg-main-paper px-4 py-1 pr-2 sm:flex-row sm:items-center sm:justify-between"
             >
               <p>
-                {spendingGroup.name} - {spendingGroup.description}
+                {spendingGroup.name}
+                {spendingGroup.description && ` - ${spendingGroup.description}`}
               </p>
 
               <div className="flex items-center gap-2">
