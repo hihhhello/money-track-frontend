@@ -26,7 +26,7 @@ export const Sidebar = () => {
         >
           <HomeIcon className="h-8 w-8" />
 
-          <span className="text-sm">Home</span>
+          <span className="text-sm">Test Change for Preview</span>
         </Link>
 
         <Link
