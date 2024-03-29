@@ -6,16 +6,19 @@ import { upperFirst } from 'lodash';
 import { Fragment, useState } from 'react';
 
 import { ThreeDotsVerticalIcon } from '@/shared/icons/ThreeDotsVerticalIcon';
+import { TrashIcon } from '@/shared/icons/TrashIcon';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
 
 type RecurrentTransactionsTableProps = {
   recurrentTransactions: RecurrentTransaction[];
   handleEditTransaction: (transaction: RecurrentTransaction) => void;
+  handleDeleteTransaction: (transaction: RecurrentTransaction) => void;
 };
 
 export const RecurrentTransactionsTable = ({
   recurrentTransactions,
   handleEditTransaction,
+  handleDeleteTransaction,
 }: RecurrentTransactionsTableProps) => {
   const [highlightedTransactionId, setHighlightedTransactionId] = useState<
     number | null
@@ -193,6 +196,36 @@ export const RecurrentTransactionsTable = ({
                                     )}
                                   >
                                     Edit
+                                  </span>
+                                </button>
+                              )}
+                            </Menu.Item>
+
+                            <Menu.Item>
+                              {({ active }) => (
+                                <button
+                                  onClick={() =>
+                                    handleDeleteTransaction(transaction)
+                                  }
+                                  className={classNames(
+                                    'flex w-full items-center gap-2 rounded-b-md px-4 py-2',
+                                    active && 'bg-red-100',
+                                  )}
+                                >
+                                  <TrashIcon
+                                    className={classNames(
+                                      'h-5 w-5 text-gray-500',
+                                      active && 'text-red-600',
+                                    )}
+                                  />
+
+                                  <span
+                                    className={classNames(
+                                      'h-5 w-5 text-gray-500',
+                                      active && 'text-red-600',
+                                    )}
+                                  >
+                                    Delete
                                   </span>
                                 </button>
                               )}

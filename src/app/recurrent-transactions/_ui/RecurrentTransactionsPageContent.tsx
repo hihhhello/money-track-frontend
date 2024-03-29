@@ -16,6 +16,8 @@ import {
   RecurrentTransactionFrequency,
   RecurrentTransactionFrequencyValue,
 } from '@/shared/types/recurrentTransactionTypes';
+import { DeleteConfirmationModal } from '@/shared/ui/DeleteConfirmationModal';
+import { useLoadingToast } from '@/shared/utils/hooks';
 
 import { RecurrentTransactionsTable } from './RecurrentTransactionsTable';
 
@@ -26,6 +28,8 @@ type RecurrentTransactionsPageContentProps = {
 export const RecurrentTransactionsPageContent = ({
   recurrentTransactions: initialRecurrentTransactions,
 }: RecurrentTransactionsPageContentProps) => {
+  const loadingToast = useLoadingToast();
+
   const {
     value: isAddNewRecurrentTransactionModalOpen,
     setTrue: handleOpenAddNewRecurrentTransactionModal,
@@ -38,17 +42,20 @@ export const RecurrentTransactionsPageContent = ({
     setFalse: handleCloseEditTransactionModal,
   } = useBoolean(false);
 
+  const deleteTransactionModalState = useBoolean(false);
+
   const [selectedRecurrentTransaction, setSelectedRecurrentTransaction] =
     useState<RecurrentTransaction | null>(null);
 
   const [transactionTypeToAdd, setTransactionTypeToAdd] =
     useState<FinancialOperationTypeValue>(FinancialOperationType.EXPENSE);
 
-  const { data: recurrentTransactions } = useQuery({
-    queryFn: api.recurrentTransactions.getAll,
-    queryKey: ['api.recurrentTransactions.getAll'],
-    initialData: initialRecurrentTransactions,
-  });
+  const { data: recurrentTransactions, refetch: refetchTransactions } =
+    useQuery({
+      queryFn: api.recurrentTransactions.getAll,
+      queryKey: ['api.recurrentTransactions.getAll'],
+      initialData: initialRecurrentTransactions,
+    });
 
   const recurrentExpenses: Record<RecurrentTransactionFrequencyValue, number> =
     useMemo(() => {
@@ -71,6 +78,33 @@ export const RecurrentTransactionsPageContent = ({
         },
       );
     }, [recurrentTransactions]);
+
+  const handleDeleteTransaction = () => {
+    if (!selectedRecurrentTransaction) {
+      return;
+    }
+
+    const toastId = loadingToast.showLoading('Deleting your transaction...');
+
+    return api.recurrentTransactions
+      .deleteOne({
+        params: {
+          transactionId: selectedRecurrentTransaction.id,
+        },
+      })
+      .then(() => {
+        loadingToast.handleSuccess({
+          toastId,
+          message: 'You successfully deleted transaction.',
+        });
+        refetchTransactions();
+        setSelectedRecurrentTransaction(null);
+        deleteTransactionModalState.setFalse();
+      })
+      .catch(() => {
+        loadingToast.handleError({ toastId, message: 'Error' });
+      });
+  };
 
   return (
     <div className="flex-grow overflow-y-hidden">
@@ -115,6 +149,10 @@ export const RecurrentTransactionsPageContent = ({
             setSelectedRecurrentTransaction(transaction);
             handleOpenEditTransactionModal();
           }}
+          handleDeleteTransaction={(transaction) => {
+            setSelectedRecurrentTransaction(transaction);
+            deleteTransactionModalState.setTrue();
+          }}
         />
       </div>
 
@@ -131,6 +169,12 @@ export const RecurrentTransactionsPageContent = ({
         }}
         isModalOpen={isEditTransactionModalOpen}
         selectedRecurrentTransaction={selectedRecurrentTransaction}
+      />
+
+      <DeleteConfirmationModal
+        isModalOpen={deleteTransactionModalState.value}
+        handleClose={deleteTransactionModalState.setFalse}
+        handleSubmit={handleDeleteTransaction}
       />
     </div>
   );
