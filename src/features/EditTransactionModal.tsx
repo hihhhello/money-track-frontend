@@ -101,9 +101,9 @@ export const EditTransactionModal = ({
           category_id: transactionValues.categoryId,
           date: transactionValues.date,
           description: transactionValues.description,
-          // spending_group_ids: spendingGroupsState.value
-          //   ? selectedSpendingGroupIds
-          //   : [],
+          spending_group_ids: spendingGroupsState.value
+            ? selectedSpendingGroupIds
+            : [],
         },
         params: {
           transactionId: selectedTransaction.id,
