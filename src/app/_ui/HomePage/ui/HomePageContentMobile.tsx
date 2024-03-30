@@ -227,44 +227,47 @@ export const HomePageContentMobile = ({
               ));
             }
 
-            return recurrentTransactions.map((transaction) => (
-              <div
-                key={transaction.id}
-                className="flex flex-col rounded-lg bg-white px-4 py-1 pr-2 hover:bg-gray-200 sm:flex-row sm:items-center sm:justify-between"
-              >
-                <div className="flex w-full flex-grow items-start justify-between">
-                  <div>
-                    <span className="w-full break-words text-left">
-                      {transaction.category.name}
-                    </span>
+            return recurrentTransactions.map(
+              (transaction) =>
+                transaction.next_transaction && (
+                  <div
+                    key={transaction.id}
+                    className="flex flex-col rounded-lg bg-white px-4 py-1 pr-2 hover:bg-gray-200 sm:flex-row sm:items-center sm:justify-between"
+                  >
+                    <div className="flex w-full flex-grow items-start justify-between">
+                      <div>
+                        <span className="w-full break-words text-left">
+                          {transaction.category.name}
+                        </span>
 
-                    <p className="w-full break-words text-left text-sm">
-                      {transaction.description}
-                    </p>
+                        <p className="w-full break-words text-left text-sm">
+                          {transaction.description}
+                        </p>
+                      </div>
+
+                      <div>
+                        <p className="w-full break-words text-right text-sm">
+                          {format(
+                            parseISO(transaction.next_transaction),
+                            'EEE, dd MMM',
+                          )}
+                        </p>
+
+                        <p
+                          className={classNames(
+                            'w-full break-words text-right',
+                            transaction.type === FinancialOperationType.EXPENSE
+                              ? 'text-main-orange'
+                              : 'text-main-blue',
+                          )}
+                        >
+                          {formatUSDDecimal(parseFloat(transaction.amount))}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-
-                  <div>
-                    <p className="w-full break-words text-right text-sm">
-                      {format(
-                        parseISO(transaction.next_transaction),
-                        'EEE, dd MMM',
-                      )}
-                    </p>
-
-                    <p
-                      className={classNames(
-                        'w-full break-words text-right',
-                        transaction.type === FinancialOperationType.EXPENSE
-                          ? 'text-main-orange'
-                          : 'text-main-blue',
-                      )}
-                    >
-                      {formatUSDDecimal(parseFloat(transaction.amount))}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ));
+                ),
+            );
           })()}
         </div>
       </div>
