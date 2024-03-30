@@ -128,10 +128,12 @@ export const RecurrentTransactionsTable = ({
                 </td>
 
                 <td className="whitespace-nowrap px-3 py-2 text-sm">
-                  {format(
-                    parseISO(transaction.next_transaction),
-                    'EEE, dd MMM',
-                  )}
+                  {transaction.next_transaction
+                    ? format(
+                        parseISO(transaction.next_transaction),
+                        'EEE, dd MMM',
+                      )
+                    : 'Finished'}
                 </td>
 
                 <td className="whitespace-nowrap px-3 py-2 text-sm">

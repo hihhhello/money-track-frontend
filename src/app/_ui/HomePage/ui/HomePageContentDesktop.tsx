@@ -205,16 +205,19 @@ export const HomePageContentDesktop = ({
           </div>
 
           <div className="flex h-full flex-col gap-4 overflow-y-auto">
-            {recurrentTransactions.map((transaction) => (
-              <TransactionItemDesktop
-                key={transaction.id}
-                categoryName={transaction.category.name}
-                description={transaction.description}
-                date={transaction.next_transaction}
-                amount={transaction.amount}
-                type={transaction.type}
-              />
-            ))}
+            {recurrentTransactions.map(
+              (transaction) =>
+                transaction.next_transaction && (
+                  <TransactionItemDesktop
+                    key={transaction.id}
+                    categoryName={transaction.category.name}
+                    description={transaction.description}
+                    date={transaction.next_transaction}
+                    amount={transaction.amount}
+                    type={transaction.type}
+                  />
+                ),
+            )}
           </div>
         </div>
       </div>

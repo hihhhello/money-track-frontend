@@ -8,7 +8,7 @@ export type RecurrentTransaction = {
   };
   type: FinancialOperationTypeValue;
   frequency: RecurrentTransactionFrequencyValue;
-  next_transaction: string;
+  next_transaction: string | null;
   timestamp: string;
   amount: string;
   description: string | null;
