@@ -31,6 +31,7 @@ const getAll = (
       endDate?: string;
       period?: APITransactionPeriodFilter;
       spendingGroupIds?: number[];
+      includePersonal?: boolean;
     };
   } & Partial<QueryFunctionContext>,
 ) =>

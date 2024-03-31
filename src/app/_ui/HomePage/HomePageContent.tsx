@@ -43,7 +43,7 @@ export const HomePageContent = ({
   const [dateFilter, setDateFilter] = useState<Date>(new Date());
 
   const [selectedSpendingGroups, setSelectedSpendingGroups] = useState<
-    SpendingGroup[]
+    SpendingGroupOption[]
   >([]);
 
   const transactionsDateRange: DateRange | undefined = useMemo(() => {
@@ -71,6 +71,7 @@ export const HomePageContent = ({
   const { data: transactions } = useQuery({
     queryFn: ({ queryKey }) => {
       const dateRange = queryKey[1] as unknown as DateRange;
+      const spendingGroups = queryKey[2] as unknown as SpendingGroupOption[];
 
       return api.transactions.getAll({
         searchParams: {
@@ -81,7 +82,12 @@ export const HomePageContent = ({
             startDate: formatISO(dateRange.startDate, {
               representation: 'date',
             }),
-            spendingGroupIds: selectedSpendingGroups.map(({ id }) => id),
+            spendingGroupIds: spendingGroups
+              .filter(({ id }) => id !== PERSONAL_TRANSACTIONS_GROUP_OPTION.id)
+              .map(({ id }) => Number(id)),
+            includePersonal: spendingGroups.some(
+              ({ id }) => id === PERSONAL_TRANSACTIONS_GROUP_OPTION.id,
+            ),
           }),
         },
       });
@@ -136,6 +142,20 @@ export const HomePageContent = ({
     queryKey: ['api.spendingGroups.getAll'],
   });
 
+  const spendingGroupsOptions: SpendingGroupOption[] = useMemo(
+    () =>
+      spendingGroupsQuery.data
+        ? [
+            PERSONAL_TRANSACTIONS_GROUP_OPTION,
+            ...spendingGroupsQuery.data.map((group) => ({
+              id: group.id,
+              name: group.name,
+            })),
+          ]
+        : [PERSONAL_TRANSACTIONS_GROUP_OPTION],
+    [spendingGroupsQuery.data],
+  );
+
   const handleChangeFilter = useCallback(
     (newFilter: TransactionPeriodFilterType) => {
       setTransactionsFilter(newFilter);
@@ -176,7 +196,7 @@ export const HomePageContent = ({
         </div>
 
         <Multiselect
-          options={spendingGroupsQuery.data ?? []}
+          options={spendingGroupsOptions}
           value={selectedSpendingGroups}
           getOptionKey={(option) => option.id}
           getOptionLabel={(option) => option.name}
@@ -210,3 +230,12 @@ export const HomePageContent = ({
     </div>
   );
 };
+
+/**
+ * TODO: move to utils
+ */
+const PERSONAL_TRANSACTIONS_GROUP_OPTION = {
+  id: 'personalTransactionsGroupOption',
+  name: 'Personal',
+};
+type SpendingGroupOption = { id: number | string; name: string };
