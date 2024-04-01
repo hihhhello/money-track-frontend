@@ -38,6 +38,7 @@ export const ManageTransactionModalCategories = ({
       return api.categories.getAll({
         searchParams: {
           type: transactionType,
+          rankByUsage: true,
         },
       });
     },

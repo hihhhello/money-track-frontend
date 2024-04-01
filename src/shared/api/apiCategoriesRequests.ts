@@ -9,6 +9,7 @@ const getAll = (
   input?: {
     searchParams?: {
       type: FinancialOperationTypeValue;
+      rankByUsage?: boolean;
     };
   } & Partial<QueryFunctionContext>,
 ) =>
@@ -16,7 +17,10 @@ const getAll = (
     .get<Category[]>(
       createUrlWithSearchParams({
         url: '/categories',
-        searchParams: input?.searchParams,
+        searchParams: {
+          type: input?.searchParams?.type,
+          do_rank: input?.searchParams?.rankByUsage,
+        },
       }),
     )
     .then(({ data }) => data);
