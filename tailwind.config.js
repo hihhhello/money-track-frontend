@@ -45,6 +45,10 @@ module.exports = {
         'md-top':
           '0 -4px 6px -1px rgb(0, 0, 0, 0.1), 0 -2px 4px -2px rgb(0, 0, 0, 0.1)',
       },
+      gridTemplateColumns: {
+        'fit-50': 'repeat(auto-fit, minmax(50px, 1fr))',
+        'fit-100': 'repeat(auto-fit, minmax(100px, 1fr))',
+      },
     },
   },
   plugins: [require('@tailwindcss/forms')],

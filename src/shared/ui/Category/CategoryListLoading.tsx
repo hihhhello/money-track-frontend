@@ -13,10 +13,10 @@ export const CategoryListLoading = ({
   handleAddNewCategory,
   ...props
 }: CategoryListProps) => (
-  <div className="flex flex-col items-start gap-4">
+  <div className="flex flex-col items-start overflow-hidden gap-4">
     <div
       className={twMerge(
-        'grid max-h-60 w-full grid-cols-3 gap-4 overflow-y-auto sm:max-h-24 sm:grid-cols-9',
+        'grid flex-grow w-full gap-4 overflow-hidden grid-cols-fit-100',
         className,
       )}
       {...props}
@@ -42,7 +42,7 @@ export const CategoryListLoading = ({
       {handleAddNewCategory && (
         <button
           type="button"
-          className="flex h-10 w-10 animate-pulse items-center justify-center rounded-full bg-main-blue text-main-white shadow-md hover:bg-main-blue/90"
+          className="flex h-10 w-10 animate-pulse items-center justify-center rounded-full bg-main-blue text-main-white hover:bg-main-blue/90"
         >
           <PlusIcon />
         </button>

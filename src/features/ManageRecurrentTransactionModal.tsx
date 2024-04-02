@@ -163,7 +163,7 @@ export const ManageRecurrentTransactionModal = ({
         <DialogContent>
           <DialogHeader handleClose={handleClose} title={title} />
 
-          <DialogScrollableContent>
+          <DialogScrollableContent className="overflow-hidden">
             <div className="mb-4 flex flex-col gap-2">
               <label htmlFor="amount">Amount</label>
 
@@ -180,85 +180,89 @@ export const ManageRecurrentTransactionModal = ({
               />
             </div>
 
-            {children}
+            <div className="flex flex-row flex-grow gap-16 overflow-hidden">
+              <div className="flex flex-grow overflow-y-auto">{children}</div>
 
-            <div className="flex flex-col gap-2 sm:flex-row">
-              <div className="mb-4 flex w-full flex-col gap-2">
-                <label htmlFor="date">
-                  {isPastStartDate ? 'Next date' : 'Start date'}
-                </label>
+              <div>
+                <div className="flex flex-col gap-2 sm:flex-row">
+                  <div className="mb-4 flex w-full flex-col gap-2">
+                    <label htmlFor="date">
+                      {isPastStartDate ? 'Next date' : 'Start date'}
+                    </label>
 
-                <Input
-                  name="startDate"
-                  type="date"
-                  value={transactionFormValues.start_date ?? ''}
-                  onChange={(e) => {
-                    setTransactionFormValues((prevValues) => ({
-                      ...prevValues,
-                      start_date: e.target.value,
-                    }));
-                  }}
-                />
+                    <Input
+                      name="startDate"
+                      type="date"
+                      value={transactionFormValues.start_date ?? ''}
+                      onChange={(e) => {
+                        setTransactionFormValues((prevValues) => ({
+                          ...prevValues,
+                          start_date: e.target.value,
+                        }));
+                      }}
+                    />
+                  </div>
+
+                  <div className="mb-4 flex w-full flex-col gap-2">
+                    <label htmlFor="date">End date</label>
+                    <Input
+                      name="endDate"
+                      type="date"
+                      value={transactionFormValues.end_date ?? ''}
+                      onChange={(e) => {
+                        setTransactionFormValues((prevValues) => ({
+                          ...prevValues,
+                          end_date: e.target.value,
+                        }));
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div className="mb-4 flex flex-col gap-2">
+                  <span>Frequency</span>
+
+                  <div className="mb-2 flex flex-wrap gap-4">
+                    {Object.values(RecurrentTransactionFrequency).map(
+                      (frequencyValue) => {
+                        return (
+                          <button
+                            key={frequencyValue}
+                            type="button"
+                            onClick={() =>
+                              setTransactionFormValues((prevValues) => ({
+                                ...prevValues,
+                                frequency: frequencyValue,
+                              }))
+                            }
+                            className={twMerge(
+                              'h-full rounded-2xl bg-white px-4 py-2 shadow-sm transition-colors hover:bg-main-dark hover:text-white',
+                              transactionFormValues.frequency ===
+                                frequencyValue && 'bg-main-blue text-white',
+                            )}
+                          >
+                            {upperFirst(frequencyValue)}
+                          </button>
+                        );
+                      },
+                    )}
+                  </div>
+                </div>
+
+                <div className="mb-4 flex flex-col gap-2">
+                  <label htmlFor="note">Note</label>
+                  <Input
+                    onChange={(e) => {
+                      setTransactionFormValues((prevValues) => ({
+                        ...prevValues,
+                        description: e.target.value,
+                      }));
+                    }}
+                    value={transactionFormValues.description ?? ''}
+                    name="description"
+                  />
+                </div>
               </div>
-
-              <div className="mb-4 flex w-full flex-col gap-2">
-                <label htmlFor="date">End date</label>
-                <Input
-                  name="endDate"
-                  type="date"
-                  value={transactionFormValues.end_date ?? ''}
-                  onChange={(e) => {
-                    setTransactionFormValues((prevValues) => ({
-                      ...prevValues,
-                      end_date: e.target.value,
-                    }));
-                  }}
-                />
-              </div>
-            </div>
-
-            <div className="mb-4 flex flex-col gap-2">
-              <span>Frequency</span>
-
-              <div className="mb-2 flex flex-wrap gap-4">
-                {Object.values(RecurrentTransactionFrequency).map(
-                  (frequencyValue) => {
-                    return (
-                      <button
-                        key={frequencyValue}
-                        type="button"
-                        onClick={() =>
-                          setTransactionFormValues((prevValues) => ({
-                            ...prevValues,
-                            frequency: frequencyValue,
-                          }))
-                        }
-                        className={twMerge(
-                          'h-full rounded-2xl bg-white px-4 py-2 shadow-sm transition-colors hover:bg-main-dark hover:text-white',
-                          transactionFormValues.frequency === frequencyValue &&
-                            'bg-main-blue text-white',
-                        )}
-                      >
-                        {upperFirst(frequencyValue)}
-                      </button>
-                    );
-                  },
-                )}
-              </div>
-            </div>
-
-            <div className="mb-4 flex flex-col gap-2">
-              <label htmlFor="note">Note</label>
-              <Input
-                onChange={(e) => {
-                  setTransactionFormValues((prevValues) => ({
-                    ...prevValues,
-                    description: e.target.value,
-                  }));
-                }}
-                value={transactionFormValues.description ?? ''}
-                name="description"
-              />
             </div>
           </DialogScrollableContent>
 
