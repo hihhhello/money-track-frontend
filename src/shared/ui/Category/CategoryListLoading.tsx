@@ -16,7 +16,7 @@ export const CategoryListLoading = ({
   <div className="flex flex-col items-start overflow-hidden gap-4">
     <div
       className={twMerge(
-        'grid flex-grow w-full gap-4 overflow-hidden grid-cols-fit-100',
+        'grid flex-grow w-full gap-4 overflow-hidden grid-cols-fit-75 sm:grid-cols-fit-100',
         className,
       )}
       {...props}

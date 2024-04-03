@@ -55,7 +55,7 @@ export const CategoryList = ({
     >
       <div
         className={twMerge(
-          'grid h-full w-full gap-4 overflow-y-auto grid-cols-fit-50 sm:grid-cols-fit-100',
+          'grid h-full w-full gap-4 overflow-y-auto grid-cols-fit-75 sm:grid-cols-fit-100',
           className,
         )}
         ref={scrollableContainerRef}
