@@ -2,6 +2,7 @@
 
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { formatISO } from 'date-fns';
+import { isEmpty } from 'lodash';
 import { useCallback, useMemo, useState } from 'react';
 
 import { api } from '@/shared/api/api';
@@ -88,7 +89,9 @@ export const HomePageContent = ({
             spendingGroupIds: spendingGroups
               .filter(({ id }) => id !== PERSONAL_TRANSACTIONS_GROUP_OPTION.id)
               .map(({ id }) => Number(id)),
-            includePersonal: includePersonal || undefined,
+            includePersonal: !isEmpty(spendingGroups)
+              ? includePersonal
+              : undefined,
           }),
         },
       });
