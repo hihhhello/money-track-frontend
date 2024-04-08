@@ -72,6 +72,9 @@ export const HomePageContent = ({
     queryFn: ({ queryKey }) => {
       const dateRange = queryKey[1] as unknown as DateRange;
       const spendingGroups = queryKey[2] as unknown as SpendingGroupOption[];
+      const includePersonal = spendingGroups.some(
+        ({ id }) => id === PERSONAL_TRANSACTIONS_GROUP_OPTION.id,
+      );
 
       return api.transactions.getAll({
         searchParams: {
@@ -85,9 +88,7 @@ export const HomePageContent = ({
             spendingGroupIds: spendingGroups
               .filter(({ id }) => id !== PERSONAL_TRANSACTIONS_GROUP_OPTION.id)
               .map(({ id }) => Number(id)),
-            includePersonal: spendingGroups.some(
-              ({ id }) => id === PERSONAL_TRANSACTIONS_GROUP_OPTION.id,
-            ),
+            includePersonal: includePersonal || undefined,
           }),
         },
       });
