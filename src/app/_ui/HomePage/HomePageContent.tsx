@@ -8,7 +8,6 @@ import { useCallback, useMemo, useState } from 'react';
 import { api } from '@/shared/api/api';
 import { FinancialOperationType } from '@/shared/types/globalTypes';
 import { RecurrentTransaction } from '@/shared/types/recurrentTransactionTypes';
-import { SpendingGroup } from '@/shared/types/spendingGroupTypes';
 import {
   Transaction,
   TransactionPeriodFilterType,

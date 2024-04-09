@@ -1,6 +1,5 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
@@ -12,8 +11,6 @@ import { useLoadingToast } from '@/shared/utils/hooks';
 export const SignUpPageContent = () => {
   const loadingToast = useLoadingToast();
   const router = useRouter();
-
-  const session = useSession();
 
   const [email, setEmail] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);

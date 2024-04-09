@@ -2,6 +2,10 @@
 
 import { ReactNode, createContext, useContext, useMemo } from 'react';
 
+/**
+ * TODO: update when global values are added.
+ */
+// eslint-disable-next-line @typescript-eslint/ban-types
 type EnvironmentContextType = {};
 
 const ENVIRONMENT_CONTEXT_DEFAULT_VALUES: EnvironmentContextType = {};

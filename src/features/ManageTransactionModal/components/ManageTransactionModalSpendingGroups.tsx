@@ -11,6 +11,7 @@ export const ManageTransactionModalSpendingGroups = ({
   /**
    * TODO: add loading state.
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   isLoading,
   selectedIds,
   spendingGroups,

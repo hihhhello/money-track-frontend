@@ -113,6 +113,10 @@ export const CategoriesPageContent = ({
       });
   };
 
+  /**
+   * TODO: use categoryName to edit category.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleEditCategory = (categoryName: string) => {
     toast.warn('Editing is not implemented yet.');
 

@@ -8,6 +8,9 @@ import {
 } from '@heroicons/react/20/solid';
 import { Fragment, RefObject, useEffect, useRef, useState } from 'react';
 
+/**
+ * TODO: Move this function to the shared folder.
+ */
 function assertIsNode(e: EventTarget | null): asserts e is Node {
   if (!e || !('nodeType' in e)) {
     throw new Error(`Node expected`);
@@ -15,9 +18,12 @@ function assertIsNode(e: EventTarget | null): asserts e is Node {
 }
 
 /**
+ * TODO: Move this hook to the shared folder.
+ */
+/**
  * Hook that alerts clicks outside of the passed ref
  */
-function useOutsideAlerter(ref: RefObject<HTMLElement>, callback: Function) {
+function useOutsideAlerter(ref: RefObject<HTMLElement>, callback: () => void) {
   useEffect(() => {
     /**
      * Alert if clicked on outside of element
@@ -46,7 +52,7 @@ type MultiselectProps<TValue> = {
   getOptionKey: (option: TValue) => string | number;
 };
 
-export const Multiselect = <TValue extends unknown>({
+export const Multiselect = <TValue,>({
   handleChangeValue,
   value,
   options,

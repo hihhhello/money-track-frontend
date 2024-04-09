@@ -8,7 +8,6 @@ type CategoryListProps = {
 } & JSX.IntrinsicElements['div'];
 
 export const CategoryListLoading = ({
-  children,
   className,
   handleAddNewCategory,
   ...props

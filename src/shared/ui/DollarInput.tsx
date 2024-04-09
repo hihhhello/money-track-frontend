@@ -1,7 +1,7 @@
 'use client';
 
 import { formatUSDDecimal } from 'hihhhello-utils';
-import React, { ChangeEvent, Ref, useEffect, useMemo, useRef } from 'react';
+import React, { ChangeEvent, useEffect, useMemo, useRef } from 'react';
 
 import { Input } from './Input';
 
