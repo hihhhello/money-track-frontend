@@ -1,7 +1,6 @@
 'use client';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useBoolean } from 'hihhhello-utils';
 import { isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
 
@@ -54,8 +53,6 @@ export const EditTransactionModal = ({
   const [selectedSpendingGroupIds, setSelectedSpendingGroupIds] = useState<
     number[]
   >(selectedTransaction?.spending_groups.map(({ id }) => id) ?? []);
-  const { setTrue: handleOpenSpendingGroups, ...spendingGroupsState } =
-    useBoolean(false);
 
   useEffect(() => {
     if (!selectedTransaction) {
@@ -68,9 +65,8 @@ export const EditTransactionModal = ({
       setSelectedSpendingGroupIds(
         selectedTransaction?.spending_groups.map(({ id }) => id),
       );
-      handleOpenSpendingGroups();
     }
-  }, [handleOpenSpendingGroups, selectedTransaction]);
+  }, [selectedTransaction]);
 
   const spendingGroupsQuery = useQuery({
     queryFn: api.spendingGroups.getAll,
@@ -101,9 +97,7 @@ export const EditTransactionModal = ({
           category_id: transactionValues.categoryId,
           date: transactionValues.date,
           description: transactionValues.description,
-          spending_group_ids: spendingGroupsState.value
-            ? selectedSpendingGroupIds
-            : [],
+          spending_group_ids: selectedSpendingGroupIds,
         },
         params: {
           transactionId: selectedTransaction.id,
@@ -205,8 +199,6 @@ export const EditTransactionModal = ({
           handleSelect={handleSelectSpendingGroupId}
           selectedIds={selectedSpendingGroupIds}
           isLoading={spendingGroupsQuery.isLoading}
-          handleToggle={spendingGroupsState.toggle}
-          isChecked={spendingGroupsState.value}
         />
       )}
     </ManageTransactionModal>

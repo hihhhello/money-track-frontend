@@ -1,7 +1,6 @@
 'use client';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useBoolean } from 'hihhhello-utils';
 import { useState } from 'react';
 
 import { ManageTransactionModal } from '@/features/ManageTransactionModal/ManageTransactionModal';
@@ -56,7 +55,6 @@ export const AddNewTransactionModal = ({
   const [selectedSpendingGroupIds, setSelectedSpendingGroupIds] = useState<
     number[]
   >([]);
-  const spendingGroupsState = useBoolean(false);
 
   const spendingGroupsQuery = useQuery({
     queryFn: api.spendingGroups.getAll,
@@ -81,9 +79,7 @@ export const AddNewTransactionModal = ({
           date: newTransactionValues.date,
           type: transactionType,
           description: newTransactionValues.description,
-          spending_group_ids: spendingGroupsState.value
-            ? selectedSpendingGroupIds
-            : [],
+          spending_group_ids: selectedSpendingGroupIds,
         },
       })
       .then(() => {
@@ -93,7 +89,6 @@ export const AddNewTransactionModal = ({
 
         setSelectedCategoryId(null);
         setSelectedSpendingGroupIds([]);
-        spendingGroupsState.setFalse();
         setCurrentTab(ManageTransactionModalTab.CATEGORIES);
 
         loadingToast.handleSuccess({
@@ -148,8 +143,6 @@ export const AddNewTransactionModal = ({
           handleSelect={handleSelectSpendingGroupId}
           selectedIds={selectedSpendingGroupIds}
           isLoading={spendingGroupsQuery.isLoading}
-          handleToggle={spendingGroupsState.toggle}
-          isChecked={spendingGroupsState.value}
         />
       )}
     </ManageTransactionModal>
