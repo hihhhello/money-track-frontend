@@ -1,6 +1,7 @@
 'use client';
 
 import { Dialog, Transition } from '@headlessui/react';
+import { XCircleIcon } from '@heroicons/react/20/solid';
 import { formatISO, isAfter, parseISO } from 'date-fns';
 import { isNil, upperFirst } from 'lodash';
 import { Fragment, ReactNode, useEffect, useState } from 'react';
@@ -165,7 +166,7 @@ export const ManageRecurrentTransactionModal = ({
               />
             </div>
 
-            <div className="flex flex-row flex-grow gap-16 overflow-hidden">
+            <div className="flex flex-row flex-grow gap-16 overflow-hidden px-1">
               <div className="flex flex-grow overflow-y-auto">{children}</div>
 
               <div>
@@ -188,19 +189,33 @@ export const ManageRecurrentTransactionModal = ({
                     />
                   </div>
 
-                  <div className="mb-4 flex w-full flex-col gap-2">
+                  <div className="flex w-full flex-col gap-2 mb-4">
                     <label htmlFor="date">End date</label>
-                    <Input
-                      name="endDate"
-                      type="date"
-                      value={transactionFormValues.end_date ?? ''}
-                      onChange={(e) => {
-                        setTransactionFormValues((prevValues) => ({
-                          ...prevValues,
-                          end_date: e.target.value,
-                        }));
-                      }}
-                    />
+                    <div className="flex align-center justify-center gap-1 ">
+                      <Input
+                        name="endDate"
+                        type="date"
+                        value={transactionFormValues.end_date ?? ''}
+                        onChange={(e) => {
+                          setTransactionFormValues((prevValues) => ({
+                            ...prevValues,
+                            end_date: e.target.value,
+                          }));
+                        }}
+                      />
+
+                      <button
+                        className="text-gray-400 hover:text-gray-600"
+                        onClick={() => {
+                          setTransactionFormValues((prevValues) => ({
+                            ...prevValues,
+                            end_date: null,
+                          }));
+                        }}
+                      >
+                        <XCircleIcon className="h-5 w-5" />
+                      </button>
+                    </div>
                   </div>
                 </div>
 
