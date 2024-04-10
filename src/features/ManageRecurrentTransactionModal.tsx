@@ -53,7 +53,6 @@ export type ManageRecurrentTransactionModalProps = {
     end_date: string | null;
     categoryId: number;
   };
-  handleDelete?: () => Promise<void> | undefined | void;
   children?: ReactNode;
   selectedCategoryId: number | null;
 };
@@ -65,7 +64,6 @@ export const ManageRecurrentTransactionModal = ({
   submitButtonLabel,
   title,
   defaultValues: defaultTransactionValues,
-  handleDelete,
   children,
   selectedCategoryId,
 }: ManageRecurrentTransactionModalProps) => {
@@ -131,19 +129,6 @@ export const ManageRecurrentTransactionModal = ({
       },
       { isPastStartDate },
     )?.then(() => {
-      setTransactionFormValues({
-        amount: null,
-        description: null,
-        end_date: null,
-        start_date: today,
-        frequency: RecurrentTransactionFrequency.MONTHLY,
-      });
-      handleClose();
-    });
-  };
-
-  const handleDeleteTransaction = () => {
-    handleDelete?.()?.then(() => {
       setTransactionFormValues({
         amount: null,
         description: null,
@@ -273,15 +258,6 @@ export const ManageRecurrentTransactionModal = ({
             >
               {submitButtonLabel ?? 'Submit'}
             </button>
-
-            {handleDelete && (
-              <button
-                onClick={handleDeleteTransaction}
-                className="block w-full rounded-full bg-white px-3.5 py-2.5 text-lg text-main-orange shadow-sm hover:bg-main-dark/10 sm:text-sm"
-              >
-                Delete
-              </button>
-            )}
           </DialogActions>
         </DialogContent>
       </Dialog>

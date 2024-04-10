@@ -93,32 +93,6 @@ export const EditRecurrentTransactionModal = ({
         });
     };
 
-  const handleDeleteTransaction = () => {
-    if (!selectedRecurrentTransaction) {
-      return;
-    }
-
-    const toastId = loadingToast.showLoading('Deleting your transaction...');
-
-    return api.recurrentTransactions
-      .deleteOne({
-        params: {
-          transactionId: selectedRecurrentTransaction.id,
-        },
-      })
-      .then(() => {
-        loadingToast.handleSuccess({
-          toastId,
-          message: 'You successfully deleted transaction.',
-        });
-        refetchTransactions();
-        setSelectedCategoryId(null);
-      })
-      .catch(() => {
-        loadingToast.handleError({ toastId, message: 'Error' });
-      });
-  };
-
   return (
     <ManageRecurrentTransactionModal
       isModalOpen={isModalOpen}
@@ -144,7 +118,6 @@ export const EditRecurrentTransactionModal = ({
             }
           : undefined
       }
-      handleDelete={handleDeleteTransaction}
       selectedCategoryId={selectedCategoryId}
     >
       <ManageRecurrentTransactionModal.Categories
