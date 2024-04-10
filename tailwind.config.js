@@ -49,6 +49,9 @@ module.exports = {
         'fit-75': 'repeat(auto-fit, minmax(75px, 1fr))',
         'fit-100': 'repeat(auto-fit, minmax(100px, 1fr))',
       },
+      screens: {
+        'hover-hover': { raw: '(hover: hover)' },
+      },
     },
   },
   plugins: [require('@tailwindcss/forms')],
