@@ -117,32 +117,6 @@ export const EditTransactionModal = ({
       });
   };
 
-  const handleDeleteTransaction = () => {
-    if (!selectedTransaction) {
-      return;
-    }
-
-    const toastId = loadingToast.showLoading('Deleting your transaction...');
-
-    return api.transactions
-      .deleteOne({
-        params: {
-          transactionId: selectedTransaction.id,
-        },
-      })
-      .then(() => {
-        loadingToast.handleSuccess({
-          toastId,
-          message: 'You successfully deleted transaction.',
-        });
-        refetchTransactions();
-        setSelectedCategoryId(null);
-      })
-      .catch(() => {
-        loadingToast.handleError({ toastId, message: 'Error' });
-      });
-  };
-
   const handleSelectSpendingGroupId = (id: number) => {
     setSelectedSpendingGroupIds((prevIds) => {
       if (prevIds.includes(id)) {
@@ -158,7 +132,6 @@ export const EditTransactionModal = ({
       isModalOpen={isModalOpen}
       handleSubmit={handleEditTransaction}
       handleClose={handleClose}
-      handleDelete={handleDeleteTransaction}
       title={
         selectedTransaction?.type
           ? TRANSACTION_TYPE_TO_LABEL[selectedTransaction.type].MODAL_TITLE

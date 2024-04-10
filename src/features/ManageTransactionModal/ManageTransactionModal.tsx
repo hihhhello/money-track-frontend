@@ -38,7 +38,6 @@ type ManageTransactionModalProps = {
     date: string;
     description: string | null;
   };
-  handleDelete?: () => Promise<void> | undefined | void;
   selectedCategoryId: number | null;
   children?: ReactNode;
 };
@@ -50,7 +49,6 @@ export const ManageTransactionModal = ({
   submitButtonLabel,
   title,
   defaultValues: defaultValues,
-  handleDelete,
   selectedCategoryId,
   children,
 }: ManageTransactionModalProps) => {
@@ -92,17 +90,6 @@ export const ManageTransactionModal = ({
       setTransactionFormValues({
         amount: null,
         date: today,
-        description: null,
-      });
-      handleClose();
-    });
-  };
-
-  const handleDeleteTransaction = () => {
-    handleDelete?.()?.then(() => {
-      setTransactionFormValues({
-        date: today,
-        amount: null,
         description: null,
       });
       handleClose();
@@ -175,15 +162,6 @@ export const ManageTransactionModal = ({
             >
               {submitButtonLabel ?? 'Submit'}
             </button>
-
-            {handleDelete && (
-              <button
-                onClick={handleDeleteTransaction}
-                className="block w-full rounded-full bg-white px-3.5 py-2.5 text-lg text-main-orange shadow-sm hover:bg-main-dark/10 sm:text-sm"
-              >
-                Delete
-              </button>
-            )}
           </DialogActions>
         </DialogContent>
       </Dialog>
