@@ -2,7 +2,7 @@
 
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { formatISO } from 'date-fns';
-import { isEmpty } from 'lodash';
+import { has, isEmpty } from 'lodash';
 import { useCallback, useMemo, useState } from 'react';
 
 import { api } from '@/shared/api/api';
@@ -86,7 +86,13 @@ export const HomePageContent = ({
               representation: 'date',
             }),
             spendingGroupIds: spendingGroups
-              .filter(({ id }) => id !== PERSONAL_TRANSACTIONS_GROUP_OPTION.id)
+              .filter(
+                ({ id }) =>
+                  ![
+                    PERSONAL_TRANSACTIONS_GROUP_OPTION.id,
+                    ALL_TRANSACTIONS_GROUP_OPTION.id,
+                  ].includes(String(id)),
+              )
               .map(({ id }) => Number(id)),
             includePersonal: !isEmpty(spendingGroups)
               ? includePersonal
@@ -149,6 +155,7 @@ export const HomePageContent = ({
     () =>
       spendingGroupsQuery.data
         ? [
+            ALL_TRANSACTIONS_GROUP_OPTION,
             PERSONAL_TRANSACTIONS_GROUP_OPTION,
             ...spendingGroupsQuery.data.map((group) => ({
               id: group.id,
@@ -203,7 +210,24 @@ export const HomePageContent = ({
           value={selectedSpendingGroups}
           getOptionKey={(option) => option.id}
           getOptionLabel={(option) => option.name}
-          handleChangeValue={setSelectedSpendingGroups}
+          handleChangeValue={(newValue) => {
+            const hasSelectAll = newValue.includes(
+              ALL_TRANSACTIONS_GROUP_OPTION,
+            );
+
+            if (
+              selectedSpendingGroups.includes(ALL_TRANSACTIONS_GROUP_OPTION) &&
+              !hasSelectAll
+            ) {
+              return setSelectedSpendingGroups([]);
+            }
+
+            if (hasSelectAll) {
+              return setSelectedSpendingGroups(spendingGroupsOptions);
+            }
+
+            setSelectedSpendingGroups(newValue);
+          }}
         />
       </div>
 
@@ -240,5 +264,9 @@ export const HomePageContent = ({
 const PERSONAL_TRANSACTIONS_GROUP_OPTION = {
   id: 'personalTransactionsGroupOption',
   name: 'Personal',
+};
+const ALL_TRANSACTIONS_GROUP_OPTION = {
+  id: 'allTransactionsGroupOption',
+  name: 'All',
 };
 type SpendingGroupOption = { id: number | string; name: string };
