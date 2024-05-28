@@ -61,7 +61,10 @@ export const RecurrentTransactionsPageContent = ({
     useMemo(() => {
       return recurrentTransactions?.reduce(
         (recurrentExpensesAccumulator, recurrentTransaction) => {
-          if (recurrentTransaction.type === FinancialOperationType.DEPOSIT) {
+          if (
+            recurrentTransaction.type === FinancialOperationType.DEPOSIT ||
+            !recurrentTransaction.next_transaction
+          ) {
             return recurrentExpensesAccumulator;
           }
 
