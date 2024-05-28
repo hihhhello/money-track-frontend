@@ -2,7 +2,7 @@
 
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { formatISO } from 'date-fns';
-import { has, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import { useCallback, useMemo, useState } from 'react';
 
 import { api } from '@/shared/api/api';
