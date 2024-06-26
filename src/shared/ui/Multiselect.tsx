@@ -1,6 +1,13 @@
 'use client';
 
-import { Combobox, Transition } from '@headlessui/react';
+import {
+  Combobox,
+  Transition,
+  ComboboxInput,
+  ComboboxButton,
+  ComboboxOption,
+  ComboboxOptions,
+} from '@headlessui/react';
 import {
   CheckIcon,
   ChevronUpDownIcon,
@@ -124,7 +131,7 @@ export const Multiselect = <TValue,>({
                 </div>
               ))}
 
-              <Combobox.Input
+              <ComboboxInput
                 className="border-none flex-1 py-2 pl-3 text-sm leading-5 text-gray-900 focus:ring-0"
                 onChange={(event) => setSearchTerm(event.target.value)}
                 placeholder="Groups"
@@ -133,7 +140,7 @@ export const Multiselect = <TValue,>({
               />
             </div>
 
-            <Combobox.Button
+            <ComboboxButton
               onClick={() => setIsMenuVisible(true)}
               className="absolute inset-y-0 right-0 flex items-center pr-2"
             >
@@ -141,7 +148,7 @@ export const Multiselect = <TValue,>({
                 className="h-5 w-5 text-gray-400"
                 aria-hidden="true"
               />
-            </Combobox.Button>
+            </ComboboxButton>
           </div>
 
           <Transition
@@ -152,7 +159,7 @@ export const Multiselect = <TValue,>({
             afterLeave={() => setSearchTerm('')}
             show={isMenuVisible}
           >
-            <Combobox.Options
+            <ComboboxOptions
               static
               className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
             >
@@ -162,7 +169,7 @@ export const Multiselect = <TValue,>({
                 </div>
               ) : (
                 searchedOptions.map((option) => (
-                  <Combobox.Option
+                  <ComboboxOption
                     key={getOptionKey(option)}
                     className={({ active }) =>
                       `relative cursor-default select-none py-2 pl-10 pr-4 ${
@@ -192,10 +199,10 @@ export const Multiselect = <TValue,>({
                         ) : null}
                       </>
                     )}
-                  </Combobox.Option>
+                  </ComboboxOption>
                 ))
               )}
-            </Combobox.Options>
+            </ComboboxOptions>
           </Transition>
         </div>
       )}
