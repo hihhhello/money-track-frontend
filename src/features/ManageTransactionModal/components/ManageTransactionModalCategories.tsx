@@ -9,6 +9,7 @@ import { FinancialOperationTypeValue } from '@/shared/types/globalTypes';
 import { CategoryItem } from '@/shared/ui/Category/CategoryItem';
 import { CategoryList } from '@/shared/ui/Category/CategoryList';
 import { CategoryListLoading } from '@/shared/ui/Category/CategoryListLoading';
+import { Input } from '@/shared/ui/Input';
 import { useLoadingToast } from '@/shared/utils/hooks';
 
 type ManageTransactionModalCategoriesProps = {
@@ -107,28 +108,32 @@ export const ManageTransactionModalCategories = ({
             handleAddNewCategory={handleOpenAddNewCategoryModal}
           />
         ) : (
-          <CategoryList
-            className="mb-2 p-2"
-            wrapperClassName="overflow-y-hidden"
-            handleAddNewCategory={handleOpenAddNewCategoryModal}
-          >
-            {categoriesQuery.data?.map((category) => (
-              <CategoryItem
-                key={category.id}
-                onClick={() => handleSelectCategoryId(category.id)}
-                isSelected={selectedCategoryId === category.id}
-                ref={(ref) => {
-                  if (selectedCategoryId !== category.id) {
-                    return;
-                  }
+          <div className="p-2">
+            <Input placeholder="Search a group" className="mb-2" size="sm" />
 
-                  setSelectedCategoryRef(ref);
-                }}
-              >
-                {category.name}
-              </CategoryItem>
-            ))}
-          </CategoryList>
+            <CategoryList
+              className="mb-2"
+              wrapperClassName="overflow-y-hidden"
+              handleAddNewCategory={handleOpenAddNewCategoryModal}
+            >
+              {categoriesQuery.data?.map((category) => (
+                <CategoryItem
+                  key={category.id}
+                  onClick={() => handleSelectCategoryId(category.id)}
+                  isSelected={selectedCategoryId === category.id}
+                  ref={(ref) => {
+                    if (selectedCategoryId !== category.id) {
+                      return;
+                    }
+
+                    setSelectedCategoryRef(ref);
+                  }}
+                >
+                  {category.name}
+                </CategoryItem>
+              ))}
+            </CategoryList>
+          </div>
         )}
       </div>
 
