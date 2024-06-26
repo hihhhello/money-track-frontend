@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useBoolean } from 'hihhhello-utils';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { ManageCategoryModal } from '@/features/ManageCategoryModal';
 import { api } from '@/shared/api/api';
@@ -29,6 +29,7 @@ export const ManageTransactionModalCategories = ({
 
   const [selectedCategoryRef, setSelectedCategoryRef] =
     useState<HTMLButtonElement | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const categoriesQuery = useQuery({
     queryFn: () => {
@@ -46,6 +47,16 @@ export const ManageTransactionModalCategories = ({
     queryKey: ['api.categories.getAll', transactionType],
     enabled: Boolean(transactionType),
   });
+
+  const searchedCategories = useMemo(() => {
+    if (searchTerm === '') {
+      return categoriesQuery.data;
+    }
+
+    return categoriesQuery.data?.filter((category) =>
+      category.name.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+  }, [categoriesQuery.data, searchTerm]);
 
   const {
     value: isAddNewCategoryModalOpen,
@@ -108,15 +119,22 @@ export const ManageTransactionModalCategories = ({
             handleAddNewCategory={handleOpenAddNewCategoryModal}
           />
         ) : (
-          <div className="p-2">
-            <Input placeholder="Search a group" className="mb-2" size="sm" />
+          <>
+            <div className="p-2">
+              <Input
+                placeholder="Search a group"
+                className="mb-2"
+                size="sm"
+                handleValueChange={setSearchTerm}
+              />
+            </div>
 
             <CategoryList
-              className="mb-2"
+              className="mb-2 p-2"
               wrapperClassName="overflow-y-hidden"
               handleAddNewCategory={handleOpenAddNewCategoryModal}
             >
-              {categoriesQuery.data?.map((category) => (
+              {searchedCategories?.map((category) => (
                 <CategoryItem
                   key={category.id}
                   onClick={() => handleSelectCategoryId(category.id)}
@@ -133,7 +151,7 @@ export const ManageTransactionModalCategories = ({
                 </CategoryItem>
               ))}
             </CategoryList>
-          </div>
+          </>
         )}
       </div>
 
