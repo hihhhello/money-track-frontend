@@ -245,6 +245,7 @@ export const HomePageContent = ({
           getOptionKey={(option) => option.id}
           getOptionLabel={(option) => option.name}
           handleChangeValue={handleChangeSpendingGroups}
+          limitValues={2}
         />
       </div>
 

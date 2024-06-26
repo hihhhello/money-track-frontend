@@ -13,7 +13,14 @@ import {
   ChevronUpDownIcon,
   XCircleIcon,
 } from '@heroicons/react/20/solid';
-import { Fragment, RefObject, useEffect, useRef, useState } from 'react';
+import {
+  Fragment,
+  RefObject,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 /**
  * TODO: Move this function to the shared folder.
@@ -57,6 +64,7 @@ type MultiselectProps<TValue> = {
   handleChangeValue: (newValue: TValue[]) => void;
   getOptionLabel: (option: TValue) => string;
   getOptionKey: (option: TValue) => string | number;
+  limitValues?: number;
 };
 
 export const Multiselect = <TValue,>({
@@ -65,6 +73,7 @@ export const Multiselect = <TValue,>({
   options,
   getOptionKey,
   getOptionLabel,
+  limitValues,
 }: MultiselectProps<TValue>) => {
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -87,6 +96,14 @@ export const Multiselect = <TValue,>({
     setIsMenuVisible(false);
   });
 
+  const visibleValues = useMemo(() => {
+    if (!limitValues) {
+      return value;
+    }
+
+    return value.slice(0, limitValues);
+  }, [limitValues, value]);
+
   return (
     <Combobox
       multiple
@@ -104,7 +121,7 @@ export const Multiselect = <TValue,>({
         >
           <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
             <div className="flex flex-wrap flex-1 pr-10">
-              {value.map((selectedOption) => (
+              {visibleValues.map((selectedOption) => (
                 <div
                   key={getOptionKey(selectedOption)}
                   className="flex items-center gap-1 bg-main-blue text-white rounded-full px-2 py-1 m-1"
@@ -130,6 +147,12 @@ export const Multiselect = <TValue,>({
                   </button>
                 </div>
               ))}
+
+              {visibleValues.length < value.length && (
+                <div className="flex items-center gap-1 bg-main-blue text-white rounded-full px-2 py-1 m-1">
+                  <span>+{value.length - visibleValues.length}</span>
+                </div>
+              )}
 
               <ComboboxInput
                 className="border-none flex-1 py-2 pl-3 text-sm leading-5 text-gray-900 focus:ring-0"
