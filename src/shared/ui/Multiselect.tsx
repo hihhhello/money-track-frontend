@@ -97,12 +97,12 @@ export const Multiselect = <TValue,>({
   });
 
   const visibleValues = useMemo(() => {
-    if (!limitValues) {
+    if (!limitValues || isMenuVisible) {
       return value;
     }
 
     return value.slice(0, limitValues);
-  }, [limitValues, value]);
+  }, [isMenuVisible, limitValues, value]);
 
   return (
     <Combobox
