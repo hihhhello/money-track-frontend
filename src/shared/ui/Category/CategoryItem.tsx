@@ -29,7 +29,7 @@ export const CategoryItem = forwardRef<HTMLButtonElement, CategoryItemProps>(
 
       <span
         className={twMerge(
-          'w-20 overflow-hidden text-ellipsis whitespace-nowrap text-sm',
+          'w-full overflow-hidden text-ellipsis whitespace-nowrap text-sm',
           isSelected && 'font-medium',
         )}
       >
