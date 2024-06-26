@@ -7,7 +7,7 @@ import { Input } from './Input';
 
 type DollarInputProps = Omit<
   JSX.IntrinsicElements['input'],
-  'onChange' | 'value' | 'type' | 'ref'
+  'onChange' | 'value' | 'type' | 'ref' | 'size'
 > & {
   /**
    * @param value value with formatted toFixed(2).
