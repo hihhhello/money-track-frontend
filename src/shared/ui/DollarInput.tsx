@@ -3,11 +3,11 @@
 import { formatUSDDecimal } from 'hihhhello-utils';
 import React, { ChangeEvent, useEffect, useMemo, useRef } from 'react';
 
-import { Input } from './Input';
+import { Input, InputProps } from './Input';
 
 type DollarInputProps = Omit<
-  JSX.IntrinsicElements['input'],
-  'onChange' | 'value' | 'type' | 'ref' | 'size'
+  InputProps,
+  'onChange' | 'value' | 'type' | 'ref' | 'handleValueChange'
 > & {
   /**
    * @param value value with formatted toFixed(2).

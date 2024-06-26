@@ -9,7 +9,7 @@ const InputSize = {
 
 type InputSizeType = (typeof InputSize)[keyof typeof InputSize];
 
-type InputProps = {
+export type InputProps = {
   size?: InputSizeType;
   handleValueChange?: (value: string) => void;
 } & Omit<JSX.IntrinsicElements['input'], 'size'>;
