@@ -174,6 +174,40 @@ export const HomePageContent = ({
     [],
   );
 
+  const handleChangeSpendingGroups = useCallback(
+    (newValue: SpendingGroupOption[]) => {
+      const hasSelectAll = newValue.includes(ALL_TRANSACTIONS_GROUP_OPTION);
+      const isSelectAllPresent = selectedSpendingGroups.find(
+        ({ id }) => id === ALL_TRANSACTIONS_GROUP_OPTION.id,
+      );
+      const hasSpendingGroupsChanged =
+        newValue.length !== selectedSpendingGroups.length;
+
+      if (
+        selectedSpendingGroups.includes(ALL_TRANSACTIONS_GROUP_OPTION) &&
+        !hasSelectAll
+      ) {
+        return setSelectedSpendingGroups([]);
+      }
+
+      if (hasSelectAll && !isSelectAllPresent) {
+        return setSelectedSpendingGroups(spendingGroupsOptions);
+      }
+
+      /**
+       * Invalidate Select All option if one of the other options is selected/deselected
+       */
+      if (hasSelectAll && hasSpendingGroupsChanged) {
+        return setSelectedSpendingGroups(
+          newValue.filter(({ id }) => id !== ALL_TRANSACTIONS_GROUP_OPTION.id),
+        );
+      }
+
+      setSelectedSpendingGroups(newValue);
+    },
+    [selectedSpendingGroups, spendingGroupsOptions],
+  );
+
   return (
     <div className="flex flex-1 flex-col">
       <div className="mb-4 flex flex-col sm:flex-row gap-x-16 gap-y-4">
@@ -210,24 +244,7 @@ export const HomePageContent = ({
           value={selectedSpendingGroups}
           getOptionKey={(option) => option.id}
           getOptionLabel={(option) => option.name}
-          handleChangeValue={(newValue) => {
-            const hasSelectAll = newValue.includes(
-              ALL_TRANSACTIONS_GROUP_OPTION,
-            );
-
-            if (
-              selectedSpendingGroups.includes(ALL_TRANSACTIONS_GROUP_OPTION) &&
-              !hasSelectAll
-            ) {
-              return setSelectedSpendingGroups([]);
-            }
-
-            if (hasSelectAll) {
-              return setSelectedSpendingGroups(spendingGroupsOptions);
-            }
-
-            setSelectedSpendingGroups(newValue);
-          }}
+          handleChangeValue={handleChangeSpendingGroups}
         />
       </div>
 
