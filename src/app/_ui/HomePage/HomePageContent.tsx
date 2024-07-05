@@ -119,7 +119,7 @@ export const HomePageContent = ({
     Object.entries(
       (transactions ?? initialTransactions).reduce<TransactionsByCategory>(
         (acc, transaction) => {
-          const category = transaction.category.name;
+          const category = transaction.category.name.trim();
 
           const updatedCategoryTransactions = [
             ...(acc[category]?.transactions ?? []),
