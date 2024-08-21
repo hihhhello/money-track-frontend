@@ -5,6 +5,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
 import { classNames, formatUSDDecimal } from 'hihhhello-utils';
 import { useBoolean } from 'hihhhello-utils';
+import { startCase } from 'lodash';
 import React, {
   ReactElement,
   ReactNode,
@@ -146,7 +147,7 @@ export const HomePageContentMobile = ({
                               <div className="flex w-full flex-grow items-start justify-between">
                                 <div className="flex gap-2">
                                   <span className="w-full break-words text-left">
-                                    {categoryName}
+                                    {startCase(categoryName)}
                                   </span>
 
                                   <span className="inline-flex items-center rounded-md bg-main-blue/10 px-2 py-1 text-xs font-medium text-main-blue ring-1 ring-inset ring-main-blue/10">
